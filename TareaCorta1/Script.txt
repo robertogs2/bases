@@ -1,0 +1,201 @@
+PRAGMA foreign_keys = ON;
+
+/*
+*                  ____________________
+*_________________/ DATABASE CREATION  \_____________________
+*/
+
+CREATE TABLE Institution(
+    IdInstitution INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL,
+    IdLocation INTEGER,
+);
+
+CREATE TABLE Location(
+    IdLocation INTEGER PRIMARY KEY AUTOINCREMENT,
+    IdInstitution INTEGER,
+    IdAddress INTEGER NOT NULL,
+    Description TEXT,
+    FOREIGN KEY (IdInstitution) REFERENCES Institution(IdInstitution),
+    FOREIGN KEY (IdAddress) REFERENCES Direction(IdDirection)
+);
+
+CREATE TABLE Address(
+    IdAddress INTEGER PRIMARY KEY AUTOINCREMENT,
+    IdCity INTEGER,
+    ZipCode INTEGER,
+    FOREIGN KEY (IdCity) REFERENCES City(IdCity)
+);
+
+CREATE TABLE City(
+  IdCity INTEGER PRIMARY KEY AUTOINCREMENT,
+  Name TEXT,
+  IdState INTEGER,
+  FOREIGN KEY (IdState) REFERENCES State(IdState)  
+);
+
+CREATE TABLE State(
+    IdState INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT,
+    IdCountry INTEGER,
+    FOREIGN KEY (IdCountry) REFERENCES Country(IdCountry)
+);
+
+CREATE TABLE Restaurant(
+    IdRestaurant INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT,
+    IdInstitution INTEGER,
+    FOREIGN KEY (IdInstitution) REFERENCES Institution(IdInstitution)
+);
+
+CREATE TABLE Plate(
+    IdPlate INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL,
+    Description TEXT,
+    Price NUMERIC NOT NULL
+);
+
+CREATE TABLE RestaurantXPlate(
+    IdRestauran INTEGER NOT NULL,
+    IdPlate INTEGER NOT NULL,
+    FOREIGN KEY (IdRestaurant) REFERENCES Restaurant(IdRestaurant),
+    FOREIGN KEY (IdPlate) REFERENCES Plate(IdPlate)
+);
+
+CREATE TABLE Drink(
+    IdDrink INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL,
+    Description TEXT,
+    Price NUMERIC NOT NULL
+);
+
+CREATE TABLE Meal(
+    IdMeal INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT,
+    IdPlate INTEGER,
+    IdDrink INTEGER,
+    Description TEXT,
+    FOREIGN KEY (IdPlate) REFERENCES Plate(IdPlate),
+    FOREIGN KEY (IdDrink) REFERENCES Drink(IdDrink)
+);
+
+CREATE TABLE Menu(
+    IdMenu INTEGER PRIMARY KEY AUTOINCREMENT,
+    DateTime DATETIME NOT NULL
+);
+
+CREATE TABLE MenuXMeal(
+    IdMenu INTEGER NOT NULL,
+    IdMeal INTEGER NOT NULL,
+    FOREIGN KEY (IdMenu) REFERENCES Menu(IdMenu),
+    FOREIGN KEY (IdMeal) REFERENCES Meal(IdMeal)
+);
+
+CREATE TABLE Person(
+    IdPerson INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL,
+    PhoneNumber INTEGER(10),
+    Email TEXT(50),
+    IdAddress INTEGER,
+    FOREIGN KEY (IdAddress) REFERENCES Address(IdAddress)
+);
+
+CREATE TABLE Student(
+    IdStudent INTEGER PRIMARY KEY AUTOINCREMENT,
+    IdPerson INTEGER,
+    IdCareer INTEGER,
+    IdInstitution INTEGER,
+    FOREIGN KEY (IdPerson) REFERENCES Person(IdPerson),
+    FOREIGN KEY (IdCareer) REFERENCES Career(IdCareer),
+    FOREIGN KEY (IdInstitution) REFERENCES Institution(IdInstitution)
+);
+
+CREATE TABLE Career(
+    IdCareer INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL,
+    Code TEXT
+);
+
+CREATE TABLE RestaurantRating(
+    IdStudent INTEGER NOT NULL,
+    IdRestaurant INTEGER NOT NULL,
+    Score Numeric NOT NULL,
+    Comment TEXT,
+    FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent),
+    FOREIGN KEY (IdRestaurant) REFERENCES Restaurant(IdRestaurant)
+);
+
+CREATE TABLE PlateRating(
+    IdStudent INTEGER NOT NULL,
+    IdPlate INTEGER NOT NULL,
+    Score Numeric NOT NULL,
+    Comment TEXT,
+    FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent),
+    FOREIGN KEY (IdPlate) REFERENCES Plate(IdPlate)
+);
+
+
+/*
+*                  _______________________________
+*_________________/ DATABASE TEST DATA INSERTION  \_____________________
+*/
+
+/*
+*-------------------------------------------------------------
+*          Inserting Address Information for testing
+*-------------------------------------------------------------
+*/
+
+INSERT INTO Country (Name)
+VALUES ('Costa Rica');
+
+INSERT INTO State (Name, IdCountry)
+VALUES ('Cartago', 1);
+
+INSERT INTO City (Name, IdState)
+VALUES ('Central', 1);
+
+INSERT INTO Address (IdCiy)
+VALUES (1);
+
+/*
+*-------------------------------------------------------------
+*          Inserting TEC As Test institution
+*-------------------------------------------------------------
+*/
+INSERT INTO Institution (Name)
+VALUES ('TEC');
+
+
+/*
+*-------------------------------------------------------------
+*          Adding a location corresponding to TEC
+*               located in Cartago province
+*-------------------------------------------------------------
+*/
+    
+INSERT INTO Location (IdInstitution, IdDirection)
+VALUES (1, 1);
+
+/*
+*-------------------------------------------------------------
+*          Creating Dummy Restaurant Data
+*-------------------------------------------------------------
+*/
+
+INSERT INTO Restaurant (Name, IdInstitution)
+VALUES ('Restaurante Institucional', 1);
+
+INSERT INTO Restaurant (Name, IdInstitution)
+VALUES ('Casa Luna', 1);
+
+INSERT INTO Restaurant (Name, IdInstitution)
+VALUES ('Soda del Lago', 1);
+
+
+/*
+*-------------------------------------------------------------
+*          Creating Dummy Restaurant Data
+*-------------------------------------------------------------
+*/
+
