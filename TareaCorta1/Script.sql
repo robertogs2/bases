@@ -352,13 +352,31 @@ INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateT
 VALUES (1, 1, 1, 10, 'Muy bueno', '2018-09-04 08:20:00');
 
 INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateTime)
-VALUES (2, 1, 2, 8, 'Bastante rico', '2018-09-04 09:00:00');
+VALUES (1, 1, 1, 10, 'Muy bueno', '2018-04-04 08:20:00');
+
+INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateTime)
+VALUES (2, 4, 2, 8, 'Bastante rico', '2018-09-04 09:00:00');
 
 INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateTime)
 VALUES (3, 2, 1, 5, 'Excelente', '2018-09-05 09:30:00');
 
 INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateTime)
-VALUES (5, 4, 1, 10, 'Muy Rico', '2018-09-05 08:20:00');
+VALUES (3, 2, 1, 5, 'Excelente', '2018-04-05 09:30:00');
+
+INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateTime)
+VALUES (3, 2, 1, 1, '', '2018-04-05 09:30:00');
+
+
+INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateTime)
+VALUES (3, 2, 1, 5, '', '2018-04-05 09:30:00');
+
+
+INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateTime)
+VALUES (3, 2, 1, 0, 'Malo', '2018-04-05 09:30:00');
+
+
+INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateTime)
+VALUES (5, 1, 1, 10, 'Muy Rico', '2018-09-05 08:20:00');
 
 INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateTime)
 VALUES (5, 4, 2, 10, 'Buenisimo', '2018-09-05 08:20:00');
@@ -375,37 +393,31 @@ VALUES (3, 2, 7, 'Bastante Bueno', '2018-09-06 10:20:00');
 INSERT INTO RestaurantRating (IdStudent, IdRestaurant, Score, Comment, DateTime)
 VALUES (5, 1, 8, 'Muy Bueno', '2018-09-06 09:35:00');
 
+INSERT INTO RestaurantRating (IdStudent, IdRestaurant, Score, Comment, DateTime)
+VALUES (5, 1, 5, 'Muy Bueno', '2018-05-06 09:35:00');
+
 /*
 *-------------------------------------------------------------
 *                Selects for the Plate Ratings
 *-------------------------------------------------------------
 */
-
-/*Overall*/
-SELECT
- Plate.Name,
- avg(Score) Avg_score
-FROM
- Plate
-INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
-GROUP BY
- PlateRating.IdPlate
-ORDER BY 
- Avg_Score DESC;
  
 /*By Day Max*/
 SELECT 
-    DateXAvgScore.Name Name,
+    DateXAvgScore.Name PlateName,
+    DateXAvgScore.ResName RestaurantName,
     DateXAvgScore.Date Date,
     MAX(DateXAvgScore.Avg_Score) Average
 FROM(
     SELECT
      Plate.Name,
      date(PlateRating.DateTime) Date,
-     AVG(PlateRating.Score) Avg_score
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
     FROM
      Plate
     INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
     GROUP BY
      PlateRating.DateTime) AS DateXAvgScore
 GROUP BY
@@ -413,29 +425,87 @@ GROUP BY
 ORDER BY 
  DateXAvgScore.Date DESC;
  
+/*By Day Max by Restaurant*/
+SELECT 
+    DateXAvgScore.Name PlateName,
+    DateXAvgScore.ResName RestaurantName,
+    DateXAvgScore.Date Date,
+    MAX(DateXAvgScore.Avg_Score) Average
+FROM(
+    SELECT
+     Plate.Name,
+     date(PlateRating.DateTime) Date,
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
+    GROUP BY
+     Restaurant.IdRestaurant,
+     PlateRating.IdPlate,
+     PlateRating.DateTime) AS DateXAvgScore
+GROUP BY
+ DateXAvgScore.ResName,
+ DateXAvgScore.Date
+ 
+ORDER BY 
+ DateXAvgScore.Date DESC;
+
 /*By Day Min*/
 SELECT 
-    DateXAvgScore.Name Name,
+    DateXAvgScore.Name PlateName,
+    DateXAvgScore.ResName RestaurantName,
     DateXAvgScore.Date Date,
     MIN(DateXAvgScore.Avg_Score) Average
 FROM(
     SELECT
      Plate.Name,
      date(PlateRating.DateTime) Date,
-     AVG(PlateRating.Score) Avg_score
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
     FROM
      Plate
     INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
     GROUP BY
      PlateRating.DateTime) AS DateXAvgScore
 GROUP BY
  DateXAvgScore.Date
+ORDER BY 
+ DateXAvgScore.Date DESC;
+ 
+/*By Day Min by Restaurant*/
+SELECT 
+    DateXAvgScore.Name PlateName,
+    DateXAvgScore.ResName RestaurantName,
+    DateXAvgScore.Date Date,
+    MIN(DateXAvgScore.Avg_Score) Average
+FROM(
+    SELECT
+     Plate.Name,
+     date(PlateRating.DateTime) Date,
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
+    GROUP BY
+     Restaurant.IdRestaurant,
+     PlateRating.IdPlate,
+     PlateRating.DateTime) AS DateXAvgScore
+GROUP BY
+ DateXAvgScore.ResName,
+ DateXAvgScore.Date
+ 
 ORDER BY 
  DateXAvgScore.Date DESC;
 
 /*By Week Max*/
 SELECT 
-    DateXAvgScore.Name Name,
+    DateXAvgScore.Name PlateName,
+    DateXAvgScore.ResName RestaurantName,
     DateXAvgScore.Week Week,
     DateXAvgScore.Year Year,
     MAX(DateXAvgScore.Avg_Score) Average
@@ -444,33 +514,12 @@ FROM(
      Plate.Name,
      strftime('%W', PlateRating.DateTime) Week,
      strftime('%Y', PlateRating.DateTime) Year,
-     AVG(PlateRating.Score) Avg_score
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
     FROM
      Plate
     INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
-    GROUP BY
-     PlateRating.IdPlate,
-     Week) AS DateXAvgScore
-GROUP BY
- DateXAvgScore.Week
-ORDER BY 
- DateXAvgScore.Week DESC;
-
-/*By Week Min*/
-SELECT 
-    DateXAvgScore.Name Name,
-    DateXAvgScore.Week Week,
-    DateXAvgScore.Year Year,
-    MIN(DateXAvgScore.Avg_Score) Average
-FROM(
-    SELECT
-     Plate.Name,
-     strftime('%W', PlateRating.DateTime) Week,
-     strftime('%Y', PlateRating.DateTime) Year,
-     AVG(PlateRating.Score) Avg_score
-    FROM
-     Plate
-    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
     GROUP BY
      PlateRating.IdPlate,
      Week) AS DateXAvgScore
@@ -479,9 +528,95 @@ GROUP BY
 ORDER BY 
  DateXAvgScore.Week DESC; 
 
+/*By Week Max by Restaurant*/
+SELECT 
+    DateXAvgScore.Name PlateName,
+    DateXAvgScore.ResName RestaurantName,
+    DateXAvgScore.Week Week,
+    DateXAvgScore.Year Year,
+    MAX(DateXAvgScore.Avg_Score) Average
+    
+FROM(
+    SELECT
+     Plate.Name,
+     strftime('%W', PlateRating.DateTime) Week,
+     strftime('%Y', PlateRating.DateTime) Year,
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
+    GROUP BY
+     Restaurant.IdRestaurant,
+     PlateRating.IdPlate,
+     Week) AS DateXAvgScore
+GROUP BY
+ DateXAvgScore.Week,
+ DateXAvgScore.ResName
+ORDER BY 
+ DateXAvgScore.Week DESC;
+
+/*By Week Min*/
+SELECT 
+    DateXAvgScore.Name PlateName,
+    DateXAvgScore.ResName RestaurantName,
+    DateXAvgScore.Week Week,
+    DateXAvgScore.Year Year,
+    MIN(DateXAvgScore.Avg_Score) Average
+FROM(
+    SELECT
+     Plate.Name,
+     strftime('%W', PlateRating.DateTime) Week,
+     strftime('%Y', PlateRating.DateTime) Year,
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
+    GROUP BY
+     PlateRating.IdPlate,
+     Week) AS DateXAvgScore
+GROUP BY
+ DateXAvgScore.Week
+ORDER BY 
+ DateXAvgScore.Week DESC; 
+
+
+/*By Week min by Restaurant*/
+SELECT 
+    DateXAvgScore.Name PlateName,
+    DateXAvgScore.ResName RestaurantName,
+    DateXAvgScore.Week Week,
+    DateXAvgScore.Year Year,
+    MIN(DateXAvgScore.Avg_Score) Average
+    
+FROM(
+    SELECT
+     Plate.Name,
+     strftime('%W', PlateRating.DateTime) Week,
+     strftime('%Y', PlateRating.DateTime) Year,
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
+    GROUP BY
+     Restaurant.IdRestaurant,
+     PlateRating.IdPlate,
+     Week) AS DateXAvgScore
+GROUP BY
+ DateXAvgScore.Week,
+ DateXAvgScore.ResName
+ORDER BY 
+ DateXAvgScore.Week DESC;
+
 /*By Month Max*/
 SELECT 
-    DateXAvgScore.Name Name,
+    DateXAvgScore.ResName RestaurantName,
+    DateXAvgScore.Name PlateName,
     DateXAvgScore.Month Month,
     DateXAvgScore.Year Year,
     MAX(DateXAvgScore.Avg_Score) Average
@@ -490,15 +625,45 @@ FROM(
      Plate.Name,
      strftime('%m', PlateRating.DateTime) Month,
      strftime('%Y', PlateRating.DateTime) Year,
-     AVG(PlateRating.Score) Avg_score
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
     FROM
      Plate
     INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
     GROUP BY
      PlateRating.IdPlate,
      Month) AS DateXAvgScore
 GROUP BY
  DateXAvgScore.Month
+ORDER BY 
+ DateXAvgScore.Month DESC;
+
+/*By Month Max by Restaurant*/
+SELECT 
+    DateXAvgScore.ResName RestaurantName,
+    DateXAvgScore.Name PlateName,
+    DateXAvgScore.Month Month,
+    DateXAvgScore.Year Year,
+    MAX(DateXAvgScore.Avg_Score) Average
+FROM(
+    SELECT
+     Plate.Name,
+     strftime('%m', PlateRating.DateTime) Month,
+     strftime('%Y', PlateRating.DateTime) Year,
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
+    GROUP BY
+     Restaurant.IdRestaurant,
+     PlateRating.IdPlate,
+     Month) AS DateXAvgScore
+GROUP BY
+ DateXAvgScore.Month,
+ DateXAvgScore.ResName
 ORDER BY 
  DateXAvgScore.Month DESC;
 
@@ -525,9 +690,66 @@ GROUP BY
 ORDER BY 
  DateXAvgScore.Month DESC;
 
+/*By Month Min by Restaurant*/
+SELECT 
+    DateXAvgScore.ResName RestaurantName,
+    DateXAvgScore.Name PlateName,
+    DateXAvgScore.Month Month,
+    DateXAvgScore.Year Year,
+    Min(DateXAvgScore.Avg_Score) Average
+FROM(
+    SELECT
+     Plate.Name,
+     strftime('%m', PlateRating.DateTime) Month,
+     strftime('%Y', PlateRating.DateTime) Year,
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
+    GROUP BY
+     Restaurant.IdRestaurant,
+     PlateRating.IdPlate,
+     Month) AS DateXAvgScore
+GROUP BY
+ DateXAvgScore.Month,
+ DateXAvgScore.ResName
+ORDER BY 
+ DateXAvgScore.Month DESC;
+
 /*By Semester Max*/
 SELECT 
-    DateXAvgScore.Name Name,
+    DateXAvgScore.ResName RestaurantName,
+    DateXAvgScore.Name PlateName,
+    DateXAvgScore.Semester Semester,
+    MAX(DateXAvgScore.Avg_Score) Average
+FROM(
+    SELECT
+     Plate.Name,
+     CASE
+     WHEN strftime('%m', PlateRating.DateTime) > '06' THEN 'Segundo'
+     ELSE 'Primer' END Semester,
+     strftime('%Y', PlateRating.DateTime) Year,
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
+    GROUP BY
+     PlateRating.IdPlate,
+     Semester) AS DateXAvgScore
+GROUP BY
+ DateXAvgScore.Semester
+ORDER BY 
+ DateXAvgScore.Semester DESC,
+ DateXAvgScore.Year DESC;
+
+/*By Semester Max by Restaurant*/
+SELECT 
+    DateXAvgScore.ResName RestaurantName,
+    DateXAvgScore.Name PlateName,
     DateXAvgScore.Year Year,
     DateXAvgScore.Semester Semester,
     MAX(DateXAvgScore.Avg_Score) Average
@@ -538,10 +760,42 @@ FROM(
      WHEN strftime('%m', PlateRating.DateTime) > '06' THEN 'Segundo'
      ELSE 'Primer' END Semester,
      strftime('%Y', PlateRating.DateTime) Year,
-     AVG(PlateRating.Score) Avg_score
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
     FROM
      Plate
     INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
+    GROUP BY
+     Restaurant.IdRestaurant,
+     PlateRating.IdPlate,
+     Semester) AS DateXAvgScore
+GROUP BY
+ DateXAvgScore.Semester,
+ DateXAvgScore.ResName
+ORDER BY 
+ DateXAvgScore.Semester DESC,
+ DateXAvgScore.Year DESC;
+
+/*By Semester Min*/
+SELECT 
+    DateXAvgScore.ResName RestaurantName,
+    DateXAvgScore.Name PlateName,
+    DateXAvgScore.Semester Semester,
+    MIN(DateXAvgScore.Avg_Score) Average
+FROM(
+    SELECT
+     Plate.Name,
+     CASE
+     WHEN strftime('%m', PlateRating.DateTime) > '06' THEN 'Segundo'
+     ELSE 'Primer' END Semester,
+     strftime('%Y', PlateRating.DateTime) Year,
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
     GROUP BY
      PlateRating.IdPlate,
      Semester) AS DateXAvgScore
@@ -551,9 +805,10 @@ ORDER BY
  DateXAvgScore.Semester DESC,
  DateXAvgScore.Year DESC;
 
-/*By Semester Min*/
+/*By Semester Min by Restaurant*/
 SELECT 
-    DateXAvgScore.Name Name,
+    DateXAvgScore.ResName RestaurantName,
+    DateXAvgScore.Name PlateName,
     DateXAvgScore.Year Year,
     DateXAvgScore.Semester Semester,
     MIN(DateXAvgScore.Avg_Score) Average
@@ -564,15 +819,19 @@ FROM(
      WHEN strftime('%m', PlateRating.DateTime) > '06' THEN 'Segundo'
      ELSE 'Primer' END Semester,
      strftime('%Y', PlateRating.DateTime) Year,
-     AVG(PlateRating.Score) Avg_score
+     AVG(PlateRating.Score) Avg_score,
+     Restaurant.Name ResName
     FROM
      Plate
     INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON PlateRating.IdRestaurant = Restaurant.IdRestaurant
     GROUP BY
+     Restaurant.IdRestaurant,
      PlateRating.IdPlate,
      Semester) AS DateXAvgScore
 GROUP BY
- DateXAvgScore.Semester
+ DateXAvgScore.Semester,
+ DateXAvgScore.ResName
 ORDER BY 
  DateXAvgScore.Semester DESC,
  DateXAvgScore.Year DESC;
@@ -622,6 +881,36 @@ FROM(
          Restaurant.Name) AS RestaurantXAvgScore
 GROUP BY
     RestaurantXAvgScore.IdRes;    
+
+/*Overall Max*/
+SELECT
+ Plate.Name PlateName,
+ Restaurant.Name RestaurantName,
+ avg(Score) Avg_score
+FROM
+ Plate
+INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+INNER JOIN Restaurant ON Restaurant.IdRestaurant = PlateRating.IdRestaurant
+GROUP BY
+ PlateRating.IdPlate
+ORDER BY 
+ Avg_Score DESC
+LIMIT (1);
+ 
+/*Overall Min*/
+SELECT
+ Plate.Name PlateName,
+ Restaurant.Name RestaurantName,
+ avg(Score) Avg_score
+FROM
+ Plate
+INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+INNER JOIN Restaurant ON Restaurant.IdRestaurant = PlateRating.IdRestaurant
+GROUP BY
+ PlateRating.IdPlate
+ORDER BY 
+ Avg_Score ASC
+LIMIT (1);
 
 /*
 *-------------------------------------------------------------
@@ -720,9 +1009,40 @@ FROM(
     GROUP BY
      Restaurant.IdRestaurant) 
 AS res;
- 
 
+/*
+*-------------------------------------------------------------
+*                Update, set, or, is null, not null, and, where
+*-------------------------------------------------------------
+*/ 
 
+UPDATE Person
+SET Email = 'estudiante@email.com'
+WHERE 
+Email IS NULL
+OR
+(Email IS NOT NULL AND Name = 'Andres');
+
+/*
+*-------------------------------------------------------------
+*                Delete 
+*-------------------------------------------------------------
+*/ 
+DELETE 
+FROM 
+    Drinks
+WHERE
+   IdPlate = 2;
+/*
+*-------------------------------------------------------------
+*                Distinct 
+*-------------------------------------------------------------
+*/ 
+
+SELECT DISTINCT
+ Person.Name
+FROM 
+ Person;
 
 
 
