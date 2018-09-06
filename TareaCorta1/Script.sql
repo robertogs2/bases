@@ -391,26 +391,11 @@ ORDER BY
 
 /*By Restaurant*/
 SELECT
- Plate.Name, Plate.IdPlate,
+ Plate.Name,
+ Plate.IdPlate,
  AVG(PlateRating.Score) Avg_score
 FROM
- PlateRating
-INNER JOIN Plate as P1 ON PlateRating.IdPlate = P1.IdPlate
-INNER JOIN Plate ON Plate.IdPlate = RestaurantXPlate.IdPlate
-
-/*
-GROUP BY
- PlateRating.IdPlate
-ORDER BY 
- Avg_Score DESC;*/
-
-
-
-
-
-
-
-
-
-
-
+ Plate
+INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+INNER JOIN RestaurantXPlate ON RestaurantXPlate.IdPlate = Plate.IdPlate
+WHERE RestaurantXPlate.IdRestaurant = 1;

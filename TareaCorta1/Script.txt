@@ -123,6 +123,7 @@ CREATE TABLE RestaurantRating(
     IdRestaurant INTEGER NOT NULL,
     Score Numeric NOT NULL,
     Comment TEXT,
+    DateTime NUMERIC,
     FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent),
     FOREIGN KEY (IdRestaurant) REFERENCES Restaurant(IdRestaurant)
 );
@@ -132,6 +133,7 @@ CREATE TABLE PlateRating(
     IdPlate INTEGER NOT NULL,
     Score Numeric NOT NULL,
     Comment TEXT,
+    DateTime NUMERIC,
     FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent),
     FOREIGN KEY (IdPlate) REFERENCES Plate(IdPlate)
 );
@@ -248,6 +250,21 @@ VALUES ('now', 1);
 
 /*
 *-------------------------------------------------------------
+*                Creating RestaurantXPlatillo
+*-------------------------------------------------------------
+*/
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate) 
+VALUES (1, 1);
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate)
+VALUES (1, 2);
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate)
+VALUES (2, 2);
+
+/*
+*-------------------------------------------------------------
 *                Career Test Data Creation
 *-------------------------------------------------------------
 */
@@ -308,11 +325,77 @@ VALUES (5,3,1);
 *                Ratings Test Data Creation
 *-------------------------------------------------------------
 */
-INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment)
-VALUES (1, 1, 10, 'Muy bueno');
+INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment, DateTime)
+VALUES (1, 1, 10, 'Muy bueno', '2018-09-04 08:20:00');
 
-INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment)
-VALUES (2, 1, 8, 'Muy bueno');
+INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment, DateTime)
+VALUES (2, 1, 8, 'Bastante rico', '2018-09-04 09:00:00');
 
-INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment)
-VALUES (1, 1, 10, 'Muy bueno');
+INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment, DateTime)
+VALUES (3, 2, 5, 'Excelente', '2018-09-05 09:30:00');
+
+INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment, DateTime)
+VALUES (5, 4, 10, 'Muy Rico', '2018-09-05 08:20:00');
+
+INSERT INTO RestaurantRating (IdStudent, IdRestaurant, Score, Comment, DateTime)
+VALUES (1, 1, 10, 'Excelente', '2018-09-06 09:20:00');
+
+INSERT INTO RestaurantRating (IdStudent, IdRestaurant, Score, Comment, DateTime)
+VALUES (3, 2, 7, 'Bastante Bueno', '2018-09-06 10:20:00');
+
+INSERT INTO RestaurantRating (IdStudent, IdRestaurant, Score, Comment, DateTime)
+VALUES (5, 1, 8, 'Muy Bueno', '2018-09-06 09:35:00');
+
+/*
+*-------------------------------------------------------------
+*                Selects for the Plate Ratings
+*-------------------------------------------------------------
+*/
+
+/*Overall*/
+SELECT
+ PlateRating.IdPlate,
+ avg(Score) Avg_score
+FROM
+ PlateRating
+GROUP BY
+ PlateRating.IdPlate
+ORDER BY 
+ Avg_Score DESC;
+ 
+/*By Day*/
+SELECT
+ PlateRating.IdPlate,
+ avg(Score) Avg_score
+FROM
+ PlateRating
+WHERE
+ date(PlateRating.DateTime) = '2018-09-05'
+GROUP BY
+ PlateRating.IdPlate
+ORDER BY 
+ Avg_Score DESC;
+ 
+/*By Month*/
+SELECT
+ PlateRating.IdPlate,
+ avg(Score) Avg_score
+FROM
+ PlateRating
+WHERE
+ strftime('%m', PlateRating.DateTime) = '09'
+GROUP BY
+ PlateRating.IdPlate
+ORDER BY 
+ Avg_Score DESC;
+
+/*By Restaurant*/
+SELECT
+ Plate.Name,
+ Plate.IdPlate,
+ AVG(PlateRating.Score) Avg_score
+FROM
+ Plate
+INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+INNER JOIN RestaurantXPlate ON RestaurantXPlate.IdPlate = Plate.IdPlate
+WHERE RestaurantXPlate.IdRestaurant = 1;
