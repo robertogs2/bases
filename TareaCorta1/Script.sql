@@ -413,6 +413,28 @@ GROUP BY
 ORDER BY 
  DateXAvgScore.Date DESC;
  
+/*By Week*/
+SELECT 
+    DateXAvgScore.Name Name,
+    DateXAvgScore.Month Month,
+    MAX(DateXAvgScore.Avg_Score) Average
+FROM(
+    SELECT
+     Plate.Name,
+     strftime('%m', PlateRating.DateTime) Month,
+     AVG(PlateRating.Score) Avg_score
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    GROUP BY
+     PlateRating.IdPlate,
+     Month) AS DateXAvgScore
+GROUP BY
+ DateXAvgScore.Month
+ORDER BY 
+ DateXAvgScore.Month DESC;
+
+ 
 /*By Month*/
 SELECT 
     DateXAvgScore.Name Name,
@@ -522,20 +544,20 @@ Group By VisitsXCareer.IdRes;
 /*Needs to consider plate rating and restaurant rating*/
 SELECT
  Person.Name,
- COUNT(PlateRating.IdStudent) Rates
+ COUNT(Student.IdStudent) Rates1
 
 FROM
  Student
+ 
 INNER JOIN Person ON  Person.IdPerson = Student.IdPerson
-LEFT JOIN PlateRating ON PlateRating.IdStudent = Student.IdStudent
+LEFT JOIN PlateRating ON  PlateRating.IdStudent = Student.IdStudent
+
+/*WHERE PlateRating.IdStudent = Student.IdStudent OR RestaurantRating.IdStudent = Student.IdStudent*/
+
 GROUP BY
  Student.IdStudent
 ORDER BY 
- Rates DESC;
-
-
-
-
+ Rates1 DESC;
 
 
 /*
