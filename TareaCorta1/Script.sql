@@ -449,6 +449,8 @@ WHERE RestaurantXPlate.IdRestaurant = 1;
 SELECT
  Restaurant.Name,
  Career.Name,
+ Restaurant.IdRestaurant,
+ Career.IdCareer,
  COUNT(Career.IdCareer) Visits
 FROM
  Restaurant
