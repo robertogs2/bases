@@ -261,7 +261,28 @@ INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate)
 VALUES (1, 2);
 
 INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate)
+VALUES (1, 3);
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate)
+VALUES (1, 4);
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate)
+VALUES (1, 5);
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate) 
+VALUES (2, 1);
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate)
 VALUES (2, 2);
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate)
+VALUES (2, 3);
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate)
+VALUES (2, 4);
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate)
+VALUES (2, 5);
 
 /*
 *-------------------------------------------------------------
@@ -354,10 +375,11 @@ VALUES (5, 1, 8, 'Muy Bueno', '2018-09-06 09:35:00');
 
 /*Overall*/
 SELECT
- PlateRating.IdPlate,
+ Plate.Name,
  avg(Score) Avg_score
 FROM
- PlateRating
+ Plate
+INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
 GROUP BY
  PlateRating.IdPlate
 ORDER BY 
@@ -365,10 +387,11 @@ ORDER BY
  
 /*By Day*/
 SELECT
- PlateRating.IdPlate,
- avg(Score) Avg_score
+ Plate.Name,
+ avg(PlateRating.Score) Avg_score
 FROM
- PlateRating
+ Plate
+INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
 WHERE
  date(PlateRating.DateTime) = '2018-09-05'
 GROUP BY
@@ -378,12 +401,27 @@ ORDER BY
  
 /*By Month*/
 SELECT
- PlateRating.IdPlate,
- avg(Score) Avg_score
+ Plate.Name,
+ avg(PlateRating.Score) Avg_score
 FROM
- PlateRating
+ Plate
+INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
 WHERE
  strftime('%m', PlateRating.DateTime) = '09'
+GROUP BY
+ PlateRating.IdPlate
+ORDER BY 
+ Avg_Score DESC;
+
+/*By Semester*/
+SELECT
+ Plate.Name,
+ avg(PlateRating.Score) Avg_score
+FROM
+ Plate
+INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+WHERE
+ strftime('%m', PlateRating.DateTime) > '06'
 GROUP BY
  PlateRating.IdPlate
 ORDER BY 
@@ -399,3 +437,71 @@ FROM
 INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
 INNER JOIN RestaurantXPlate ON RestaurantXPlate.IdPlate = Plate.IdPlate
 WHERE RestaurantXPlate.IdRestaurant = 1;
+
+
+/*
+*-------------------------------------------------------------
+*               Select the career that visits the most
+*-------------------------------------------------------------
+*/
+
+/*Needs to consider plate rating and restaurant rating*/
+SELECT
+ Restaurant.Name,
+ Career.Name,
+ COUNT(Career.IdCareer) Visits
+FROM
+ Restaurant
+ 
+INNER JOIN Career ON Student.IdCareer = Career.IdCareer
+INNER JOIN Student ON PlateRating.IdStudent = Student.IdStudent
+INNER JOIN PlateRating ON RestaurantXPlate.IdPlate = PlateRating.IdPlate AND PlateRating.IdRestaurant = Restaurant.IdRestaurant
+INNER JOIN RestaurantXPlate ON Restaurant.IdRestaurant = RestaurantXPlate.IdRestaurant
+
+GROUP BY
+ Restaurant.IdCareer,
+ Career.IdCareer;
+/*
+*-------------------------------------------------------------
+*                Select for the most Active Student with platerating
+*-------------------------------------------------------------
+*/
+
+/*Needs to consider plate rating and restaurant rating*/
+SELECT
+ Person.Name,
+ COUNT(PlateRating.IdStudent) Uses
+FROM
+ Student
+INNER JOIN Person ON Student.IdPerson = Person.IdPerson
+INNER JOIN PlateRating ON PlateRating.IdStudent = Student.IdStudent
+GROUP BY
+ Student.IdStudent
+ORDER BY 
+ Uses DESC;
+
+
+/*
+*-------------------------------------------------------------
+*                Selects rating for Restaurant
+*-------------------------------------------------------------
+*/
+
+SELECT x.Name, x.Bad_ratings, x.Good_ratings,  ((x.Good_ratings - x.Bad_ratings) / (x.Bad_ratings +  x.Good_ratings)) Average
+FROM(
+    SELECT
+     Restaurant.Name AS Name,
+     SUM (CASE WHEN RestaurantRating.Score < 5 THEN 1 ELSE 0 END) AS Bad_ratings,
+     SUM (CASE WHEN RestaurantRating.Score >= 5 THEN 1 ELSE 0 END) AS Good_ratings
+    FROM
+     Restaurant
+    INNER JOIN RestaurantRating ON RestaurantRating.IdRestaurant = Restaurant.IdRestaurant
+    GROUP BY
+     Restaurant.IdRestaurant) 
+AS x;
+ 
+
+
+
+
+
