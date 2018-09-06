@@ -360,6 +360,12 @@ VALUES (3, 2, 1, 5, 'Excelente', '2018-09-05 09:30:00');
 INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateTime)
 VALUES (5, 4, 1, 10, 'Muy Rico', '2018-09-05 08:20:00');
 
+INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateTime)
+VALUES (5, 4, 2, 10, 'Buenisimo', '2018-09-05 08:20:00');
+
+INSERT INTO PlateRating (IdStudent, IdPlate, IdRestaurant, Score, Comment, DateTime)
+VALUES (4, 4, 2, 10, 'Buenisimo', '2018-09-05 08:20:00');
+
 INSERT INTO RestaurantRating (IdStudent, IdRestaurant, Score, Comment, DateTime)
 VALUES (1, 1, 10, 'Excelente', '2018-09-06 09:20:00');
 
@@ -388,58 +394,95 @@ ORDER BY
  Avg_Score DESC;
  
 /*By Day*/
-SELECT
- Plate.Name,
- avg(PlateRating.Score) Avg_score
-FROM
- Plate
-INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
-WHERE
- date(PlateRating.DateTime) = '2018-09-05'
+SELECT 
+    DateXAvgScore.Name Name,
+    DateXAvgScore.Date Date,
+    MAX(DateXAvgScore.Avg_Score) Average
+FROM(
+    SELECT
+     Plate.Name,
+     date(PlateRating.DateTime) Date,
+     AVG(PlateRating.Score) Avg_score
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    GROUP BY
+     PlateRating.DateTime) AS DateXAvgScore
 GROUP BY
- PlateRating.IdPlate
+ DateXAvgScore.Date
 ORDER BY 
- Avg_Score DESC;
+ DateXAvgScore.Date DESC;
  
 /*By Month*/
-SELECT
- Plate.Name,
- avg(PlateRating.Score) Avg_score
-FROM
- Plate
-INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
-WHERE
- strftime('%m', PlateRating.DateTime) = '09'
+SELECT 
+    DateXAvgScore.Name Name,
+    DateXAvgScore.Month Month,
+    MAX(DateXAvgScore.Avg_Score) Average
+FROM(
+    SELECT
+     Plate.Name,
+     strftime('%m', PlateRating.DateTime) Month,
+     AVG(PlateRating.Score) Avg_score
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    GROUP BY
+     PlateRating.IdPlate,
+     Month) AS DateXAvgScore
 GROUP BY
- PlateRating.IdPlate
+ DateXAvgScore.Month
 ORDER BY 
- Avg_Score DESC;
+ DateXAvgScore.Month DESC;
 
 /*By Semester*/
-SELECT
- Plate.Name,
- avg(PlateRating.Score) Avg_score
-FROM
- Plate
-INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
-WHERE
- strftime('%m', PlateRating.DateTime) > '06'
+SELECT 
+    DateXAvgScore.Name Name,
+    DateXAvgScore.Year Year,
+    DateXAvgScore.Semester Semester,
+    MAX(DateXAvgScore.Avg_Score) Average
+FROM(
+    SELECT
+     Plate.Name,
+     CASE
+     WHEN strftime('%m', PlateRating.DateTime) > '06' THEN 'Segundo'
+     ELSE 'Primer' END Semester,
+     strftime('%Y', PlateRating.DateTime) Year,
+     AVG(PlateRating.Score) Avg_score
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    GROUP BY
+     PlateRating.IdPlate,
+     Semester) AS DateXAvgScore
 GROUP BY
- PlateRating.IdPlate
+ DateXAvgScore.Semester
 ORDER BY 
- Avg_Score DESC;
+ DateXAvgScore.Semester DESC,
+ DateXAvgScore.Year DESC;
 
 /*By Restaurant*/
-SELECT
- Plate.Name,
- Plate.IdPlate,
- AVG(PlateRating.Score) Avg_score
-FROM
- Plate
-INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
-INNER JOIN RestaurantXPlate ON RestaurantXPlate.IdPlate = Plate.IdPlate
-WHERE RestaurantXPlate.IdRestaurant = 1;
-
+SELECT 
+    RestaurantXAvgScore.RestaurantName RestaurantName,
+    RestaurantXAvgScore.PlateName PlateName,
+    MAX(RestaurantXAvgScore.Avg_Score) Average
+FROM(
+    SELECT
+     Restaurant.Name RestaurantName,
+     Restaurant.IdRestaurant IdRes,
+     Plate.Name PlateName,
+     Plate.IdPlate,
+     AVG(PlateRating.Score) Avg_score
+    FROM
+     Plate
+    INNER JOIN PlateRating ON PlateRating.IdPlate = Plate.IdPlate
+    INNER JOIN RestaurantXPlate ON RestaurantXPlate.IdPlate = Plate.IdPlate
+    INNER JOIN Restaurant ON RestaurantXPlate.IdRestaurant = Restaurant.IdRestaurant
+    GROUP BY
+         PlateRating.IdPlate,
+         Restaurant.Name) AS RestaurantXAvgScore
+GROUP BY
+    RestaurantXAvgScore.IdRes;
+    
 
 /*
 *-------------------------------------------------------------
@@ -448,23 +491,28 @@ WHERE RestaurantXPlate.IdRestaurant = 1;
 */
 
 /*Needs to consider plate rating and restaurant rating*/
-SELECT
- Restaurant.Name,
- Career.Name,
- Restaurant.IdRestaurant,
- Career.IdCareer,
- COUNT(Career.IdCareer) Visits
-FROM
- Restaurant
- 
-INNER JOIN Career ON Student.IdCareer = Career.IdCareer
-INNER JOIN Student ON PlateRating.IdStudent = Student.IdStudent
-INNER JOIN PlateRating ON RestaurantXPlate.IdPlate = PlateRating.IdPlate AND PlateRating.IdRestaurant = Restaurant.IdRestaurant
-INNER JOIN RestaurantXPlate ON Restaurant.IdRestaurant = RestaurantXPlate.IdRestaurant
+SELECT VisitsXCareer.RestaurantName,
+     VisitsXCareer.CareerName,
+     MAX(VisitsXCareer.Visits) Visits
+FROM(
+    SELECT
+     Restaurant.Name AS RestaurantName,
+     Career.Name AS CareerName,
+     Restaurant.IdRestaurant AS IdRes,
+     COUNT(Career.IdCareer) Visits
+    FROM
+     Restaurant
+     
+    INNER JOIN Career ON Student.IdCareer = Career.IdCareer
+    INNER JOIN Student ON PlateRating.IdStudent = Student.IdStudent
+    INNER JOIN PlateRating ON Restaurant.IdRestaurant = PlateRating.IdRestaurant
+    
+    GROUP BY
+     Restaurant.IdRestaurant,
+     Career.IdCareer) 
+AS VisitsXCareer
+Group By VisitsXCareer.IdRes;
 
-GROUP BY
- Restaurant.IdCareer,
- Career.IdCareer;
 /*
 *-------------------------------------------------------------
 *                Select for the most Active Student with platerating
@@ -474,15 +522,16 @@ GROUP BY
 /*Needs to consider plate rating and restaurant rating*/
 SELECT
  Person.Name,
- COUNT(PlateRating.IdStudent) Uses
+ COUNT(Student.IdStudent) Rates
 FROM
  Student
-INNER JOIN Person ON Student.IdPerson = Person.IdPerson
-INNER JOIN PlateRating ON PlateRating.IdStudent = Student.IdStudent
+INNER JOIN Person ON  Person.IdPerson = Student.IdPerson
+LEFT OUTER JOIN PlateRating ON PlateRating.IdStudent = Student.IdStudent
+LEFT OUTER JOIN RestaurantRating ON RestaurantRating.IdStudent = Student.IdStudent
 GROUP BY
  Student.IdStudent
 ORDER BY 
- Uses DESC;
+ Rates DESC;
 
 
 /*
@@ -491,7 +540,7 @@ ORDER BY
 *-------------------------------------------------------------
 */
 
-SELECT x.Name, x.Bad_ratings, x.Good_ratings,  ((x.Good_ratings - x.Bad_ratings) / (x.Bad_ratings +  x.Good_ratings)) Average
+SELECT x.Name, x.Bad_ratings, x.Good_ratings,  10 * ((x.Good_ratings - x.Bad_ratings) / (x.Bad_ratings +  x.Good_ratings)) Average
 FROM(
     SELECT
      Restaurant.Name AS Name,
