@@ -123,6 +123,7 @@ CREATE TABLE RestaurantRating(
     IdRestaurant INTEGER NOT NULL,
     Score Numeric NOT NULL,
     Comment TEXT,
+    DateTime NUMERIC,
     FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent),
     FOREIGN KEY (IdRestaurant) REFERENCES Restaurant(IdRestaurant)
 );
@@ -132,6 +133,7 @@ CREATE TABLE PlateRating(
     IdPlate INTEGER NOT NULL,
     Score Numeric NOT NULL,
     Comment TEXT,
+    DateTime NUMERIC,
     FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent),
     FOREIGN KEY (IdPlate) REFERENCES Plate(IdPlate)
 );
@@ -308,11 +310,23 @@ VALUES (5,3,1);
 *                Ratings Test Data Creation
 *-------------------------------------------------------------
 */
-INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment)
-VALUES (1, 1, 10, 'Muy bueno');
+INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment, DateTime)
+VALUES (1, 1, 10, 'Muy bueno', '2018-09-04 08:20:00');
 
-INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment)
-VALUES (2, 1, 8, 'Muy bueno');
+INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment, DateTime)
+VALUES (2, 1, 8, 'Bastante rico', '2018-09-04 09:00:00');
 
-INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment)
-VALUES (1, 1, 10, 'Muy bueno');
+INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment, DateTime)
+VALUES (3, 2, 10, 'Excelente', '2018-09-05 09:30:00');
+
+INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment, DateTime)
+VALUES (5, 4, 10, 'Muy Rico', '2018-09-05 08:20:00');
+
+INSERT INTO RestaurantRating (IdStudent, IdRestaurant, Score, Comment, DateTime)
+VALUES (1, 1, 10, 'Excelente', '2018-09-06 09:20:00');
+
+INSERT INTO RestaurantRating (IdStudent, IdRestaurant, Score, Comment, DateTime)
+VALUES (3, 2, 7, 'Bastante Bueno', '2018-09-06 10:20:00');
+
+INSERT INTO RestaurantRating (IdStudent, IdRestaurant, Score, Comment, DateTime)
+VALUES (5, 1, 8, 'Muy Bueno', '2018-09-06 09:35:00');
