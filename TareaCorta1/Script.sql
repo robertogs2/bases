@@ -330,3 +330,17 @@ VALUES (3, 2, 7, 'Bastante Bueno', '2018-09-06 10:20:00');
 
 INSERT INTO RestaurantRating (IdStudent, IdRestaurant, Score, Comment, DateTime)
 VALUES (5, 1, 8, 'Muy Bueno', '2018-09-06 09:35:00');
+
+/*
+*-------------------------------------------------------------
+*                Selects for the Plate Ratings
+*-------------------------------------------------------------
+*/
+
+SELECT
+ PlateRating.IdPlate,
+ avg(Score) avg_score
+FROM
+ PlateRating
+GROUP BY
+ PlateRating.IdPlate;
