@@ -250,6 +250,21 @@ VALUES ('now', 1);
 
 /*
 *-------------------------------------------------------------
+*                Creating RestaurantXPlatillo
+*-------------------------------------------------------------
+*/
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate) 
+VALUES (1, 1);
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate)
+VALUES (1, 2);
+
+INSERT INTO RestaurantXPlate(IdRestaurant, IdPlate)
+VALUES (2, 2);
+
+/*
+*-------------------------------------------------------------
 *                Career Test Data Creation
 *-------------------------------------------------------------
 */
@@ -317,7 +332,7 @@ INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment, DateTime)
 VALUES (2, 1, 8, 'Bastante rico', '2018-09-04 09:00:00');
 
 INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment, DateTime)
-VALUES (3, 2, 10, 'Excelente', '2018-09-05 09:30:00');
+VALUES (3, 2, 5, 'Excelente', '2018-09-05 09:30:00');
 
 INSERT INTO PlateRating (IdStudent, IdPlate, Score, Comment, DateTime)
 VALUES (5, 4, 10, 'Muy Rico', '2018-09-05 08:20:00');
@@ -337,10 +352,65 @@ VALUES (5, 1, 8, 'Muy Bueno', '2018-09-06 09:35:00');
 *-------------------------------------------------------------
 */
 
+/*Overall*/
 SELECT
  PlateRating.IdPlate,
- avg(Score) avg_score
+ avg(Score) Avg_score
 FROM
  PlateRating
 GROUP BY
- PlateRating.IdPlate;
+ PlateRating.IdPlate
+ORDER BY 
+ Avg_Score DESC;
+ 
+/*By Day*/
+SELECT
+ PlateRating.IdPlate,
+ avg(Score) Avg_score
+FROM
+ PlateRating
+WHERE
+ date(PlateRating.DateTime) = '2018-09-05'
+GROUP BY
+ PlateRating.IdPlate
+ORDER BY 
+ Avg_Score DESC;
+ 
+/*By Month*/
+SELECT
+ PlateRating.IdPlate,
+ avg(Score) Avg_score
+FROM
+ PlateRating
+WHERE
+ strftime('%m', PlateRating.DateTime) = '09'
+GROUP BY
+ PlateRating.IdPlate
+ORDER BY 
+ Avg_Score DESC;
+
+/*By Restaurant*/
+SELECT
+ Plate.Name, Plate.IdPlate,
+ AVG(PlateRating.Score) Avg_score
+FROM
+ PlateRating
+INNER JOIN Plate as P1 ON PlateRating.IdPlate = P1.IdPlate
+INNER JOIN Plate ON Plate.IdPlate = RestaurantXPlate.IdPlate
+
+/*
+GROUP BY
+ PlateRating.IdPlate
+ORDER BY 
+ Avg_Score DESC;*/
+
+
+
+
+
+
+
+
+
+
+
