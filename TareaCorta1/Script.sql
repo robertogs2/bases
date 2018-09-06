@@ -522,16 +522,20 @@ Group By VisitsXCareer.IdRes;
 /*Needs to consider plate rating and restaurant rating*/
 SELECT
  Person.Name,
- COUNT(Student.IdStudent) Rates
+ COUNT(PlateRating.IdStudent) Rates
+
 FROM
  Student
 INNER JOIN Person ON  Person.IdPerson = Student.IdPerson
-LEFT OUTER JOIN PlateRating ON PlateRating.IdStudent = Student.IdStudent
-LEFT OUTER JOIN RestaurantRating ON RestaurantRating.IdStudent = Student.IdStudent
+LEFT JOIN PlateRating ON PlateRating.IdStudent = Student.IdStudent
 GROUP BY
  Student.IdStudent
 ORDER BY 
  Rates DESC;
+
+
+
+
 
 
 /*
@@ -540,7 +544,7 @@ ORDER BY
 *-------------------------------------------------------------
 */
 
-SELECT x.Name, x.Bad_ratings, x.Good_ratings,  10 * ((x.Good_ratings - x.Bad_ratings) / (x.Bad_ratings +  x.Good_ratings)) Average
+SELECT res.Name, res.Bad_ratings, res.Good_ratings,  10 * ((res.Good_ratings - res.Bad_ratings) / (res.Bad_ratings +  res.Good_ratings)) Average
 FROM(
     SELECT
      Restaurant.Name AS Name,
@@ -551,7 +555,7 @@ FROM(
     INNER JOIN RestaurantRating ON RestaurantRating.IdRestaurant = Restaurant.IdRestaurant
     GROUP BY
      Restaurant.IdRestaurant) 
-AS x;
+AS res;
  
 
 
