@@ -1030,9 +1030,9 @@ OR
 */ 
 DELETE 
 FROM 
-    Drinks
+    PlateRating
 WHERE
-   IdPlate = 2;
+   PlateRating.IdStudent = 3;
 /*
 *-------------------------------------------------------------
 *                Distinct 
@@ -1043,6 +1043,3 @@ SELECT DISTINCT
  Person.Name
 FROM 
  Person;
-
-
-
