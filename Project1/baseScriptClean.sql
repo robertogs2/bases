@@ -9,10 +9,13 @@ USE p1;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Pais (
   idPais INT AUTO_INCREMENT NOT NULL UNIQUE,  
-  nombre VARCHAR(50) NOT NULL UNIQUE,
   PRIMARY KEY (idPais))
 ENGINE = InnoDB;
 
+ALTER TABLE Pais
+ADD nombre VARCHAR(50) NOT NULL UNIQUE;
+
+CREATE INDEX indexPaisNombre ON Pais(nombre);
 -- -----------------------------------------------------
 -- Table Provincia
 -- -----------------------------------------------------
@@ -24,6 +27,7 @@ CREATE TABLE IF NOT EXISTS Provincia (
   FOREIGN KEY (idPais_fk) REFERENCES Pais(idPais))
 ENGINE = InnoDB;
 
+CREATE INDEX indexProvinciaNombre ON Provincia(nombre);
 -- -----------------------------------------------------
 -- Table Ciudad
 -- -----------------------------------------------------
@@ -35,6 +39,7 @@ CREATE TABLE IF NOT EXISTS Ciudad (
   FOREIGN KEY(idProvincia_fk) REFERENCES Provincia(idProvincia))
 ENGINE = InnoDB;
 
+CREATE INDEX indexCiudadNombre ON Ciudad(nombre);
 -- -----------------------------------------------------
 -- Table Direccion
 -- -----------------------------------------------------
@@ -63,10 +68,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS Persona (
   idPersona INT AUTO_INCREMENT NOT NULL UNIQUE,
   cedula INT NOT NULL,
-  nombre VARCHAR(40) NULL,
-  apellidos VARCHAR(40) NULL,
-  telefono INT NULL,
-  extension INT NULL,
+  nombre VARCHAR(40) NOT NULL,
+  apellidos VARCHAR(40) NOT NULL,
+  telefono INT NOT NULL,
+  extension INT NOT NULL,
   idUbicacion_fk INT NOT NULL,
   PRIMARY KEY (idPersona),
   FOREIGN KEY (idUbicacion_fk) REFERENCES Ubicacion(idUbicacion))
@@ -87,7 +92,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Concesionario (
   idConcesionario INT NOT NULL,
-  nombre VARCHAR(50) NULL,
+  nombre VARCHAR(50) NOT NULL,
   idUbicacion_fk INT NOT NULL,
   PRIMARY KEY (idConcesionario))
 ENGINE = InnoDB;
@@ -97,11 +102,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Coche (
   idCoche INT AUTO_INCREMENT NOT NULL UNIQUE,
-  matricula VARCHAR(6) NULL,
-  modelo VARCHAR(20) NULL,
-  marca VARCHAR(20) NULL,
-  color VARCHAR(30) NULL,
-  estado VARCHAR(30) NULL,
+  matricula VARCHAR(6) NOT NULL,
+  modelo VARCHAR(20) NOT NULL,
+  marca VARCHAR(20) NOT NULL,
+  color VARCHAR(30) NOT NULL,
+  estado VARCHAR(30) NOT NULL,
   kilometraje INT NULL,
   idConcesionario_fk INT NOT NULL,
   PRIMARY KEY (idCoche),
@@ -113,7 +118,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Taller (
   idTaller INT AUTO_INCREMENT NOT NULL UNIQUE,
-  nombre VARCHAR(45) NULL,
+  nombre VARCHAR(45) NOT NULL,
   idUbicacion_fk INT NOT NULL,
   PRIMARY KEY (idTaller),
   FOREIGN KEY (idUbicacion_fk) REFERENCES Ubicacion(idUbicacion))
@@ -127,8 +132,8 @@ CREATE TABLE IF NOT EXISTS Mecanico (
   idPersona_fk INT NOT NULL,
   idConcesionario_fk INT NOT NULL,
   idTaller_fk INT NOT NULL,
-  fechaContratacion DATE NULL,
-  salario INT NULL,
+  fechaContratacion DATE NOT NULL,
+  salario INT NOT NULL,
   PRIMARY KEY (idMecanico),
   FOREIGN KEY (idPersona_fk) REFERENCES Persona(idPersona),
   FOREIGN KEY (idConcesionario_fk) REFERENCES Concesionario(idConcesionario),
@@ -142,8 +147,8 @@ CREATE TABLE IF NOT EXISTS Compra (
   idCompra INT AUTO_INCREMENT NOT NULL UNIQUE,
   idCliente_fk INT NOT NULL,
   idConcesionario_fk INT NOT NULL,
-  monto INT NULL,
-  fechaHora DATETIME NULL,
+  monto INT NOT NULL,
+  fechaHora DATETIME NOT NULL,
   PRIMARY KEY (idCompra),
   FOREIGN KEY (idConcesionario_fk) REFERENCES Concesionario(idConcesionario),
   FOREIGN KEY (idCliente_fk) REFERENCES Cliente(idCliente))
@@ -156,8 +161,8 @@ CREATE TABLE IF NOT EXISTS Reparacion (
   idReparacion INT AUTO_INCREMENT NOT NULL UNIQUE,
   idMecanico_fk INT NOT NULL,
   idCoche_fk INT NOT NULL,
-  fechaHoraInicio DATETIME NULL,
-  fechaHoraFinal DATETIME NULL,
+  fechaHoraInicio DATETIME NOT NULL,
+  fechaHoraFinal DATETIME NOT NULL,
   PRIMARY KEY (idReparacion),
   FOREIGN KEY (idMecanico_fk) REFERENCES Mecanico(idMecanico),
   FOREIGN KEY (idCoche_fk) REFERENCES Coche(idCoche))
