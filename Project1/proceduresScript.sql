@@ -11,9 +11,9 @@ DROP PROCEDURE IF EXISTS AgregarCoche;
 DROP PROCEDURE IF EXISTS AgregarTaller;
 DROP PROCEDURE IF EXISTS AgregarMecanico;
 DROP PROCEDURE IF EXISTS AgregarCompra;
-DROP PROCEDURE IF EXISTS AgregarReparación;
+DROP PROCEDURE IF EXISTS AgregarReparacion;
 DROP PROCEDURE IF EXISTS AgregarProvincia2;
-
+DROP PROCEDURE IF EXISTS ObtenerDireccionCompleta;
 DELIMITER $$
 CREATE PROCEDURE AgregarPais (IN eNombre varchar(50)) BEGIN
 	INSERT INTO Pais (nombre)
@@ -34,13 +34,13 @@ END$$
 
 DELIMITER $$
 CREATE PROCEDURE AgregarDireccion (IN eZipCode INT, IN eIdCiudad INT) BEGIN
-	INSERT INTO Direccion (eZipCode, idCiudad_fk)
+	INSERT INTO Direccion (zipCode, idCiudad_fk)
     VALUES(eZipCode, eIdCiudad);
 END$$
 
 DELIMITER $$
 CREATE PROCEDURE AgregarUbicacion (IN eDescripcion varchar(50), IN eIdDireccion INT) BEGIN
-	INSERT INTO Ubicacion (descripcion, idCiudad_fk)
+	INSERT INTO Ubicacion (descripcion, idDireccion_fk)
     VALUES(eDescripcion, eIdDireccion);
 END$$
 
@@ -48,11 +48,12 @@ DELIMITER $$
 CREATE PROCEDURE AgregarPersona (IN eCedula INT, 
 								 IN eNombre VARCHAR(40),
 								 IN eApellidos VARCHAR(40),
+                                 IN eEdad INT,
                                  IN eTelefono INT,
                                  IN eExtension INT,
                                  IN eIdUbicacion INT) BEGIN
-	INSERT INTO Persona (cedula, nombre, apellidos, telefono, extension, idUbicacion_fk)
-    VALUES(eCedula, eNombre, eApellidos, eTelefono, eExtension, eIdUbicacion);
+	INSERT INTO Persona (cedula, nombre, apellidos, edad, telefono, extension, idUbicacion_fk)
+    VALUES(eCedula, eNombre, eApellidos, eEdad, eTelefono, eExtension, eIdUbicacion);
 END$$
 
 DELIMITER $$
@@ -80,9 +81,9 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
 END$$
 
 DELIMITER $$
-CREATE PROCEDURE AgregarTaller (IN eNombre VARCHAR(50), IN eIdUbicacion INT) BEGIN
-	INSERT INTO Taller (nombre, idUbicacion_fk)
-    VALUES(eNombre, eIdUbicacion);
+CREATE PROCEDURE AgregarTaller (IN eNombre VARCHAR(50), IN eIdUbicacion INT, IN eIdConcesionario INT) BEGIN
+	INSERT INTO Taller (nombre, idUbicacion_fk, idConcesionario_fk)
+    VALUES(eNombre, eIdUbicacion, eIdConcesionario);
 END$$
 
 DELIMITER $$
@@ -121,3 +122,18 @@ CREATE PROCEDURE AgregarProvincia2 (IN eNombre varchar(50), IN eNombrePais varch
     VALUES(eNombre, vIdPais);
 END$$
 
+DELIMITER $$
+CREATE PROCEDURE ObtenerDireccionCompleta(IN eIdUbicacion INT) BEGIN
+	SELECT descripcion AS "Descripción", 
+		   Direccion.zipCode as "Código Postal", 
+           Ciudad.nombre AS "Ciudad",
+           Provincia.nombre AS "Provincia",
+           Pais.nombre AS "Pais"
+    FROM Ubicacion
+    INNER JOIN Direccion ON Ubicacion.idDireccion_fk = Direccion.idDireccion
+    INNER JOIN Ciudad ON Direccion.idCiudad_fk = Ciudad.idCiudad
+    INNER JOIN Provincia ON Ciudad.idProvincia_fk = Provincia.idProvincia
+    INNER JOIN Pais ON Provincia. idPais_fk = Pais.idPais
+    WHERE Ubicacion.idUbicacion = eIdUbicacion;
+END$$                                                                       
+     

@@ -15,7 +15,6 @@ ENGINE = InnoDB;
 ALTER TABLE Pais
 ADD nombre VARCHAR(50) NOT NULL UNIQUE;
 
-CREATE INDEX indexPaisNombre ON Pais(nombre);
 -- -----------------------------------------------------
 -- Table Provincia
 -- -----------------------------------------------------
@@ -27,7 +26,7 @@ CREATE TABLE IF NOT EXISTS Provincia (
   FOREIGN KEY (idPais_fk) REFERENCES Pais(idPais))
 ENGINE = InnoDB;
 
-CREATE INDEX indexProvinciaNombre ON Provincia(nombre);
+CREATE INDEX indexProvincia ON Provincia(idPais_fk);
 -- -----------------------------------------------------
 -- Table Ciudad
 -- -----------------------------------------------------
@@ -39,18 +38,19 @@ CREATE TABLE IF NOT EXISTS Ciudad (
   FOREIGN KEY(idProvincia_fk) REFERENCES Provincia(idProvincia))
 ENGINE = InnoDB;
 
-CREATE INDEX indexCiudadNombre ON Ciudad(nombre);
+CREATE INDEX indexCiudad ON Ciudad(idProvincia_fk);
 -- -----------------------------------------------------
 -- Table Direccion
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Direccion (
   idDireccion INT AUTO_INCREMENT NOT NULL UNIQUE,
-  zipCode INT NOT NULL,
+  zipCode INT NOT NULL DEFAULT 0,
   idCiudad_fk INT NOT NULL,
   PRIMARY KEY (idDireccion),
   FOREIGN KEY (idCiudad_fk) REFERENCES Ciudad(idCiudad))
 ENGINE = InnoDB;
 
+CREATE INDEX indexDireccion ON Direccion(idCiudad_fk);
 -- -----------------------------------------------------
 -- Table Ubicacion
 -- -----------------------------------------------------
@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS Persona (
   cedula INT NOT NULL,
   nombre VARCHAR(40) NOT NULL,
   apellidos VARCHAR(40) NOT NULL,
+  edad INT NOT NULL, CHECK (edad>=18),
   telefono INT NOT NULL,
   extension INT NOT NULL,
   idUbicacion_fk INT NOT NULL,
@@ -91,7 +92,7 @@ ENGINE = InnoDB;
 -- Table Concesionario
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Concesionario (
-  idConcesionario INT NOT NULL,
+  idConcesionario INT AUTO_INCREMENT NOT NULL UNIQUE,
   nombre VARCHAR(50) NOT NULL,
   idUbicacion_fk INT NOT NULL,
   PRIMARY KEY (idConcesionario))
@@ -107,7 +108,7 @@ CREATE TABLE IF NOT EXISTS Coche (
   marca VARCHAR(20) NOT NULL,
   color VARCHAR(30) NOT NULL,
   estado VARCHAR(30) NOT NULL,
-  kilometraje INT NULL,
+  kilometraje INT NOT NULL DEFAULT 0,
   idConcesionario_fk INT NOT NULL,
   PRIMARY KEY (idCoche),
   FOREIGN KEY (idConcesionario_fk) REFERENCES Concesionario(idConcesionario))
@@ -120,8 +121,10 @@ CREATE TABLE IF NOT EXISTS Taller (
   idTaller INT AUTO_INCREMENT NOT NULL UNIQUE,
   nombre VARCHAR(45) NOT NULL,
   idUbicacion_fk INT NOT NULL,
+  idConcesionario_fk INT NOT NULL,
   PRIMARY KEY (idTaller),
-  FOREIGN KEY (idUbicacion_fk) REFERENCES Ubicacion(idUbicacion))
+  FOREIGN KEY (idUbicacion_fk) REFERENCES Ubicacion(idUbicacion),
+  FOREIGN KEY (idConcesionario_fk) REFERENCES Concesionario(idConcesionario))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -162,7 +165,7 @@ CREATE TABLE IF NOT EXISTS Reparacion (
   idMecanico_fk INT NOT NULL,
   idCoche_fk INT NOT NULL,
   fechaHoraInicio DATETIME NOT NULL,
-  fechaHoraFinal DATETIME NOT NULL,
+  fechaHoraFinal DATETIME NULL,
   PRIMARY KEY (idReparacion),
   FOREIGN KEY (idMecanico_fk) REFERENCES Mecanico(idMecanico),
   FOREIGN KEY (idCoche_fk) REFERENCES Coche(idCoche))
