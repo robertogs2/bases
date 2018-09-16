@@ -51,20 +51,55 @@ CALL AgregarUbicacion("100m Este, 100m Oeste de la bomba", 2);
 CALL AgregarUbicacion("Por el Palí", 3);
 CALL AgregarUbicacion("Por la finca de los Guzmán", 4);
 
-Call AgregarConcesionario("Purdy Motor", 1);
-Call AgregarConcesionario("Veinsa Motors", 3);
+-- Agregar Concesionarios
+CALL AgregarConcesionario("Concesionario la UNO", 1);
+CALL AgregarConcesionario("Concesionario la DOS", 3);
 
-Call AgregarTaller("Taller Alpha", 2, 1);
-Call AgregarTaller("Taller Bravo", 3, 1);
-Call AgregarTaller("Taller Charlie", 4, 1);
-Call AgregarTaller("Taller Delta", 1, 1);
-Call AgregarTaller("Taller Echo", 2, 1);
+-- Agregar Talleres
+CALL AgregarTaller("Taller Alpha", 2, 1);
+CALL AgregarTaller("Taller Bravo", 3, 1);
+CALL AgregarTaller("Taller Charlie", 4, 1);
+CALL AgregarTaller("Taller Delta", 1, 1);
+CALL AgregarTaller("Taller Echo", 2, 1);
 
-Call AgregarTaller("Taller Foxtrot", 2, 2);
-Call AgregarTaller("Taller Golf", 3, 2);
-Call AgregarTaller("Taller Hotel", 4, 2);
-Call AgregarTaller("Taller India", 1, 2);
-Call AgregarTaller("Taller Juliet", 2, 2);
+CALL AgregarTaller("Taller Foxtrot", 2, 2);
+CALL AgregarTaller("Taller Golf", 3, 2);
+CALL AgregarTaller("Taller Hotel", 4, 2);
+CALL AgregarTaller("Taller India", 1, 2);
+CALL AgregarTaller("Taller Juliet", 2, 2);
+
+-- Agregar Marcas
+CALL AgregarMarca("Toyota"); -- 1
+CALL AgregarMarca("Mitsubishi"); -- 2
+CALL AgregarMarca("Nissan"); -- 3
+CALL AgregarMarca("Ford"); -- 4
+CALL AgregarMarca("Suzuki"); -- 5
+
+-- Agregar Modelos
+CALL AgregarModelo("Rav4", 1);
+CALL AgregarModelo("Hilux", 1);
+CALL AgregarModelo("Yaris", 1);
+CALL AgregarModelo("Avensis", 1);
+CALL AgregarModelo("Prius", 1);
+
+CALL AgregarModelo("Montero", 2);
+CALL AgregarModelo("Outlander", 2);
+CALL AgregarModelo("L200", 2);
+
+CALL AgregarModelo("Navarra", 3);
+CALL AgregarModelo("Murano", 3);
+CALL AgregarModelo("Pathfinder", 3);
+CALL AgregarModelo("QASHQAI", 3);
+
+CALL AgregarModelo("Fiesta", 4);
+CALL AgregarModelo("Mustang", 4);
+CALL AgregarModelo("Focus", 4);
+CALL AgregarModelo("Kuga", 4);
+
+CALL AgregarModelo("Grand Vitara", 5);
+CALL AgregarModelo("Jimny", 5);
+CALL AgregarModelo("Vitara", 5);
+CALL AgregarModelo("Swift", 5);
 
 CALL ObtenerDireccionCompleta(2);
 

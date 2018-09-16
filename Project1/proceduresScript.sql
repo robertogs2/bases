@@ -7,11 +7,14 @@ DROP PROCEDURE IF EXISTS AgregarUbicacion;
 DROP PROCEDURE IF EXISTS AgregarPersona;
 DROP PROCEDURE IF EXISTS AgregarCliente;
 DROP PROCEDURE IF EXISTS AgregarConcesionario;
+DROP PROCEDURE IF EXISTS AgregarMarca;
+DROP PROCEDURE IF EXISTS AgregarModelo;
 DROP PROCEDURE IF EXISTS AgregarCoche;
 DROP PROCEDURE IF EXISTS AgregarTaller;
 DROP PROCEDURE IF EXISTS AgregarMecanico;
 DROP PROCEDURE IF EXISTS AgregarCompra;
 DROP PROCEDURE IF EXISTS AgregarReparacion;
+DROP PROCEDURE IF EXISTS AgregarBitacora;
 DROP PROCEDURE IF EXISTS AgregarProvincia2;
 DROP PROCEDURE IF EXISTS ObtenerDireccionCompleta;
 DELIMITER $$
@@ -69,15 +72,33 @@ CREATE PROCEDURE AgregarConcesionario (IN eNombre VARCHAR(50), IN eIdUbicacion I
 END$$
 
 DELIMITER $$
+CREATE PROCEDURE AgregarMarca(IN eNombre VARCHAR(50)) BEGIN
+	INSERT INTO Marca(nombre)
+    VALUES(eNombre);
+END$$
+
+DELIMITER $$
+CREATE PROCEDURE AgregarModelo(IN eNombre VARCHAR(50), IN eIdMarca INT) BEGIN
+	INSERT INTO Modelo(nombre, idMarca_fk)
+    VALUES(eNombre, eIdMarca);
+END$$
+
+DELIMITER $$
 CREATE PROCEDURE AgregarCoche (IN eMatricula INT, 
-								 IN eModelo VARCHAR(20),
-								 IN eMarca VARCHAR(20),
+								 IN eIdModelo INT,
                                  IN eColor VARCHAR(30),
                                  IN eEstado VARCHAR(20),
                                  IN eKilometraje INT,
                                  IN eIdConcesionario INT) BEGIN
-	INSERT INTO Coche (matricula, modelo, marca, color, estado, kilometraje, idConcesionario_fk)
-    VALUES(eMatricula, eModelo, eMarca, eColor, eEstado, eKilometraje, eIdConcesionario);
+	
+    -- This takes the idMarca from the idModelo input
+    DECLARE vIdMarca INT;
+	SELECT idMarca_fk into vIdMarca FROM Modelo
+    WHERE idModelo = eIdModelo
+    LIMIT 1;
+    
+	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, idConcesionario_fk)
+    VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, eIdConcesionario);
 END$$
 
 DELIMITER $$
@@ -89,27 +110,32 @@ END$$
 DELIMITER $$
 CREATE PROCEDURE AgregarMecanico (IN eFechaContratacion DATE, 
 								 IN eSalario INT,
-								 IN eMarca VARCHAR(20),
                                  IN eIdPersona INT,
                                  IN eIdConcesionario INT,
                                  IN eIdTaller INT) BEGIN
 	INSERT INTO Mecanico (fechaContratacion, salario, idPersona_fk, idConcesionario_fk, idTaller_fk)
-    VALUES(eSalario, eMarca, eIdPersona, eIdConcesionario, eIdTaller);
+    VALUES(eFechaContratacion, eSalario, eIdPersona, eIdConcesionario, eIdTaller);
 END$$
 
 DELIMITER $$
-CREATE PROCEDURE AgregarCompra (IN eFechaHora DATETIME, IN eMonto INT, IN eIdCliente INT, IN eIdConcesionario INT) BEGIN
-	INSERT INTO Compra (idCliente_fk, idConcesionario_fk, monto, fechaHora)
-    VALUES(eIdConcesionario, eIdCliente, eMonto, eFechaHora);
+CREATE PROCEDURE AgregarCompra (IN eFechaHora DATETIME, IN eMonto INT, IN eIdCliente INT, IN eIdConcesionario INT, IN eIdCoche INT) BEGIN
+	INSERT INTO Compra (idCliente_fk, idConcesionario_fk, idCoche_fk, monto, fechaHora)
+    VALUES(eIdConcesionario, eIdCliente, eIdCoche, eMonto, eFechaHora);
 END$$
 
 DELIMITER $$
-CREATE PROCEDURE AgregarReparacion (IN eFechaHoraInicio DATETIME, 
+CREATE PROCEDURE AgregarReparacion (IN eIdCoche INT) BEGIN
+	INSERT INTO Reparacion (idCoche_fk)
+    VALUES(eIdCoche);
+END$$
+
+DELIMITER $$
+CREATE PROCEDURE AgregarBitacora (IN eFechaHoraInicio DATETIME, 
 								 IN eFechaHoraFinal DATETIME,
 								 IN eIdMecanico INT,
-                                 IN eIdCoche INT) BEGIN
-	INSERT INTO Reparacion (fechaHoraInicio, fechaHoraFinal, idMecanico_fk, idCoche_fk)
-    VALUES(eFechahoraInicial, eFechaHoraFinal, eIdMecanico, eIdCoche);
+                                 IN eIdReparacion INT) BEGIN
+	INSERT INTO Bitacora (fechaHoraInicio, fechaHoraFinal, idMecanico_fk, idReparacion_fk)
+    VALUES(eFechahoraInicial, eFechaHoraFinal, eIdMecanico, eIdReparacion);
 END$$
 
 DELIMITER $$

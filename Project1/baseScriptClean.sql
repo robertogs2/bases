@@ -99,22 +99,6 @@ CREATE TABLE IF NOT EXISTS Concesionario (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table Coche
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS Coche (
-  idCoche INT AUTO_INCREMENT NOT NULL UNIQUE,
-  matricula VARCHAR(6) NOT NULL,
-  modelo VARCHAR(20) NOT NULL,
-  marca VARCHAR(20) NOT NULL,
-  color VARCHAR(30) NOT NULL,
-  estado VARCHAR(30) NOT NULL,
-  kilometraje INT NOT NULL DEFAULT 0,
-  idConcesionario_fk INT NOT NULL,
-  PRIMARY KEY (idCoche),
-  FOREIGN KEY (idConcesionario_fk) REFERENCES Concesionario(idConcesionario))
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
 -- Table Taller
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Taller (
@@ -125,6 +109,44 @@ CREATE TABLE IF NOT EXISTS Taller (
   PRIMARY KEY (idTaller),
   FOREIGN KEY (idUbicacion_fk) REFERENCES Ubicacion(idUbicacion),
   FOREIGN KEY (idConcesionario_fk) REFERENCES Concesionario(idConcesionario))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table Marca
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Marca (
+  idMarca INT AUTO_INCREMENT NOT NULL UNIQUE,
+  nombre VARCHAR(50) NOT NULL,
+  PRIMARY KEY (idMarca))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table Modelo
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Modelo (
+  idModelo INT AUTO_INCREMENT NOT NULL UNIQUE,
+  nombre VARCHAR(50) NOT NULL,
+  idMarca_fk INT NOT NULL,
+  PRIMARY KEY (idModelo),
+  FOREIGN KEY (idMarca_fk) REFERENCES Marca(idMarca))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table Coche
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Coche (
+  idCoche INT AUTO_INCREMENT NOT NULL UNIQUE,
+  matricula VARCHAR(6) NOT NULL UNIQUE,
+  idModelo_fk INT NOT NULL,
+  idMarca_fk INT NOT NULL,
+  color VARCHAR(30) NOT NULL,
+  estado VARCHAR(30) NOT NULL,
+  kilometraje INT NOT NULL DEFAULT 0,
+  idConcesionario_fk INT NOT NULL,
+  PRIMARY KEY (idCoche),
+  FOREIGN KEY (idConcesionario_fk) REFERENCES Concesionario(idConcesionario),
+  FOREIGN KEY (idMarca_fk) REFERENCES Marca(idMarca),
+  FOREIGN KEY (idModelo_fk) REFERENCES Modelo(idModelo))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -150,10 +172,12 @@ CREATE TABLE IF NOT EXISTS Compra (
   idCompra INT AUTO_INCREMENT NOT NULL UNIQUE,
   idCliente_fk INT NOT NULL,
   idConcesionario_fk INT NOT NULL,
+  idCoche_fk INT NOT NULL,
   monto INT NOT NULL,
   fechaHora DATETIME NOT NULL,
   PRIMARY KEY (idCompra),
   FOREIGN KEY (idConcesionario_fk) REFERENCES Concesionario(idConcesionario),
+  FOREIGN KEY (idCoche_fk) REFERENCES Coche(idCoche),
   FOREIGN KEY (idCliente_fk) REFERENCES Cliente(idCliente))
 ENGINE = InnoDB;
 
@@ -162,15 +186,26 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Reparacion (
   idReparacion INT AUTO_INCREMENT NOT NULL UNIQUE,
-  idMecanico_fk INT NOT NULL,
   idCoche_fk INT NOT NULL,
-  fechaHoraInicio DATETIME NOT NULL,
-  fechaHoraFinal DATETIME NULL,
   PRIMARY KEY (idReparacion),
-  FOREIGN KEY (idMecanico_fk) REFERENCES Mecanico(idMecanico),
   FOREIGN KEY (idCoche_fk) REFERENCES Coche(idCoche))
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table Bitacora
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Bitacora (
+  idBitacora INT AUTO_INCREMENT NOT NULL UNIQUE,
+  idReparacion_fk INT NOT NULL,
+  idMecanico_fk INT NOT NULL,
+  fechaHoraInicio DATETIME NOT NULL,
+  fechaHoraFinal DATETIME NULL,
+  PRIMARY KEY (idBitacora),
+  FOREIGN KEY (idReparacion_fk) REFERENCES Reparacion(idReparacion),
+  FOREIGN KEY (idMecanico_fk) REFERENCES Mecanico(idMecanico))
+ENGINE = InnoDB;
+
+CREATE INDEX indexBitacora ON Bitacora(idReparacion_fk);
 
 
 
