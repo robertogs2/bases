@@ -187,6 +187,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS Reparacion (
   idReparacion INT AUTO_INCREMENT NOT NULL UNIQUE,
   idCoche_fk INT NOT NULL,
+  descripcion VARCHAR(50),
   PRIMARY KEY (idReparacion),
   FOREIGN KEY (idCoche_fk) REFERENCES Coche(idCoche))
 ENGINE = InnoDB;

@@ -124,9 +124,9 @@ CREATE PROCEDURE AgregarCompra (IN eFechaHora DATETIME, IN eMonto INT, IN eIdCli
 END$$
 
 DELIMITER $$
-CREATE PROCEDURE AgregarReparacion (IN eIdCoche INT) BEGIN
-	INSERT INTO Reparacion (idCoche_fk)
-    VALUES(eIdCoche);
+CREATE PROCEDURE AgregarReparacion (IN eIdCoche INT, IN eDescripcion VARCHAR(50)) BEGIN
+	INSERT INTO Reparacion (idCoche_fk, descripcion)
+    VALUES(eIdCoche, eDescripcion);
 END$$
 
 DELIMITER $$

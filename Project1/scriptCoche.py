@@ -1,7 +1,7 @@
 import random
 l = ["usado", "nuevo", "reparacion"]
 c = ["verde", "azul", "morado", "amarillo", "gris", "negro", "blanco", "café"]
-def sqlScript(amount):
+def sriptCoche(amount):
     for i in range(amount):
         a = random.randint(0, 2)
         es = l[a]
@@ -9,4 +9,4 @@ def sqlScript(amount):
         if es != "nuevo":
             k = random.randint(1, 400)
         print("CALL AgregarCoche(" + str(random.randint(100000, 999999))+ ", " + str(random.randint(1, 20)) + ", " + "\"" + c[random.randint(0, 7)] + "\"" + ", " + "\"" + es + "\"" + ", " + str(k) + ", " + str(random.randint(1, 2))  + ");")
-sqlScript(50)
+#sqlScript(50)

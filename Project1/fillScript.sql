@@ -152,6 +152,9 @@ CALL AgregarCoche(908781, 4, "café", "usado", 400, 1);
 CALL AgregarCoche(244835, 20, "amarillo", "nuevo", 0, 1);
 CALL AgregarCoche(834463, 1, "azul", "reparacion", 164, 1);
 
+
+
+
 CALL ObtenerDireccionCompleta(2);
 
 
