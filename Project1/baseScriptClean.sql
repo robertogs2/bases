@@ -56,7 +56,7 @@ CREATE INDEX indexDireccion ON Direccion(idCiudad_fk);
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Ubicacion (
   idUbicacion INT AUTO_INCREMENT NOT NULL UNIQUE,
-  descripcion VARCHAR(50) NOT NULL,
+  descripcion VARCHAR(100) NOT NULL,
   idDireccion_fk INT NOT NULL,
   PRIMARY KEY (idUbicacion),
   FOREIGN KEY (idDireccion_fk) REFERENCES Direccion(idDireccion))
@@ -68,8 +68,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS Persona (
   idPersona INT AUTO_INCREMENT NOT NULL UNIQUE,
   cedula INT NOT NULL,
-  nombre VARCHAR(40) NOT NULL,
-  apellidos VARCHAR(40) NOT NULL,
+  nombre VARCHAR(50) NOT NULL,
+  apellidos VARCHAR(50) NOT NULL,
   edad INT NOT NULL, CHECK (edad>=18),
   telefono INT NOT NULL,
   extension INT NOT NULL,
@@ -103,7 +103,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Taller (
   idTaller INT AUTO_INCREMENT NOT NULL UNIQUE,
-  nombre VARCHAR(45) NOT NULL,
+  nombre VARCHAR(50) NOT NULL,
   idUbicacion_fk INT NOT NULL,
   idConcesionario_fk INT NOT NULL,
   PRIMARY KEY (idTaller),

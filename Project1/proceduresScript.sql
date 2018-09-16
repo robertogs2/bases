@@ -42,15 +42,15 @@ CREATE PROCEDURE AgregarDireccion (IN eZipCode INT, IN eIdCiudad INT) BEGIN
 END$$
 
 DELIMITER $$
-CREATE PROCEDURE AgregarUbicacion (IN eDescripcion varchar(50), IN eIdDireccion INT) BEGIN
+CREATE PROCEDURE AgregarUbicacion (IN eDescripcion varchar(100), IN eIdDireccion INT) BEGIN
 	INSERT INTO Ubicacion (descripcion, idDireccion_fk)
     VALUES(eDescripcion, eIdDireccion);
 END$$
 
 DELIMITER $$
 CREATE PROCEDURE AgregarPersona (IN eCedula INT, 
-								 IN eNombre VARCHAR(40),
-								 IN eApellidos VARCHAR(40),
+								 IN eNombre VARCHAR(50),
+								 IN eApellidos VARCHAR(50),
                                  IN eEdad INT,
                                  IN eTelefono INT,
                                  IN eExtension INT,
@@ -87,7 +87,7 @@ DELIMITER $$
 CREATE PROCEDURE AgregarCoche (IN eMatricula INT, 
 								 IN eIdModelo INT,
                                  IN eColor VARCHAR(30),
-                                 IN eEstado VARCHAR(20),
+                                 IN eEstado VARCHAR(30),
                                  IN eKilometraje INT,
                                  IN eIdConcesionario INT) BEGIN
 	
