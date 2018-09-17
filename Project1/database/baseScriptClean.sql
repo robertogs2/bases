@@ -67,7 +67,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Persona (
   idPersona INT AUTO_INCREMENT NOT NULL UNIQUE,
-  cedula INT NOT NULL,
+  cedula INT NOT NULL UNIQUE,
   nombre VARCHAR(50) NOT NULL,
   apellidos VARCHAR(50) NOT NULL,
   edad INT NOT NULL, CHECK (edad>=18),

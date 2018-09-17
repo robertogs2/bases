@@ -6,12 +6,14 @@ DROP PROCEDURE IF EXISTS AgregarDireccion;
 DROP PROCEDURE IF EXISTS AgregarUbicacion;
 DROP PROCEDURE IF EXISTS AgregarPersona;
 DROP PROCEDURE IF EXISTS AgregarCliente;
+DROP PROCEDURE IF EXISTS AgregarClientePorCedula;
 DROP PROCEDURE IF EXISTS AgregarConcesionario;
 DROP PROCEDURE IF EXISTS AgregarMarca;
 DROP PROCEDURE IF EXISTS AgregarModelo;
 DROP PROCEDURE IF EXISTS AgregarCoche;
 DROP PROCEDURE IF EXISTS AgregarTaller;
 DROP PROCEDURE IF EXISTS AgregarMecanico;
+DROP PROCEDURE IF EXISTS AgregarMecanicoCompleto;
 DROP PROCEDURE IF EXISTS AgregarCompra;
 DROP PROCEDURE IF EXISTS AgregarReparacion;
 DROP PROCEDURE IF EXISTS AgregarBitacora;
@@ -66,6 +68,20 @@ CREATE PROCEDURE AgregarCliente (IN eIdPersona INT) BEGIN
 END$$
 
 DELIMITER $$
+CREATE PROCEDURE AgregarClientePorCedula(IN eCedula INT) BEGIN
+    DECLARE vIdPersona INT;
+	
+    -- This takes the idPersona from the eCedula input
+	SELECT idPersona into vIdPersona FROM Persona
+    WHERE cedula = eCedula
+    LIMIT 1;
+    
+    CALL AgregarCliente(vIdPersona);
+    
+END$$
+
+
+DELIMITER $$
 CREATE PROCEDURE AgregarConcesionario (IN eNombre VARCHAR(50), IN eIdUbicacion INT) BEGIN
 	INSERT INTO Concesionario (nombre, idUbicacion_fk)
     VALUES(eNombre, eIdUbicacion);
@@ -99,6 +115,7 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
     
 	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, idConcesionario_fk)
     VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, eIdConcesionario);
+    
 END$$
 
 DELIMITER $$
@@ -118,6 +135,27 @@ CREATE PROCEDURE AgregarMecanico (IN eFechaContratacion DATE,
 END$$
 
 DELIMITER $$
+-- Usa la cédula de la persona, e infiere el concesionario a partir del taller
+CREATE PROCEDURE AgregarMecanicoCompleto (IN eFechaContratacion DATE, 
+								 IN eSalario INT,
+                                 IN eCedula INT,
+                                 IN eIdTaller INT) BEGIN
+	DECLARE vIdPersona INT;
+    DECLARE vIdConcesionario INT;
+    -- This takes the idPersona from the eCedula input
+	SELECT idPersona into vIdPersona FROM Persona
+    WHERE cedula = eCedula
+    LIMIT 1;                             
+                                 
+    -- This takes the idTaller from the eIdTaller input and gives IdConcesionario
+	SELECT idConcesionario_fk into vIdConcesionario FROM Taller
+    WHERE idTaller = eIdTaller
+    LIMIT 1;   
+    
+	CALL AgregarMecanico(eFechaContratacion, eSalario, vIdPersona, vIdConcesionario, eIdTaller);
+END$$
+
+DELIMITER $$
 CREATE PROCEDURE AgregarCompra (IN eFechaHora DATETIME, IN eMonto INT, IN eIdCliente INT, IN eIdConcesionario INT, IN eIdCoche INT) BEGIN
 	INSERT INTO Compra (idCliente_fk, idConcesionario_fk, idCoche_fk, monto, fechaHora)
     VALUES(eIdConcesionario, eIdCliente, eIdCoche, eMonto, eFechaHora);
@@ -127,6 +165,20 @@ DELIMITER $$
 CREATE PROCEDURE AgregarReparacion (IN eIdCoche INT, IN eDescripcion VARCHAR(50)) BEGIN
 	INSERT INTO Reparacion (idCoche_fk, descripcion)
     VALUES(eIdCoche, eDescripcion);
+END$$
+
+-- Cambia el estado del carro
+DELIMITER $$
+CREATE PROCEDURE AgregarReparacionCompleto (IN eIdCoche INT, IN eDescripcion VARCHAR(50)) BEGIN
+
+	-- This takes the idCoche from the eIdCoche input
+	UPDATE Coche
+    SET estado = "reparacion"
+    WHERE idCoche = eIdCoche;
+
+	INSERT INTO Reparacion (idCoche_fk, descripcion)
+    VALUES(eIdCoche, eDescripcion);
+    
 END$$
 
 DELIMITER $$
