@@ -15,8 +15,8 @@ DROP PROCEDURE IF EXISTS AgregarTaller;
 DROP PROCEDURE IF EXISTS AgregarMecanico;
 DROP PROCEDURE IF EXISTS AgregarMecanicoCompleto;
 DROP PROCEDURE IF EXISTS AgregarCompra;
+DROP PROCEDURE IF EXISTS AgregarArreglo;
 DROP PROCEDURE IF EXISTS AgregarReparacion;
-DROP PROCEDURE IF EXISTS AgregarBitacora;
 DROP PROCEDURE IF EXISTS AgregarProvincia2;
 DROP PROCEDURE IF EXISTS ObtenerDireccionCompleta;
 DELIMITER $$
@@ -105,6 +105,7 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
                                  IN eColor VARCHAR(30),
                                  IN eEstado VARCHAR(30),
                                  IN eKilometraje INT,
+                                 IN ePrecio INT,
                                  IN eIdConcesionario INT) BEGIN
 	
     -- This takes the idMarca from the idModelo input
@@ -113,8 +114,8 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
     WHERE idModelo = eIdModelo
     LIMIT 1;
     
-	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, idConcesionario_fk)
-    VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, eIdConcesionario);
+	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, precio, idConcesionario_fk)
+    VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, ePrecio, eIdConcesionario);
     
 END$$
 
@@ -158,38 +159,58 @@ END$$
 DELIMITER $$
 CREATE PROCEDURE AgregarCompra (IN eFechaHora DATETIME, IN eMonto INT, IN eIdCliente INT, IN eIdConcesionario INT, IN eIdCoche INT) BEGIN
 	INSERT INTO Compra (idCliente_fk, idConcesionario_fk, idCoche_fk, monto, fechaHora)
-    VALUES(eIdConcesionario, eIdCliente, eIdCoche, eMonto, eFechaHora);
+    VALUES(eIdCliente, eIdConcesionario, eIdCoche, eMonto, eFechaHora);
+END$$
+
+-- Infiere monto a partir de precio del carro, infiere concesionario a partir del carro
+DELIMITER $$
+CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eIdCliente INT, IN eIdCoche INT) BEGIN
+
+    DECLARE vIdConcesionario INT;
+    DECLARE vMonto INT;
+    -- This takes the idCoche from the eIdCoche input and gives monto
+	SELECT precio, idConcesionario_fk into vMonto, vIdConcesionario FROM Coche
+    WHERE idCoche = eIdCoche
+    LIMIT 1;   
+    
+    CALL AgregarCompra(eFechaHora, vMonto, eIdCliente, vIdConcesionario, eIdCoche);
 END$$
 
 DELIMITER $$
-CREATE PROCEDURE AgregarReparacion (IN eIdCoche INT, IN eDescripcion VARCHAR(50)) BEGIN
-	INSERT INTO Reparacion (idCoche_fk, descripcion)
-    VALUES(eIdCoche, eDescripcion);
+CREATE PROCEDURE AgregarReparacion (IN eFechaHoraInicio DATETIME, 
+								 IN eFechaHoraFinal DATETIME,
+                                 IN eDescripcion VARCHAR(50),
+                                 IN eIdCoche INT) BEGIN
+	INSERT INTO Reparacion (fechaHoraInicio, fechaHoraFinal, descripcion, idCoche_fk)
+    VALUES(eFechahoraInicio, eFechaHoraFinal, eDescripcion, eIdCoche);
 END$$
 
--- Cambia el estado del carro
+-- Cambia el estado del carro y además se le ingresa la matrícula
 DELIMITER $$
-CREATE PROCEDURE AgregarReparacionCompleto (IN eIdCoche INT, IN eDescripcion VARCHAR(50)) BEGIN
-
+CREATE PROCEDURE AgregarReparacionCompleto (IN eFechaHoraInicio DATETIME, 
+								 IN eFechaHoraFinal DATETIME, 
+                                 IN eMatricula INT, 
+                                 IN eDescripcion VARCHAR(50)) BEGIN
+	DECLARE vIdCoche INT;  
+    -- Takes matricula too
+	SELECT idCoche into vIdCoche FROM Coche
+    WHERE matricula = eMatricula
+    LIMIT 1;
 	-- This takes the idCoche from the eIdCoche input
 	UPDATE Coche
     SET estado = "reparacion"
-    WHERE idCoche = eIdCoche;
+    WHERE idCoche = vIdCoche;
+	CALL AgregarReparacion(eFechahoraInicio, eFechaHoraFinal, eDescripcion, vIdCoche);
+END$$
 
-	INSERT INTO Reparacion (idCoche_fk, descripcion)
-    VALUES(eIdCoche, eDescripcion);
+-- Infiere monto a partir de precio del carro, infiere concesionario a partir del carro
+DELIMITER $$
+CREATE PROCEDURE AgregarReparacionXMecanico (IN eIdReparacion INT, IN eIdMecanico INT, IN horas INT) BEGIN
+	
+    INSERT INTO ReparacionXMecanico (idReparacion_fk, idMecanico_fk, horas)
+    VALUES(eIdReparacion, eIdMecanico, horas);
     
 END$$
-
-DELIMITER $$
-CREATE PROCEDURE AgregarBitacora (IN eFechaHoraInicio DATETIME, 
-								 IN eFechaHoraFinal DATETIME,
-								 IN eIdMecanico INT,
-                                 IN eIdReparacion INT) BEGIN
-	INSERT INTO Bitacora (fechaHoraInicio, fechaHoraFinal, idMecanico_fk, idReparacion_fk)
-    VALUES(eFechahoraInicial, eFechaHoraFinal, eIdMecanico, eIdReparacion);
-END$$
-
 DELIMITER $$
 CREATE PROCEDURE AgregarProvincia2 (IN eNombre varchar(50), IN eNombrePais varchar(50)) BEGIN
 	DECLARE vIdPais INT;
@@ -213,5 +234,31 @@ CREATE PROCEDURE ObtenerDireccionCompleta(IN eIdUbicacion INT) BEGIN
     INNER JOIN Provincia ON Ciudad.idProvincia_fk = Provincia.idProvincia
     INNER JOIN Pais ON Provincia. idPais_fk = Pais.idPais
     WHERE Ubicacion.idUbicacion = eIdUbicacion;
-END$$                                                                       
+END$$  
+           
+DELIMITER $$
+CREATE PROCEDURE CambiarEstado (IN eIdCoche INT) BEGIN
+	-- This takes the idCoche from the eIdCoche input
+	UPDATE Coche
+    SET estado = (CASE WHEN kilometraje = 0 THEN "nuevo" ELSE "usado" END)
+    WHERE idCoche = eIdCoche;
+END$$           
+
+DELIMITER $$
+CREATE PROCEDURE TerminarArreglo (IN eIdArreglo INT) BEGIN
+	-- Saca el id del carro reparado
+    DECLARE vIdCoche INT;
+	SELECT idCoche_fk into vIdCoche FROM Arreglo
+    WHERE idArreglo = eIdArreglo
+    LIMIT 1;
+    -- Cambia el estado del coche a usado o nuevo de nuevo
+	CALL CambiarEstado(vIdCoche);
+    
+    -- This takes the idArreglo from the eIdArreglo input
+	UPDATE Arreglo
+    SET progreso = 100
+    WHERE idArreglo = eIdArreglo;
+    
+END$$
+ 
      

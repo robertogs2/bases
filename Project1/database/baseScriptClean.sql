@@ -142,9 +142,12 @@ CREATE TABLE IF NOT EXISTS Coche (
   color VARCHAR(30) NOT NULL,
   estado VARCHAR(30) NOT NULL,
   kilometraje INT NOT NULL DEFAULT 0,
+  precio INT NOT NULL DEFAULT 10000,
   idConcesionario_fk INT NOT NULL,
+  idCliente_fk INT NULL,
   PRIMARY KEY (idCoche),
   FOREIGN KEY (idConcesionario_fk) REFERENCES Concesionario(idConcesionario),
+  FOREIGN KEY (idCliente_fk) REFERENCES Cliente(idCliente),
   FOREIGN KEY (idMarca_fk) REFERENCES Marca(idMarca),
   FOREIGN KEY (idModelo_fk) REFERENCES Modelo(idModelo))
 ENGINE = InnoDB;
@@ -186,28 +189,25 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Reparacion (
   idReparacion INT AUTO_INCREMENT NOT NULL UNIQUE,
-  idCoche_fk INT NOT NULL,
+  fechaHoraInicio DATE NOT NULL,
+  fechaHoraFinal DATE NULL,
   descripcion VARCHAR(50),
+  idCoche_fk INT NOT NULL,
   PRIMARY KEY (idReparacion),
   FOREIGN KEY (idCoche_fk) REFERENCES Coche(idCoche))
 ENGINE = InnoDB;
 
+CREATE INDEX indexReparacion ON Reparacion(idCoche_fk);
+
 -- -----------------------------------------------------
--- Table Bitacora
+-- Table ReparacionXMecanico
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS Bitacora (
-  idBitacora INT AUTO_INCREMENT NOT NULL UNIQUE,
-  idReparacion_fk INT NOT NULL,
-  idMecanico_fk INT NOT NULL,
-  fechaHoraInicio DATETIME NOT NULL,
-  fechaHoraFinal DATETIME NULL,
-  PRIMARY KEY (idBitacora),
+CREATE TABLE IF NOT EXISTS ReparacionXMecanico (
+  idReparacion_fk INT,
+  idMecanico_fk INT,
+  horas INT,
   FOREIGN KEY (idReparacion_fk) REFERENCES Reparacion(idReparacion),
   FOREIGN KEY (idMecanico_fk) REFERENCES Mecanico(idMecanico))
 ENGINE = InnoDB;
-
-CREATE INDEX indexBitacora ON Bitacora(idReparacion_fk);
-
-
 
 
