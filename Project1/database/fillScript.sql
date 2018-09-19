@@ -205,7 +205,7 @@ CALL AgregarReparacionCompleto("2005-3-11 03:03:50", "2005-3-14 03:03:50", 34123
 CALL AgregarReparacionCompleto("2005-3-11 03:03:50", "2005-3-14 03:03:50", 970234, "Iván chocó saliendo de la universidad");
 CALL AgregarReparacionCompleto("2005-3-11 03:03:50", "2005-3-14 03:03:50", 861812, "Celso chocó saliendo de la chicharronera");
 -- En curso concesionario 1 15
-CALL AgregarReparacionCompleto("2008-3-11 03:03:50", NULL, 579390, "Nacho chocó saliendo de la concesionaria");
+CALL AgregarReparacionCompleto("2008-3-11 03:03:50", NULL, 579390, "Nacho chocó saliendo de la casa y casi la palma");
 CALL AgregarReparacionCompleto("2008-3-12 03:03:50", NULL, 707522, "Pancho chocó saliendo de la universidad");
 CALL AgregarReparacionCompleto("2008-3-13 03:03:50", NULL, 503249, "Andrés chocó saliendo de la chicharronera");
 CALL AgregarReparacionCompleto("2008-3-14 03:03:50", NULL, 631613, "Crisptofer chocó saliendo de la casa");
