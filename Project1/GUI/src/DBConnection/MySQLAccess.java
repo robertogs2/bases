@@ -1,6 +1,9 @@
 package DBConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class MySQLAccess {
     private Connection connect = null;
@@ -39,11 +42,12 @@ public class MySQLAccess {
             statement = connect.prepareCall(query);
             statement.setInt(1,1);
             resultSet = statement.executeQuery();
-            while(resultSet.next()) {
+            /*while(resultSet.next()) {
                 String nombre = resultSet.getString("Matricula");
                 System.out.println(nombre);
-            }
-            //writeResultSet(resultSet);
+            }*/
+
+
 
         } catch (Exception e) {
             throw e;
@@ -51,6 +55,12 @@ public class MySQLAccess {
             close();
         }
 
+    }
+
+    public List<HashMap<String,String>> selectData(String sp){
+        List<HashMap<String,String>> data = new ArrayList<>();
+
+        return data;
     }
 
     private void writeMetaData(ResultSet resultSet) throws SQLException {
@@ -65,24 +75,22 @@ public class MySQLAccess {
         }
     }
 
-    private void writeResultSet(ResultSet resultSet) throws SQLException {
-        // ResultSet is initially before the first data set
-        while (resultSet.next()) {
-            // It is possible to get the columns via name
-            // also possible to get the columns via the column number
-            // which starts at 1
-            // e.g. resultSet.getSTring(2);
-            String user = resultSet.getString("myuser");
-            String website = resultSet.getString("webpage");
-            String summary = resultSet.getString("summary");
-            Date date = resultSet.getDate("datum");
-            String comment = resultSet.getString("comments");
-            System.out.println("User: " + user);
-            System.out.println("Website: " + website);
-            System.out.println("summary: " + summary);
-            System.out.println("Date: " + date);
-            System.out.println("Comment: " + comment);
+    private HashMap<String,String> getResultSetData(ResultSet resultSet) throws Exception{
+        HashMap<String, String> data = new HashMap<>();
+        ResultSetMetaData metaData = resultSet.getMetaData();
+        for(int i = 0; i < metaData.getColumnCount(); ++i){
+            String columnName = metaData.getColumnName(i);
+            data.put(columnName,resultSet.getString(columnName));
         }
+        return data;
+    }
+
+    private HashMap<String,String> getResultSetData(ResultSet resultSet, String... requestedData) throws Exception{
+        HashMap<String, String> data = new HashMap<>();
+        for(int i = 0; i < requestedData.length; ++i){
+            data.put(requestedData[i],resultSet.getString(requestedData[i]));
+        }
+        return data;
     }
 
     // You need to close the resultSet
