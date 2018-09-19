@@ -38,14 +38,15 @@ public class MySQLAccess {
             // Statements allow to issue SQL queries to the database
             //statement = connect.createStatement();
             // Result set get the result of the SQL query
-            String query = "{call ObtenerInfoCarro(?)}";
+            String query = "{call ObtenerNombreMarca(?)}";
             statement = connect.prepareCall(query);
             statement.setInt(1,1);
             resultSet = statement.executeQuery();
-            /*while(resultSet.next()) {
-                String nombre = resultSet.getString("Matricula");
+
+            while(resultSet.next()) {
+                String nombre = resultSet.getString("nombre");
                 System.out.println(nombre);
-            }*/
+            }
 
 
 

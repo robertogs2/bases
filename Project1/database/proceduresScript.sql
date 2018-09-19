@@ -232,18 +232,18 @@ CREATE PROCEDURE TerminarArreglo (IN eIdArreglo INT) BEGIN
 END$$
 
 CREATE PROCEDURE ObtenerNombreMarca(
-	IN eIdMarca INT, OUT sNombreMarca VARCHAR(50)) BEGIN
+	IN eIdMarca INT) BEGIN
 	SELECT
-		nombre into sNombreMarca
+		nombre
     FROM Marca as Ma
     WHERE Ma.idMarca = eIdMarca
 	LIMIT 1;
 END$$
 
 CREATE PROCEDURE ObtenerNombreModelo(
-	IN eIdModelo INT, OUT sNombreModelo VARCHAR(50)) BEGIN
+	IN eIdModelo INT) BEGIN
 	SELECT
-		nombre into sNombreModelo
+		nombre
     FROM Modelo as Mo
     WHERE Mo.idModelo = eIdModelo
 	LIMIT 1;
@@ -346,5 +346,3 @@ CALL ObtenerReparacionesMecanico(1);$$
 CALL ObtenerReparacionesMecanicoPorCedula(159);$$
 CALL ObtenerCochesPorConcesionario(1);$$
 CALL ObtenerCochesPorConcesionarioPorNombre("Concesionario la UNO");$$
-
-CALL ObtenerNombreMarca(1, @p);
