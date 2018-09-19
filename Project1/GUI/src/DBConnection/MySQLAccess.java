@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class MySQLAccess {
     private Connection connect = null;
-    private Statement statement = null;
+    private CallableStatement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
 
@@ -33,12 +33,14 @@ public class MySQLAccess {
                     .getConnection("jdbc:mysql://"+this.localhost+"/p1?"
                             + "user="+this.user+"&password="+this.password);
             // Statements allow to issue SQL queries to the database
-            statement = connect.createStatement();
+            //statement = connect.createStatement();
             // Result set get the result of the SQL query
-            resultSet = statement
-                    .executeQuery("SELECT * FROM p1.persona");
+            String query = "{call ObtenerInfoCarro(?)}";
+            statement = connect.prepareCall(query);
+            statement.setInt(1,1);
+            resultSet = statement.executeQuery();
             while(resultSet.next()) {
-                String nombre = resultSet.getString("nombre");
+                String nombre = resultSet.getString("Matricula");
                 System.out.println(nombre);
             }
             //writeResultSet(resultSet);
