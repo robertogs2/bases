@@ -35,6 +35,13 @@ DROP PROCEDURE IF EXISTS ObtenerReparacionesMecanico;
 DROP PROCEDURE IF EXISTS ObtenerReparacionesMecanicoPorCedula;
 DROP PROCEDURE IF EXISTS ObtenerCochesPorConcesionario;
 DROP PROCEDURE IF EXISTS ObtenerCochesPorConcesionarioPorNombre;
+DROP PROCEDURE IF EXISTS ObtenerPaises;
+DROP PROCEDURE IF EXISTS ObtenerProvinciasPorPais;
+DROP PROCEDURE IF EXISTS ObtenerCiudadPorProvincia;
+DROP PROCEDURE IF EXISTS ObtenerDireccionPorCiudad;
+DROP PROCEDURE IF EXISTS ObtenerUbicacionPorDireccion;
+
+
 
 DELIMITER $$
 CREATE PROCEDURE AgregarPais (IN eNombre varchar(50)) BEGIN
@@ -333,10 +340,54 @@ CREATE PROCEDURE ObtenerCochesPorConcesionarioPorNombre(
     DECLARE vIdConcesionario INT;
 	SELECT
 		idConcesionario INTO vIdConcesionario
-    FROM Concesionario as C
+    FROM Concesionario AS C
     WHERE C.nombre = eNombreConcesionario;
     CALL ObtenerCochesPorConcesionario(vIdConcesionario);
 END$$
+
+CREATE PROCEDURE ObtenerPaises() BEGIN
+	SELECT
+		*
+    FROM Pais
+    ORDER BY P.nombre;
+END$$
+
+CREATE PROCEDURE ObtenerProvinciasPorPais(
+	IN eIdPais INT) BEGIN
+	SELECT
+		*
+    FROM Provincia AS P
+    WHERE P.idPais = eIdPais
+    ORDER BY P.nombre;
+END$$
+
+CREATE PROCEDURE ObtenerCiudadPorProvincia(
+	IN eIdProvincia INT) BEGIN
+	SELECT
+		*
+    FROM Ciudad AS C
+    WHERE C.idProvincia = eIdProvincia
+    ORDER BY P.nombre;
+END$$
+
+CREATE PROCEDURE ObtenerDireccionPorCiudad(
+	IN eIdCiudad INT) BEGIN
+	SELECT
+		*
+    FROM Direccion AS D
+    WHERE D.idCiudad = eIdCiudad
+    ORDER BY P.nombre;
+END$$
+
+CREATE PROCEDURE ObtenerUbicacionPorDireccion(
+	IN eIdDireccion INT) BEGIN
+	SELECT
+		*
+    FROM Ubicacion AS U
+    WHERE U.idDireccion = eIdDireccion
+    ORDER BY P.nombre;
+END$$
+
 
 CALL ObtenerInfoCarro(1);$$
 CALL ObtenerInfoCarroMatricula(579390);$$

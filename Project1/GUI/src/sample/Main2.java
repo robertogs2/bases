@@ -11,7 +11,8 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.List;
 
-public class Main extends Application {
+
+public class Main2 extends Application {
     static Queries queries;
     @Override
     public void start(Stage primaryStage) throws Exception{
