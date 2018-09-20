@@ -23,7 +23,7 @@ DROP PROCEDURE IF EXISTS AgregarProvincia2;
 
 DROP PROCEDURE IF EXISTS ObtenerDireccionCompleta;
 DROP PROCEDURE IF EXISTS CambiarEstado;       
-DROP PROCEDURE IF EXISTS TerminarArreglo;
+DROP PROCEDURE IF EXISTS TerminarReparacion;
 
 DROP PROCEDURE IF EXISTS ObtenerNombreMarca;
 DROP PROCEDURE IF EXISTS ObtenerNombreModelo;
@@ -216,19 +216,19 @@ CREATE PROCEDURE CambiarEstado (IN eIdCoche INT) BEGIN
     SET estado = (CASE WHEN kilometraje = 0 THEN "nuevo" ELSE "usado" END)
     WHERE idCoche = eIdCoche;
 END$$         
-CREATE PROCEDURE TerminarArreglo (IN eIdArreglo INT) BEGIN
+CREATE PROCEDURE TerminarReparacion (IN eIdReparacion INT) BEGIN
 	-- Saca el id del carro reparado
     DECLARE vIdCoche INT;
-	SELECT idCoche_fk into vIdCoche FROM Arreglo
-    WHERE idArreglo = eIdArreglo
+	SELECT idCoche_fk into vIdCoche FROM Reparacion
+    WHERE idReparacion = eIdReparacion
     LIMIT 1;
     -- Cambia el estado del coche a usado o nuevo de nuevo
 	CALL CambiarEstado(vIdCoche);
     
-    -- This takes the idArreglo from the eIdArreglo input
-	UPDATE Arreglo
-    SET progreso = 100
-    WHERE idArreglo = eIdArreglo;
+    -- This takes the idReparacion from the eIdReparacion input
+	UPDATE Reparacion
+    SET fechaHoraFinal = NOW()
+    WHERE idReparacion = eIdReparacion;
 END$$
 
 CREATE PROCEDURE ObtenerNombreMarca(

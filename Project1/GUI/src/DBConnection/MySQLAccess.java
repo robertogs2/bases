@@ -27,7 +27,7 @@ public class MySQLAccess {
         this.password = password;
     }
 
-    public void readDataBase() throws Exception {
+    public void connectToDB() throws Exception {
         try {
             // This will load the MySQL driver, each DB has its own driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -35,31 +35,23 @@ public class MySQLAccess {
             connect = DriverManager
                     .getConnection("jdbc:mysql://"+this.localhost+"/p1?"
                             + "user="+this.user+"&password="+this.password);
-            // Statements allow to issue SQL queries to the database
-            //statement = connect.createStatement();
-            // Result set get the result of the SQL query
-            String query = "{call ObtenerNombreMarca(?)}";
-            statement = connect.prepareCall(query);
-            statement.setInt(1,1);
-            resultSet = statement.executeQuery();
-
-            while(resultSet.next()) {
-                String nombre = resultSet.getString("nombre");
-                System.out.println(nombre);
-            }
-
-
 
         } catch (Exception e) {
             throw e;
-        } finally {
-            close();
         }
-
     }
 
-    public List<HashMap<String,String>> selectData(String sp){
+    public List<HashMap<String,String>> selectData(String query, Object... params) throws Exception{
         List<HashMap<String,String>> data = new ArrayList<>();
+        statement = connect.prepareCall(query);
+        for(int i = 1; i <= params.length; ++i) {
+            statement.setString(i, params[i-1].toString());
+        }
+        resultSet = statement.executeQuery();
+
+        while(resultSet.next()) {
+            data.add(getResultSetData(resultSet));
+        }
 
         return data;
     }
@@ -79,7 +71,7 @@ public class MySQLAccess {
     private HashMap<String,String> getResultSetData(ResultSet resultSet) throws Exception{
         HashMap<String, String> data = new HashMap<>();
         ResultSetMetaData metaData = resultSet.getMetaData();
-        for(int i = 0; i < metaData.getColumnCount(); ++i){
+        for(int i = 1; i <= metaData.getColumnCount(); ++i){
             String columnName = metaData.getColumnName(i);
             data.put(columnName,resultSet.getString(columnName));
         }

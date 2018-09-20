@@ -1,14 +1,18 @@
 package sample;
 
 import DBConnection.MySQLAccess;
+import DBConnection.Queries;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+import java.util.HashMap;
+import java.util.List;
 
+public class Main extends Application {
+    static Queries queries;
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
@@ -19,8 +23,13 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws Exception{
+        queries = Queries.getInstance();
         MySQLAccess dao = new MySQLAccess();
-        dao.readDataBase();
+        dao.connectToDB();
+        List<HashMap<String,String>> dataList = dao.selectData(queries.OBTENER_REPARACIONES_POR_FECHA,579390, "2005-03-11");
+        for(HashMap<String,String> data : dataList){
+            System.out.println(data.toString());
+        }
         System.out.println("DONE READING DATA");
         //launch(args);
     }
