@@ -2,26 +2,32 @@ package DBConnection;
 
 public class Queries {
 
-    public final String OBTENER_NOMBRE_MARCA = "{call ObtenerNombreMarca(?)}";
+    public final String AGREGAR_PERSONA = "{call AgregarPersona(?,?,?,?,?,?,?)}";                               // args: cedula,nombre,apellidos,edad,telefono,extencionTelefonica,idUbicacion
+    public final String AGREGAR_CLIENTE_POR_CEDULA = "{call AgregarClientePorCedula(?)}";                       // args: cedula
+    public final String AGREGAR_CONCESIONARIO = "{call AgregarConcesionario(?,?)}";                             // args: nombre,idUbicacion
+    public final String AGREGAR_MARCA = "{call AgregarMarca(?)}";                                               // args: nombre
+    public final String AGREGAR_MODELO = "{call AgregarModelo(?,?)}";                                           // args: nombre,idMarca
+    public final String AGREGAR_CARRO = "{call AgregarCoche(?,?,?,?,?,?,?)}";                                   // args: matricula,idModelo,color,estado,kilometraje,precio,concesionario
+    public final String AGERGAR_TALLER = "{call AgregarTaller(?,?,?)}";                                         // args: nombre,idUbicacion,idConcesionario
+    public final String AGREGAR_MECANICO = "{call AgregarMecanicoCompleto(?,?,?,?)}";                           // args: fechaContratacion,salario,cedula,idTaller
+    public final String AGREGAR_COMPRA = "{call AgregarCompraCompleto(?,?,?)}";                                 // args: fechaHora,idCiente,idCoche
+    public final String AGREGAR_REPARACION = "{call AgregarReparacionCompleto(?,?,?,?)}";                       // args: fechaHoraInicio,fechaHoraFinal,Matricula,Descripcion
+    public final String AGREGAR_Reparacion_X_MECANICO = "{call AgregarReparacionXMecanico(?,?,?)}";             // args: idReparacion,idMecanico,horas
 
-    public final String AGREGAR_PERSONA = "{call AgregarPersona(?,?,?,?,?,?,?)}";
-    public final String AGREGAR_CLIENTE_POR_CEDULA = "{call AgregarClientePorCedula(?)}";
-    public final String AGREGAR_CONCESIONARIO = "{call AgregarConcesionario(?,?)}";
-    public final String AGREGAR_MARCA = "{call AgregarMarca(?)}";
-    public final String AGREGAR_MODELO = "{call AgregarModelo(?,?)}";
-    public final String AGREGAR_CARRO = "{call AgregarCoche(?,?,?,?,?,?,?)}";
-    public final String AGERGAR_TALLER = "{call AgregarTaller(?,?,?)}";
-    public final String AGREGAR_MECANICO = "{call AgregarMecanicoCompleto()}";
+    public final String OBTENER_DIRECCION = "{call ObtenerDireccionCompleta(?)}";                               // args: idUbicacion
+    public final String OBTENER_IFORMACION_PARA_VEHICULO = "{call ObtenerInfoCarroMatricula(?)}";               // args: matricula
+    public final String OBTENER_REPARACIONES = "{call ObtenerReparaciones(?)}";                                 // args: matricula
+    public final String OBTENER_REPARACIONES_POR_FECHA = "{call ObtenerReparacionesFecha(?,?)}";                // args: matricula,fecjaInicio
+    public final String OBTENER_REPARACIONES_POR_MECANICO = "{call ObtenerReparacionesMecanicoPorCedula(?)}";   // args: cedula
+    public final String OBTENER_COCHES_POR_CONCESIONARIO = "{call ObtenerCochesPorConcesionarioPorNombre(?)}";  // args: nombreConcesionario
+    public final String OBTENER_PAISES = "{call ObtenerPaises()}";                                              // args: NO-ARGS
+    public final String OBTENER_PROVINCIAS_POR_PAIS = "{call ObtenerProvinciasPorPais(?)}";                     // args: idPais
+    public final String OBTENER_CIUDADES_POR_PROVINCIA = "{call ObtenerCiudadPorProvincia(?)}";                 // args: idProvincia
+    public final String OBTENER_DIRECCION_POR_CIUDAD = "{call ObtenerDireccionPorCiudad()}";                    // args: idCiudad
+    public final String OBTENER_Ubicacion_POR_DIRECCION = "{call ObtenerUbicacionPorDireccion(?)}";             // args: idDireccion
 
-    public final String OBTENER_IFORMACION_PARA_VEHICULO = "{call ObtenerInfoCarroMatricula(?)}";
-    public final String OBTENER_REPARACIONES = "{call ObtenerReparaciones(?)}";
-    public final String OBTENER_REPARACIONES_POR_FECHA = "{call ObtenerReparacionesFecha(?,?)}";
-    public final String OBTENER_REPARACIONES_POR_MECANICO = "{call ObtenerReparacionesMecanicoPorCedula(?)}";
-    public final String OBTENER_COCHES_POR_CONCESIONARIO = "{call ObtenerCochesPorConcesionarioPorNombre(?)}";
-    public final String OBTENER_PAISES = "{call ObtenerPaises()}";
-    public final String OBTENER_PROVINCIAS_POR_PAIS = "{call ObtenerProvinciasPorPais(?)}";
-    public final String OBTENER_CIUDADES_POR_PROVINCIA = "{call ObtenerCiudadPorProvincia(?)}";
-    public final String OBTENER_DIRECCION_POR_CIUDAD = "{call ObtenerPaises()}";
+    public final String ACTUALIZAR_FINALIZAR_REPARACION = "{call TerminarReparacion(?)}";                       // args: idReparacion
+
 
     private static Queries instance;
 

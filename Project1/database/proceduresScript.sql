@@ -384,7 +384,7 @@ CREATE PROCEDURE ObtenerUbicacionPorDireccion(
 	SELECT
 		*
     FROM Ubicacion AS U
-    WHERE U.idDireccion = eIdDireccion_fk;
+    WHERE U.idDireccion_fk = eIdDireccion;
 END$$
 
 
@@ -402,3 +402,4 @@ CALL ObtenerPaises();
 CALL ObtenerProvinciasPorPais(1);
 CALL ObtenerCiudadPorProvincia(1);
 CALL ObtenerDireccionPorCiudad(1);
+CALL ObtenerUbicacionPorDireccion(1);
