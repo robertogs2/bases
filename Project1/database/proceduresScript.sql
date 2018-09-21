@@ -74,6 +74,7 @@ CREATE PROCEDURE AgregarPersona (IN eCedula INT,
 	INSERT INTO Persona (cedula, nombre, apellidos, edad, telefono, extension, idUbicacion_fk)
     VALUES(eCedula, eNombre, eApellidos, eEdad, eTelefono, eExtension, eIdUbicacion);
 END$$
+
 CREATE PROCEDURE AgregarCliente (IN eIdPersona INT) BEGIN
 	INSERT INTO Cliente (idPersona_fk)
     VALUES(eIdPersona);
@@ -348,7 +349,7 @@ END$$
 CREATE PROCEDURE ObtenerPaises() BEGIN
 	SELECT
 		*
-    FROM Pais
+    FROM Pais AS P
     ORDER BY P.nombre;
 END$$
 
@@ -357,7 +358,7 @@ CREATE PROCEDURE ObtenerProvinciasPorPais(
 	SELECT
 		*
     FROM Provincia AS P
-    WHERE P.idPais = eIdPais
+    WHERE P.idPais_fk = eIdPais
     ORDER BY P.nombre;
 END$$
 
@@ -366,8 +367,8 @@ CREATE PROCEDURE ObtenerCiudadPorProvincia(
 	SELECT
 		*
     FROM Ciudad AS C
-    WHERE C.idProvincia = eIdProvincia
-    ORDER BY P.nombre;
+    WHERE C.idProvincia_fk = eIdProvincia
+    ORDER BY C.nombre;
 END$$
 
 CREATE PROCEDURE ObtenerDireccionPorCiudad(
@@ -375,8 +376,7 @@ CREATE PROCEDURE ObtenerDireccionPorCiudad(
 	SELECT
 		*
     FROM Direccion AS D
-    WHERE D.idCiudad = eIdCiudad
-    ORDER BY P.nombre;
+    WHERE D.idCiudad_fk = eIdCiudad;
 END$$
 
 CREATE PROCEDURE ObtenerUbicacionPorDireccion(
@@ -384,8 +384,7 @@ CREATE PROCEDURE ObtenerUbicacionPorDireccion(
 	SELECT
 		*
     FROM Ubicacion AS U
-    WHERE U.idDireccion = eIdDireccion
-    ORDER BY P.nombre;
+    WHERE U.idDireccion = eIdDireccion_fk;
 END$$
 
 
@@ -397,3 +396,9 @@ CALL ObtenerReparacionesMecanico(1);$$
 CALL ObtenerReparacionesMecanicoPorCedula(159);$$
 CALL ObtenerCochesPorConcesionario(1);$$
 CALL ObtenerCochesPorConcesionarioPorNombre("Concesionario la UNO");$$
+
+
+CALL ObtenerPaises();
+CALL ObtenerProvinciasPorPais(1);
+CALL ObtenerCiudadPorProvincia(1);
+CALL ObtenerDireccionPorCiudad(1);
