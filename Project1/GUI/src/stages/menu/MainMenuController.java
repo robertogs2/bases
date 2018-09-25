@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import static main.Main.primaryStage;
 import static main.Main.showShopPane;
 import static main.Main.showUserPane;
+import static main.Main.showCarRegistrationForm;
 
 public class MainMenuController implements Initializable {
 
@@ -52,6 +53,17 @@ public class MainMenuController implements Initializable {
             }
         });
         vBox.getChildren().add(btn1);
+
+        Button btn_ShowCarRegistrationForm = new Button();
+        btn_ShowCarRegistrationForm.setText("CarRegistration");
+        btn_ShowCarRegistrationForm.setOnAction(event -> {
+            try {
+                showCarRegistrationForm();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        vBox.getChildren().add(btn_ShowCarRegistrationForm);
     }
 
 }
