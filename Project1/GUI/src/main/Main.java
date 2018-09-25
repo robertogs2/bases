@@ -32,7 +32,7 @@ public class Main extends Application {
 
         showMainPane();
         showMainMenu();
-        //howUserPane();
+        //showUserPane();
         //showShopPane();
 
     }
