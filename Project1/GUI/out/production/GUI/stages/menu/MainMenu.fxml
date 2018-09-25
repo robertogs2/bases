@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="stages.menu.MainMenuController"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.layout.VBox?>
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.menu.MainMenuController">
+    <center>
+        <ScrollPane hbarPolicy="NEVER" prefHeight="400.0" prefWidth="687.0" BorderPane.alignment="CENTER">
+            <content>
+                <FlowPane fx:id="flowPane" columnHalignment="CENTER" rowValignment="CENTER" hgap="10.0" prefHeight="400.0" prefWidth="687.0" vgap="10.0" />
+            </content>
+            <VBox fx:id="vBox" alignment="TOP_CENTER"/>
+            <padding>
+                <Insets bottom="15.0" left="300" right="15.0" top="15.0" />
+            </padding>
+        </ScrollPane>
+    </center>
+</BorderPane>
 
-    <VBox
-    alignment="CENTER">
-        <Button
-                text="Boton">
-        </Button>
-    </VBox>
-
-</AnchorPane>

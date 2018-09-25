@@ -31,8 +31,12 @@ public class Main extends Application {
         dao.connectToDB();
 
         showMainPane();
+<<<<<<< HEAD
         //showShopPane();
         showUserPane();
+=======
+        //showShopPane();
+>>>>>>> 26e60dcd3ef4b592a1a43bea58cda0c7707752d1
     }
 
 
@@ -43,8 +47,8 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public void showShopPane() throws IOException {
-        Pane shopPane = FXMLLoader.load(getClass().getResource("/stages/shop/shop.fxml"));
+    public static void showShopPane() throws IOException {
+        Pane shopPane = FXMLLoader.load(Main.class.getResource("/stages/shop/shop.fxml"));
         mainLayout.setCenter(shopPane);
     }
 
@@ -52,6 +56,11 @@ public class Main extends Application {
         Pane shopPane = FXMLLoader.load(getClass().getResource("/stages/userRegistration/RegistrationForm.fxml"));
         mainLayout.setCenter(shopPane);
     }
+    public void showMainMenu() throws IOException {
+        Pane pane = FXMLLoader.load(getClass().getResource("/stages/menu/MainMenu.fxml"));
+        mainLayout.setCenter(pane);
+    }
+
 
     public static void main(String[] args) {
         launch(args);
