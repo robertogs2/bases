@@ -11,7 +11,7 @@ public class Queries {
     public final String AGREGAR_CONCESIONARIO = "{call AgregarConcesionario(?,?)}";                             // args: nombre,idUbicacion
     public final String AGREGAR_MARCA = "{call AgregarMarca(?)}";                                               // args: nombre
     public final String AGREGAR_MODELO = "{call AgregarModelo(?,?)}";                                           // args: nombre,idMarca
-    public final String AGREGAR_CARRO = "{call AgregarCoche(?,?,?,?,?,?,?)}";                                   // args: matricula,idModelo,color,estado,kilometraje,precio,concesionario
+    public final String AGREGAR_CARRO = "{call AgregarCoche(?,?,?,?,?,?,?)}";                                   // args: matricula,idModelo,color,estado,kilometraje,precio,ifConcesionario
     public final String AGREGAR_TALLER = "{call AgregarTaller(?,?,?)}";                                         // args: nombre,idUbicacion,idConcesionario
     public final String AGREGAR_MECANICO = "{call AgregarMecanicoCompleto(?,?,?,?)}";                           // args: fechaContratacion,salario,cedula,idTaller
     public final String AGREGAR_COMPRA = "{call AgregarCompraCompleto(?,?,?)}";                                 // args: fechaHora,idCiente,idCoche
