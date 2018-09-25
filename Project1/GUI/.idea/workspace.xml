@@ -114,12 +114,12 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="fxml" value="223" />
-          <entry key="java" value="5130" />
+          <entry key="java" value="5386" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="5130" />
+          <entry key="JAVA" value="5386" />
           <entry key="XML" value="223" />
         </counts>
       </usages-collector>
@@ -148,11 +148,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DBConnection/MySQLAccess.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="266">
+              <caret line="47" selection-start-line="47" selection-end-line="47" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -184,11 +184,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/stages/userRegistration/RegistrationFormController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1887">
-              <caret line="248" column="13" lean-forward="true" selection-start-line="248" selection-start-column="13" selection-end-line="248" selection-end-column="13" />
+            <state relative-caret-position="419">
+              <caret line="254" column="37" lean-forward="true" selection-start-line="254" selection-start-column="37" selection-end-line="254" selection-end-column="37" />
               <folding>
                 <element signature="method#initialize#0;class#RegistrationFormController#0" />
                 <element signature="e#1017#1081#0" />
@@ -306,8 +306,8 @@
         <option value="$PROJECT_DIR$/src/main/Main.java" />
         <option value="$PROJECT_DIR$/src/stages/userRegistration/RegistrationForm.fxml" />
         <option value="$PROJECT_DIR$/src/DBConnection/Queries.java" />
-        <option value="$PROJECT_DIR$/src/stages/userRegistration/RegistrationFormController.java" />
         <option value="$PROJECT_DIR$/src/DBConnection/MySQLAccess.java" />
+        <option value="$PROJECT_DIR$/src/stages/userRegistration/RegistrationFormController.java" />
       </list>
     </option>
   </component>
@@ -318,9 +318,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="959" />
-    <option name="width" value="1608" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1273" />
+    <option name="width" value="1294" />
     <option name="height" value="1407" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -566,19 +566,19 @@
       <workItem from="1537675114316" duration="105000" />
       <workItem from="1537688262953" duration="174000" />
       <workItem from="1537697609196" duration="4973000" />
-      <workItem from="1537888605798" duration="13407000" />
+      <workItem from="1537888605798" duration="14159000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="61106000" />
+    <option name="totallyTimeSpent" value="61858000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
+    <frame x="1273" y="0" width="1294" height="1407" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Learn" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.22893482" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.23338735" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -587,7 +587,7 @@
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33151326" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33385703" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -768,39 +768,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stages/userRegistration/RegistrationFormController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1887">
-          <caret line="248" column="13" lean-forward="true" selection-start-line="248" selection-start-column="13" selection-end-line="248" selection-end-column="13" />
-          <folding>
-            <element signature="method#initialize#0;class#RegistrationFormController#0" />
-            <element signature="e#1017#1081#0" />
-            <element signature="method#listenToCountry#0;class#RegistrationFormController#0" />
-            <element signature="method#listenToProvince#0;class#RegistrationFormController#0" />
-            <element signature="e#2163#2489#0" />
-            <element signature="method#listenToCity#0;class#RegistrationFormController#0" />
-            <element signature="e#2725#3084#0" />
-            <element signature="method#listenToDirection#0;class#RegistrationFormController#0" />
-            <element signature="e#3328#3684#0" />
-            <element signature="e#3482#3551#0" />
-            <element signature="method#updateProvince#0;class#RegistrationFormController#0" />
-            <element signature="method#updateCity#0;class#RegistrationFormController#0" />
-            <element signature="method#updateDirection#0;class#RegistrationFormController#0" />
-            <element signature="method#clear_cb#0;class#RegistrationFormController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="26" lean-forward="true" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Main2.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -818,12 +785,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/DBConnection/MySQLAccess.java">
+    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+        <state relative-caret-position="510">
+          <caret line="30" column="26" lean-forward="true" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DBConnection/MySQLAccess.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stages/userRegistration/RegistrationFormController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="254" column="37" lean-forward="true" selection-start-line="254" selection-start-column="37" selection-end-line="254" selection-end-column="37" />
+          <folding>
+            <element signature="method#initialize#0;class#RegistrationFormController#0" />
+            <element signature="e#1017#1081#0" />
+            <element signature="method#listenToCountry#0;class#RegistrationFormController#0" />
+            <element signature="method#listenToProvince#0;class#RegistrationFormController#0" />
+            <element signature="e#2163#2489#0" />
+            <element signature="method#listenToCity#0;class#RegistrationFormController#0" />
+            <element signature="e#2725#3084#0" />
+            <element signature="method#listenToDirection#0;class#RegistrationFormController#0" />
+            <element signature="e#3328#3684#0" />
+            <element signature="e#3482#3551#0" />
+            <element signature="method#updateProvince#0;class#RegistrationFormController#0" />
+            <element signature="method#updateCity#0;class#RegistrationFormController#0" />
+            <element signature="method#updateDirection#0;class#RegistrationFormController#0" />
+            <element signature="method#clear_cb#0;class#RegistrationFormController#0" />
           </folding>
         </state>
       </provider>
