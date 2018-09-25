@@ -77,7 +77,7 @@ CREATE PROCEDURE AgregarPersona (IN eCedula INT,
                                  IN eIdUbicacion INT) BEGIN
 	INSERT INTO Persona (cedula, nombre, apellidos, edad, telefono, extension, idUbicacion_fk)
     VALUES(eCedula, eNombre, eApellidos, eEdad, eTelefono, eExtension, eIdUbicacion);
-    SELECT LAST_INSERT_ID() FROM AgregarPersona;
+    SELECT LAST_INSERT_ID() FROM Persona;
 END$$
 
 CREATE PROCEDURE AgregarCliente (IN eIdPersona INT) BEGIN
