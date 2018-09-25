@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.*;
 
+import static java.sql.Types.NULL;
 import static main.Main.queries;
 import static main.Main.dao;
 
@@ -28,7 +29,7 @@ public class CarRegistrationFormController implements Initializable {
     @FXML Button send_bb;
     @FXML VBox vBox;
 
-    private final int[] indexes = new int[4]; //index0 : country, index1 : province, index2: city, index3: direction
+    private final int[] indexes = new int[4]; //index0 : brand, index1 : modelo
     private static List<String> brand_indexes;
     private static List<String> model_indexes;
 
@@ -53,13 +54,13 @@ public class CarRegistrationFormController implements Initializable {
         marca_cb.getItems().setAll(brand_list.get("nombre"));
 
         listenToBrand();
+        listenToModel();
         listenToSend();
     }
 
     private void clear_cb(ComboBox<String> cb){
         cb.getItems().clear(); //removes list
         cb.valueProperty().set(""); //removes string in the field
-
     }
 
     private void listenToBrand(){
@@ -89,19 +90,48 @@ public class CarRegistrationFormController implements Initializable {
         }
     }
 
+    private void listenToModel(){
+        modelo_cb.getSelectionModel().selectedIndexProperty().addListener((Observable o) -> {
+            indexes[1] = modelo_cb.getSelectionModel().getSelectedIndex();
+            if(indexes[1] != -1){
+                indexes[1] = Integer.decode(model_indexes.get(indexes[1]));
+            }
+        });
+    }
+
     private void listenToSend(){
         send_bb.setOnMouseClicked(event -> {
             for( Node node: vBox.getChildren()) {
                 if( node instanceof TextField) {
-                    if(((TextField) node).getText().replace(" ","") == ""){
+                    if(((TextField) node).getText().replace(" ","").equals("")){
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Ooops!");
-                        alert.setContentText("El campo "+node.getId().split("_")[0] + "no puede ser vacio.");
-
+                        alert.setContentText("El campo "+node.getId().split("_")[0] + " no puede ser vacio.");
                         alert.showAndWait();
+                        break;
                     }
                 }
             }
+
+            int ubicacion = NULL;
+            /*try {
+                if(indexes[0] == -1){
+                    ubicacion = addFromCountry(country, province, city, zipCode, locationDescription);
+                    //Add from country
+                }
+                else if(indexes[1] == -1){
+                    //Add from province
+                    ubicacion = addFromProvince(indexes[0], province, city, zipCode, locationDescription);
+                }
+
+
+                //Generates new person
+                HashMap<String, List<String>> person_id = dao.selectData(queries.AGREGAR_PERSONA,
+                        id, name, last_name, age, phone, extension, ubicacion);
+                int new_person_id = Integer.parseInt(person_id.get("LAST_INSERT_ID()").get(0));
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }*/
         });
     }
 
