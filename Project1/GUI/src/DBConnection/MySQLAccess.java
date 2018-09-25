@@ -41,8 +41,8 @@ public class MySQLAccess {
         }
     }
 
-    public List<HashMap<String,String>> selectData(String query, Object... params) throws Exception{
-        List<HashMap<String,String>> data = new ArrayList<>();
+    public HashMap<String, List<String>> selectData(String query, Object... params) throws Exception{
+        HashMap<String, List<String>> data = new HashMap<>();
         statement = connect.prepareCall(query);
         for(int i = 1; i <= params.length; ++i) {
             statement.setString(i, params[i-1].toString());
@@ -50,9 +50,38 @@ public class MySQLAccess {
         resultSet = statement.executeQuery();
 
         while(resultSet.next()) {
-            data.add(getResultSetData(resultSet));
+            if(data.keySet().isEmpty()){
+                data = getResultSetData(resultSet);
+            }else{
+                data = mergeData(data, getResultSetData(resultSet));
+            }
         }
 
+        return data;
+    }
+
+    public  HashMap<String, List<String>> selectData(String query) throws Exception{
+        HashMap<String, List<String>> data = new HashMap<>();
+        statement = connect.prepareCall(query);
+        resultSet = statement.executeQuery();
+        while(resultSet.next()) {
+            if(data.keySet().isEmpty()){
+                data = getResultSetData(resultSet);
+            }else{
+                data = mergeData(data, getResultSetData(resultSet));
+            }
+        }
+
+        return data;
+    }
+
+    private HashMap<String, List<String>> mergeData(HashMap<String, List<String>> d1, HashMap<String, List<String>> d2){
+        HashMap<String, List<String>> data = d1;
+        for(String k : d1.keySet()){
+            for(String d : d2.get(k)) {
+                d1.get(k).add(d);
+            }
+        }
         return data;
     }
 
@@ -61,27 +90,28 @@ public class MySQLAccess {
         // Result set get the result of the SQL query
 
         System.out.println("The columns in the table are: ");
-
         System.out.println("Table: " + resultSet.getMetaData().getTableName(1));
         for  (int i = 1; i<= resultSet.getMetaData().getColumnCount(); i++){
             System.out.println("Column " +i  + " "+ resultSet.getMetaData().getColumnName(i));
         }
     }
 
-    private HashMap<String,String> getResultSetData(ResultSet resultSet) throws Exception{
-        HashMap<String, String> data = new HashMap<>();
+    private HashMap<String, List<String>> getResultSetData(ResultSet resultSet) throws Exception{
         ResultSetMetaData metaData = resultSet.getMetaData();
+        HashMap<String, List<String>> data = new HashMap<>();
         for(int i = 1; i <= metaData.getColumnCount(); ++i){
             String columnName = metaData.getColumnName(i);
-            data.put(columnName,resultSet.getString(columnName));
+            if(!data.keySet().contains(columnName))data.put(columnName,new ArrayList<>());
+            data.get(columnName).add(resultSet.getString(columnName));
         }
         return data;
     }
 
-    private HashMap<String,String> getResultSetData(ResultSet resultSet, String... requestedData) throws Exception{
-        HashMap<String, String> data = new HashMap<>();
-        for(int i = 0; i < requestedData.length; ++i){
-            data.put(requestedData[i],resultSet.getString(requestedData[i]));
+    private HashMap<String, List<String>> getResultSetData(ResultSet resultSet, String... requestedData) throws Exception{
+        HashMap<String, List<String>> data = new HashMap<>();
+        for(int i = 0; i < requestedData.length; ++i) {
+            if (!data.keySet().contains(requestedData[i])) data.put(requestedData[i], new ArrayList<>());
+            data.get(requestedData[i]).add(resultSet.getString(requestedData[i]));
         }
         return data;
     }

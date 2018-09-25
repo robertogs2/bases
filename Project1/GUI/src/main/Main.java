@@ -1,5 +1,7 @@
 package main;
 
+import DBConnection.MySQLAccess;
+import DBConnection.Queries;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,15 +16,27 @@ public class Main extends Application {
     public static Stage primaryStage;
     private static BorderPane mainLayout;
 
+    public static MySQLAccess dao;
+    public static Queries queries;
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Main.primaryStage = primaryStage;
         Main.primaryStage.setTitle("Developer Workbench");
 
+        queries = Queries.getInstance();
+        dao = new MySQLAccess();
+        dao.connectToDB();
+
         showMainPane();
-        showShopPane();
+        showMainMenu();
+        //howUserPane();
+        //showShopPane();
+
     }
+
 
     public void showMainPane() throws IOException {
         mainLayout = FXMLLoader.load(getClass().getResource("/main/MainPane.fxml"));
@@ -31,13 +45,23 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public void showShopPane() throws IOException {
-        Pane shopPane = FXMLLoader.load(getClass().getResource("/stages/shop/shop.fxml"));
+    public static void showShopPane() throws IOException {
+        Pane shopPane = FXMLLoader.load(Main.class.getResource("/stages/shop/shop.fxml"));
         mainLayout.setCenter(shopPane);
+    }
+
+    public static void showUserPane() throws IOException {
+        Pane shopPane = FXMLLoader.load(Main.class.getResource("/stages/userRegistration/RegistrationForm.fxml"));
+        mainLayout.setCenter(shopPane);
+    }
+    public void showMainMenu() throws IOException {
+        Pane pane = FXMLLoader.load(getClass().getResource("/stages/menu/MainMenu.fxml"));
+        mainLayout.setCenter(pane);
     }
 
 
     public static void main(String[] args) {
         launch(args);
     }
+
 }
