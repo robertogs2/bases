@@ -13,6 +13,7 @@ import javafx.scene.layout.FlowPane;
 import java.net.URL;
 import java.util.*;
 
+import static java.sql.Types.NULL;
 import static main.Main.primaryStage;
 import static main.Main.queries;
 import static main.Main.dao;
@@ -191,28 +192,28 @@ public class RegistrationFormController implements Initializable {
             String zipCode = direction_cb.valueProperty().getValue().toString();
             String locationDescription = location_ta.getText();
 
-            int ubicacion;
+            int ubicacion = NULL;
             //checks for something null
             if(name.length() <= 0){//There is not a name
-                System.out.println("Missing ");
+                System.out.println("Missing name");
             }
             else if(last_name.length() <= 0){//There is not a last name
-                System.out.println("Missing ");
+                System.out.println("Missing last name");
             }
             else if(id.length() <= 0){//There is not an id
-                System.out.println("Missing ");
+                System.out.println("Missing id");
             }
             else if(age.length() <= 0){//There is not an age
-                System.out.println("Missing ");
+                System.out.println("Missing age");
             }
             else if(phone.length() <= 0){//There is not a phone number
-                System.out.println("Missing ");
+                System.out.println("Missing phone");
             }
             else if(extension.length() <= 0){//There is not an extension
-                System.out.println("Missing ");
+                System.out.println("Missing extension");
             }
             else if(zipCode.length() <= 0){
-                System.out.println("Missing ");
+                System.out.println("Missing zipcode");
             }
             else if(country.length() <= 0){
                 System.out.println("Missing country");
@@ -244,6 +245,12 @@ public class RegistrationFormController implements Initializable {
                     ubicacion = addFromDirection(indexes[2], zipCode, locationDescription);
                     //Add from direction
                 }
+
+
+                //Generates new person
+                HashMap<String, List<String>> person_id = dao.selectData(queries.AGREGAR_PERSONA,
+                        id, name, last_name, age, phone, extension, ubicacion);
+                int new_person_id = Integer.parseInt(person_id.get("LAST_INSERT_ID()").get(0));
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
