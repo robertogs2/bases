@@ -29,11 +29,10 @@ public class Main extends Application {
         Scene scene = new Scene(mainLayout);
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
     public void showShopPane() throws IOException {
-        Pane shopPane = FXMLLoader.load(getClass().getResource("/stages/shop/shop.fxml"));
+        Pane shopPane = FXMLLoader.load(getClass().getResource("/stages/menu/MainMenu.fxml"));
         mainLayout.setCenter(shopPane);
     }
 
