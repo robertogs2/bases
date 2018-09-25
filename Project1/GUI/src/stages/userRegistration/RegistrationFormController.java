@@ -1,5 +1,6 @@
 package stages.userRegistration;
 
+import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -19,32 +20,48 @@ import static main.Main.dao;
 public class RegistrationFormController implements Initializable {
 
 
-    @FXML FlowPane flowPane;
+    //@FXML FlowPane flowPane;
     @FXML BorderPane borderPane;
-    @FXML ComboBox pais_cb;
+    @FXML ComboBox country_cb;
+    @FXML ComboBox province_cb;
+
+    final int[] indexes = new int[2]; //index0 : country, index1 : province
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Dinamycally change size of flow pane according to parent stage
-        flowPane.prefWidthProperty().bind(primaryStage.widthProperty());
-        flowPane.prefHeightProperty().bind(primaryStage.heightProperty());
+        //flowPane.prefWidthProperty().bind(primaryStage.widthProperty());
+        //flowPane.prefHeightProperty().bind(primaryStage.heightProperty());
 
-        List<HashMap<String, String>> pais_list = new ArrayList<>();
-
-
+        HashMap<String, String> country_list = new HashMap<>();
         try {
-            pais_list = dao.selectData(queries.OBTENER_PAISES, "");
+            country_list = dao.selectData(queries.OBTENER_PAISES).get(0);
         } catch (Exception e) {
-            System.out.println("entre tus piernas pongo la berga");
             e.printStackTrace();
         }
-        pais_cb.getItems().setAll(pais_list.get(0).values());
 
-
+        country_cb.getItems().setAll(country_list.values());
+        listenToCountry();
 
     }
 
-        private void refresh(){
+    private void listenToCountry(){
+        country_cb.getSelectionModel().selectedIndexProperty().addListener((Observable o) -> {
+            indexes[0] = country_cb.getSelectionModel().getSelectedIndex();
+            //updateProvince(indexes[0]);
+        });
+    }
+
+    private void updateProvince(int countryIndex){
+        try {
+            HashMap<String, String> province_list = dao.selectData(queries.OBTENER_PROVINCIAS_POR_PAIS, countryIndex).get(0);
+            province_cb.getItems().setAll(province_list.values());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void refresh(){
 
     }
 }

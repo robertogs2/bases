@@ -1,33 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="user_bp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.userRegistration.RegistrationFormController">
-    <center>
-        <ScrollPane hbarPolicy="NEVER" prefHeight="400.0" prefWidth="687.0" BorderPane.alignment="CENTER">
-            <content>
-                <FlowPane fx:id="flowPane" columnHalignment="RIGHT" hgap="10.0" prefHeight="620.0" prefWidth="600.0" vgap="10.0">
+   <center>
+      <ScrollPane BorderPane.alignment="CENTER">
+         <content>
+            <VBox>
                <children>
-                  <ComboBox fx:id="pais_cb" prefWidth="150.0" promptText="Seleccione un país">
+                  <ComboBox fx:id="country_cb" editable="true" prefWidth="150.0" promptText="Seleccione un país">
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
-                     </cursor></ComboBox>
+                     </cursor>
+                  </ComboBox>
+                  <ComboBox fx:id="province_cb" editable="true" prefWidth="150.0" promptText="Seleccione una provincia" />
                </children>
-               <cursor>
-                  <Cursor fx:constant="DEFAULT" />
-               </cursor></FlowPane>
-            </content>
-            <BorderPane.margin>
-                <Insets />
-            </BorderPane.margin>
-            <padding>
-                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-            </padding>
-        </ScrollPane>
-    </center>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
 </BorderPane>
