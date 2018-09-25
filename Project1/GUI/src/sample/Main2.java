@@ -27,7 +27,7 @@ public class Main2 extends Application {
         queries = Queries.getInstance();
         MySQLAccess dao = new MySQLAccess();
         dao.connectToDB();
-        List<HashMap<String,String>> dataList = dao.selectData(queries.OBTENER_REPARACIONES_POR_FECHA,579390, "2005-03-11");
+        List<HashMap<String,String>> dataList = dao.selectData(queries.OBTENER_PAISES);
         for(HashMap<String,String> data : dataList){
             System.out.println(data.toString());
         }

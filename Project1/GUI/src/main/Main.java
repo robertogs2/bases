@@ -1,5 +1,7 @@
 package main;
 
+import DBConnection.MySQLAccess;
+import DBConnection.Queries;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,15 +16,25 @@ public class Main extends Application {
     public static Stage primaryStage;
     private static BorderPane mainLayout;
 
+    public static MySQLAccess dao;
+    public static Queries queries;
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Main.primaryStage = primaryStage;
         Main.primaryStage.setTitle("Developer Workbench");
 
+        queries = Queries.getInstance();
+        dao = new MySQLAccess();
+        dao.connectToDB();
+
         showMainPane();
-        showShopPane();
+        //showShopPane();
+        showUserPane();
     }
+
 
     public void showMainPane() throws IOException {
         mainLayout = FXMLLoader.load(getClass().getResource("/main/MainPane.fxml"));
@@ -36,8 +48,13 @@ public class Main extends Application {
         mainLayout.setCenter(shopPane);
     }
 
+    public void showUserPane() throws IOException {
+        Pane shopPane = FXMLLoader.load(getClass().getResource("/stages/userRegistration/RegistrationForm.fxml"));
+        mainLayout.setCenter(shopPane);
+    }
 
     public static void main(String[] args) {
         launch(args);
     }
+
 }

@@ -56,12 +56,24 @@ public class MySQLAccess {
         return data;
     }
 
+    public List<HashMap<String,String>> selectData(String query) throws Exception{
+        List<HashMap<String,String>> data = new ArrayList<>();
+        statement = connect.prepareCall(query);
+
+        resultSet = statement.executeQuery();
+
+        while(resultSet.next()) {
+            data.add(getResultSetData(resultSet));
+        }
+
+        return data;
+    }
+
     private void writeMetaData(ResultSet resultSet) throws SQLException {
         //  Now get some metadata from the database
         // Result set get the result of the SQL query
 
         System.out.println("The columns in the table are: ");
-
         System.out.println("Table: " + resultSet.getMetaData().getTableName(1));
         for  (int i = 1; i<= resultSet.getMetaData().getColumnCount(); i++){
             System.out.println("Column " +i  + " "+ resultSet.getMetaData().getColumnName(i));
