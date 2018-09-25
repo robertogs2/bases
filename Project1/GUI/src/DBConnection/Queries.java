@@ -5,6 +5,8 @@ public class Queries {
     public final String AGREGAR_PAIS = "{call AgregarPais(?)}";                                                  //args: nombre
     public final String AGREGAR_DIRECCION = "{call AgregarDireccion(?, ?)}";
     public final String AGREGAR_UBICACION = "{call AgregarUbicacion(?, ?)}";
+    public final String AGREGAR_CIUDAD = "{call AgregarCiudad(?, ?)}";
+    public final String AGREGAR_PROVINCIA = "{call AgregarProvincia(?, ?)}";
 
     public final String AGREGAR_PERSONA = "{call AgregarPersona(?,?,?,?,?,?,?)}";                               // args: cedula,nombre,apellidos,edad,telefono,extencionTelefonica,idUbicacion
     public final String AGREGAR_CLIENTE_POR_CEDULA = "{call AgregarClientePorCedula(?)}";                       // args: cedula
@@ -33,7 +35,7 @@ public class Queries {
     public final String ACTUALIZAR_FINALIZAR_REPARACION = "{call TerminarReparacion(?)}";                       // args: idReparacion
     public final String OBTENER_ULTIMO_ID = "{call ObtenerUltimoID()}";                       // args: NO-ARGS
 
-       private static Queries instance;
+    private static Queries instance;
 
     protected Queries(){
     }

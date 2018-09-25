@@ -183,11 +183,15 @@ public class RegistrationFormController implements Initializable {
             String age = age_tf.getText();
             String phone = phone_tf.getText();
             String extension = extension_tf.getText();
-            String location = location_ta.getText();
+
+
             String country = country_cb.valueProperty().getValue().toString();
             String province = province_cb.valueProperty().getValue().toString();
             String city = city_cb.valueProperty().getValue().toString();
-            String direction = direction_cb.valueProperty().getValue().toString();
+            String zipCode = direction_cb.valueProperty().getValue().toString();
+            String locationDescription = location_ta.getText();
+
+            int ubicacion;
             //checks for something null
             if(name.length() <= 0){//There is not a name
                 System.out.println("Missing ");
@@ -207,7 +211,7 @@ public class RegistrationFormController implements Initializable {
             else if(extension.length() <= 0){//There is not an extension
                 System.out.println("Missing ");
             }
-            else if(location.length() <= 0){
+            else if(zipCode.length() <= 0){
                 System.out.println("Missing ");
             }
             else if(country.length() <= 0){
@@ -219,47 +223,66 @@ public class RegistrationFormController implements Initializable {
             else if(city.length() <= 0){
                 System.out.println("Missing city");
             }
-            else if(direction.length() <= 0){
-                System.out.println("Missing zipcode");
+            else if(locationDescription.length() <= 0){
+                System.out.println("Missing description");
             }
-            System.out.println(indexes[0]);
             //Checks if we need to add another country or whatever
-            if(indexes[0] == -1){
-                try {
-                    addFromCountry(country);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
+            try {
+                if(indexes[0] == -1){
+                    ubicacion = addFromCountry(country, province, city, zipCode, locationDescription);
+                    //Add from country
                 }
-                //Add from country
+                else if(indexes[1] == -1){
+                    //Add from province
+                    ubicacion = addFromProvince(indexes[0], province, city, zipCode, locationDescription);
+                }
+                else if(indexes[2] == -1){
+                    //Add from city
+                    ubicacion = addFromCity(indexes[1], city, zipCode, locationDescription);
+                }
+                else if(indexes[3] == -1){
+                    ubicacion = addFromDirection(indexes[2], zipCode, locationDescription);
+                    //Add from direction
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
-            if(indexes[1] == -1){
-                //Add from province
-            }
-            if(indexes[2] == -1){
-                //Add from city
-            }
-            if(indexes[3] == -1){
-
-                //Add from direction
-            }
-
         });
     }
 
-    private void addFromDirection(String zipCode, String location_description) throws Exception { //Direction is not in db
-        int city_id = indexes[2];
-        HashMap<String, List<String>> direction_id = dao.selectData(queries.AGREGAR_DIRECCION, zipCode);
-        int new_direction_id = Integer.parseInt(direction_id.get("LAST_INSERT_ID()").get(0));
-        HashMap<String, List<String>> location_id= dao.selectData(queries.AGREGAR_DIRECCION, zipCode);
-
-        //dao.selectData(queries.Agregar);
+    private int addLocation(int direction_id, String location_description)throws Exception {
+        //Generates new location
+        HashMap<String, List<String>> location_id = dao.selectData(queries.AGREGAR_UBICACION, location_description, direction_id);
+        int new_location_id = Integer.parseInt(location_id.get("LAST_INSERT_ID()").get(0));
+        return new_location_id;
     }
 
+    private int addFromDirection(int city_id, String zipCode, String location_description) throws Exception { //Direction is not in db
+        //Generates new direction
+        HashMap<String, List<String>> direction_id = dao.selectData(queries.AGREGAR_DIRECCION, zipCode, city_id);
+        int new_direction_id = Integer.parseInt(direction_id.get("LAST_INSERT_ID()").get(0));
+        return addLocation(new_direction_id, location_description);
+    }
 
-    private void addFromCountry(String name) throws Exception {
-        HashMap<String, List<String>> country_id = dao.selectData(queries.AGREGAR_PAIS, name);
+    private int addFromCity(int province_id, String city_name,String zip_code, String location_description) throws Exception {
+        //Generates new city
+        HashMap<String, List<String>> city_id = dao.selectData(queries.AGREGAR_CIUDAD, city_name, province_id);
+        int new_city_id = Integer.parseInt(city_id.get("LAST_INSERT_ID()").get(0));
+        return addFromDirection(new_city_id, zip_code, location_description);
+    }
+
+    private int addFromProvince(int country_id, String province_name, String city_name, String zip_code, String location_description) throws Exception {
+        //Generates new province
+        HashMap<String, List<String>> province_id = dao.selectData(queries.AGREGAR_PROVINCIA, province_name, country_id);
+        int new_province_id = Integer.parseInt(province_id.get("LAST_INSERT_ID()").get(0));
+        return addFromCity(new_province_id, city_name, zip_code, location_description);
+    }
+
+    private int addFromCountry(String country_name, String province_name, String city_name, String zip_code, String location_description) throws Exception {
+        //Generate new country
+        HashMap<String, List<String>> country_id = dao.selectData(queries.AGREGAR_PAIS, country_name);
         int new_country_id = Integer.parseInt(country_id.get("LAST_INSERT_ID()").get(0));
-        //System.out.println(new_country_id);
+        return addFromProvince(new_country_id, province_name, city_name, zip_code, location_description);
     }
 
     private void printInfo(){
