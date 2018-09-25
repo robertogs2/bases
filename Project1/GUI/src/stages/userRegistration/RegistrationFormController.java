@@ -34,11 +34,15 @@ public class RegistrationFormController implements Initializable {
         //flowPane.prefHeightProperty().bind(primaryStage.heightProperty());
 
         HashMap<String, String> country_list = new HashMap<>();
+        HashMap<String, List<String>> country_list = new HashMap<>();
         try {
             country_list = dao.selectData(queries.OBTENER_PAISES).get(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        country_cb.getItems().setAll(country_list.get("nombre"));
+
 
         country_cb.getItems().setAll(country_list.values());
         listenToCountry();
@@ -54,8 +58,8 @@ public class RegistrationFormController implements Initializable {
 
     private void updateProvince(int countryIndex){
         try {
-            HashMap<String, String> province_list = dao.selectData(queries.OBTENER_PROVINCIAS_POR_PAIS, countryIndex).get(0);
             province_cb.getItems().setAll(province_list.values());
+            //province_cb.getItems().setAll(province_list.values());
         } catch (Exception e) {
             e.printStackTrace();
         }
