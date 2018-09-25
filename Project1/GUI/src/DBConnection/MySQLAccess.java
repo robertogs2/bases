@@ -18,7 +18,7 @@ public class MySQLAccess {
     public MySQLAccess(){
         this.localhost = "localhost:3306";
         this.user = "root";
-        this.password = "2486";
+        this.password = "n4zgu1b14nc0";
     }
 
     public MySQLAccess(String localhost, String user, String password){

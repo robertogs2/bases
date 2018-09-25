@@ -31,12 +31,10 @@ public class Main extends Application {
         dao.connectToDB();
 
         showMainPane();
-<<<<<<< HEAD
         //showShopPane();
         showUserPane();
-=======
         //showShopPane();
->>>>>>> 26e60dcd3ef4b592a1a43bea58cda0c7707752d1
+
     }
 
 
