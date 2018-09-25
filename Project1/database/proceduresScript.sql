@@ -42,27 +42,31 @@ DROP PROCEDURE IF EXISTS ObtenerDireccionPorCiudad;
 DROP PROCEDURE IF EXISTS ObtenerUbicacionPorDireccion;
 
 
-
 DELIMITER $$
 CREATE PROCEDURE AgregarPais (IN eNombre varchar(50)) BEGIN
 	INSERT INTO Pais (nombre)
     VALUES(eNombre);
+    SELECT LAST_INSERT_ID() FROM Pais;
 END$$
 CREATE PROCEDURE AgregarProvincia (IN eNombre varchar(50), IN eIdPais INT) BEGIN
 	INSERT INTO Provincia (nombre, idPais_fk)
     VALUES(eNombre, eIdPais);
+    SELECT LAST_INSERT_ID() FROM Provincia;
 END$$
 CREATE PROCEDURE AgregarCiudad (IN eNombre varchar(50), IN eIdProvincia INT) BEGIN
 	INSERT INTO Ciudad (nombre, idProvincia_fk)
     VALUES(eNombre, eIdProvincia);
+    SELECT LAST_INSERT_ID() FROM Ciudad;
 END$$
 CREATE PROCEDURE AgregarDireccion (IN eZipCode INT, IN eIdCiudad INT) BEGIN
 	INSERT INTO Direccion (zipCode, idCiudad_fk)
     VALUES(eZipCode, eIdCiudad);
+    SELECT LAST_INSERT_ID() FROM Direccion;
 END$$
 CREATE PROCEDURE AgregarUbicacion (IN eDescripcion varchar(100), IN eIdDireccion INT) BEGIN
 	INSERT INTO Ubicacion (descripcion, idDireccion_fk)
     VALUES(eDescripcion, eIdDireccion);
+    SELECT LAST_INSERT_ID() FROM Ubicacion;
 END$$
 CREATE PROCEDURE AgregarPersona (IN eCedula INT, 
 								 IN eNombre VARCHAR(50),
@@ -73,6 +77,7 @@ CREATE PROCEDURE AgregarPersona (IN eCedula INT,
                                  IN eIdUbicacion INT) BEGIN
 	INSERT INTO Persona (cedula, nombre, apellidos, edad, telefono, extension, idUbicacion_fk)
     VALUES(eCedula, eNombre, eApellidos, eEdad, eTelefono, eExtension, eIdUbicacion);
+    SELECT LAST_INSERT_ID() FROM AgregarPersona;
 END$$
 
 CREATE PROCEDURE AgregarCliente (IN eIdPersona INT) BEGIN
@@ -386,7 +391,6 @@ CREATE PROCEDURE ObtenerUbicacionPorDireccion(
     FROM Ubicacion AS U
     WHERE U.idDireccion_fk = eIdDireccion;
 END$$
-
 
 CALL ObtenerInfoCarro(1);$$
 CALL ObtenerInfoCarroMatricula(579390);$$
