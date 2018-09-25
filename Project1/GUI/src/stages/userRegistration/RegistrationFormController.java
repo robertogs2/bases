@@ -29,16 +29,16 @@ public class RegistrationFormController implements Initializable {
         flowPane.prefWidthProperty().bind(primaryStage.widthProperty());
         flowPane.prefHeightProperty().bind(primaryStage.heightProperty());
 
-        List<HashMap<String, String>> pais_list = new ArrayList<>();
+        HashMap<String, List<String>> pais_list = new HashMap<>();
 
 
         try {
-            pais_list = dao.selectData(queries.OBTENER_PAISES, "");
+            pais_list = dao.selectData(queries.OBTENER_PAISES);
         } catch (Exception e) {
             System.out.println("entre tus piernas pongo la berga");
             e.printStackTrace();
         }
-        pais_cb.getItems().setAll(pais_list.get(0).values());
+        pais_cb.getItems().setAll(pais_list.get("nombre"));
 
 
 

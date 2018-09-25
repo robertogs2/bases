@@ -31,8 +31,8 @@ public class Main extends Application {
         dao.connectToDB();
 
         showMainPane();
-        //showShopPane();
-        showUserPane();
+        showMainMenu();
+        //howUserPane();
         //showShopPane();
 
     }
@@ -50,8 +50,8 @@ public class Main extends Application {
         mainLayout.setCenter(shopPane);
     }
 
-    public void showUserPane() throws IOException {
-        Pane shopPane = FXMLLoader.load(getClass().getResource("/stages/userRegistration/RegistrationForm.fxml"));
+    public static void showUserPane() throws IOException {
+        Pane shopPane = FXMLLoader.load(Main.class.getResource("/stages/userRegistration/RegistrationForm.fxml"));
         mainLayout.setCenter(shopPane);
     }
     public void showMainMenu() throws IOException {

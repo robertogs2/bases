@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 import static main.Main.primaryStage;
 import static main.Main.showShopPane;
+import static main.Main.showUserPane;
 
 public class MainMenuController implements Initializable {
 
@@ -42,8 +43,14 @@ public class MainMenuController implements Initializable {
         vBox.getChildren().add(btn);
 
         Button btn1 = new Button();
-        btn1.setText("Say 'Hello World'");
-        btn1.setOnAction(event -> System.out.println("Hello World!"));
+        btn1.setText("ClientRegistration");
+        btn1.setOnAction(event -> {
+            try {
+                showUserPane();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         vBox.getChildren().add(btn1);
     }
 
