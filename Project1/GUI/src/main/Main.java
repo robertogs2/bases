@@ -21,7 +21,8 @@ public class Main extends Application {
         Main.primaryStage.setTitle("Developer Workbench");
 
         showMainPane();
-        showShopPane();
+        showMainMenu();
+        //showShopPane();
     }
 
     public void showMainPane() throws IOException {
@@ -31,9 +32,14 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public void showShopPane() throws IOException {
-        Pane shopPane = FXMLLoader.load(getClass().getResource("/stages/shop/shop.fxml"));
+    public static void showShopPane() throws IOException {
+        Pane shopPane = FXMLLoader.load(Main.class.getResource("/stages/shop/shop.fxml"));
         mainLayout.setCenter(shopPane);
+    }
+
+    public void showMainMenu() throws IOException {
+        Pane pane = FXMLLoader.load(getClass().getResource("/stages/menu/MainMenu.fxml"));
+        mainLayout.setCenter(pane);
     }
 
 
