@@ -29,8 +29,10 @@ public class Queries {
     public final String OBTENER_PAISES = "{call ObtenerPaises()}";                                              // args: NO-ARGS
     public final String OBTENER_PROVINCIAS_POR_PAIS = "{call ObtenerProvinciasPorPais(?)}";                     // args: idPais
     public final String OBTENER_CIUDADES_POR_PROVINCIA = "{call ObtenerCiudadPorProvincia(?)}";                 // args: idProvincia
-    public final String OBTENER_DIRECCION_POR_CIUDAD = "{call ObtenerDireccionPorCiudad(?)}";                    // args: idCiudad
+    public final String OBTENER_DIRECCION_POR_CIUDAD = "{call ObtenerDireccionPorCiudad(?)}";                   // args: idCiudad
     public final String OBTENER_UBICACION_POR_DIRECCION = "{call ObtenerUbicacionPorDireccion(?)}";             // args: idDireccion
+    public final String OBTENER_MARCAS_REGISTRADAS = "{call ObtenerMarcasRegistradas()}";                       // args: NO-ARGS
+    public final String ObTENER_MODELOS_POR_MARCA = "{call ObtenerModelosPorMarca(?)}";                         // args: idMarca
 
     public final String ACTUALIZAR_FINALIZAR_REPARACION = "{call TerminarReparacion(?)}";                       // args: idReparacion
     public final String OBTENER_ULTIMO_ID = "{call ObtenerUltimoID()}";                       // args: NO-ARGS

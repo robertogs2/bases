@@ -40,6 +40,8 @@ DROP PROCEDURE IF EXISTS ObtenerProvinciasPorPais;
 DROP PROCEDURE IF EXISTS ObtenerCiudadPorProvincia;
 DROP PROCEDURE IF EXISTS ObtenerDireccionPorCiudad;
 DROP PROCEDURE IF EXISTS ObtenerUbicacionPorDireccion;
+DROP PROCEDURE IF EXISTS ObtenerMarcasRegistradas;
+DROP PROCEDURE IF EXISTS ObtenerModelosPorMarca;
 
 
 DELIMITER $$
@@ -392,6 +394,21 @@ CREATE PROCEDURE ObtenerUbicacionPorDireccion(
     WHERE U.idDireccion_fk = eIdDireccion;
 END$$
 
+CREATE PROCEDURE ObtenerMarcasRegistradas() BEGIN
+	SELECT
+		*
+    FROM Marca AS M
+    ORDER BY M.nombre;
+END$$
+
+CREATE PROCEDURE ObtenerModelosPorMarca(IN eid INT) BEGIN
+	SELECT
+		*
+    FROM Modelo AS M
+    WHERE M.idMarca_fk = eId
+    ORDER BY M.nombre;
+END$$
+
 CALL ObtenerInfoCarro(1);$$
 CALL ObtenerInfoCarroMatricula(579390);$$
 CALL ObtenerReparaciones(579390);$$
@@ -407,3 +424,6 @@ CALL ObtenerProvinciasPorPais(1);
 CALL ObtenerCiudadPorProvincia(1);
 CALL ObtenerDireccionPorCiudad(1);
 CALL ObtenerUbicacionPorDireccion(1);
+
+CALL ObtenerMarcasRegistradas();
+CALL ObtenerModelosPorMarca(1);

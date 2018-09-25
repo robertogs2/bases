@@ -17,15 +17,14 @@
                 <VBox>
                     <children>
                         <HBox spacing="10">
-                            <ComboBox fx:id="country_cb" editable="true" prefHeight="25.0" prefWidth="190.0" promptText="Seleccione un país" />
-                            <ComboBox fx:id="province_cb" editable="true" prefHeight="25.0" prefWidth="190.0" promptText="Seleccione una provincia" />
+                            <ComboBox fx:id="marca_cb" editable="true" prefHeight="25.0" prefWidth="190.0" promptText="Selecciona una Marca" />
+                            <ComboBox fx:id="modelo_cb" editable="true" prefHeight="25.0" prefWidth="190.0" promptText="Seleccione un Modelo" />
                         </HBox>
-                        <TextField fx:id="name_tf" prefHeight="25.0" prefWidth="165.0" promptText="Matricula" />
-                        <TextField fx:id="last_name_tf" prefHeight="25.0" prefWidth="165.0" promptText="Color" />
-                        <TextField fx:id="id_tf" prefHeight="25.0" prefWidth="165.0" promptText="Estado" />
-                        <TextField fx:id="age_tf" prefHeight="25.0" prefWidth="165.0" promptText="Kilometraje" />
-                        <TextField fx:id="price_tf" prefHeight="25.0" prefWidth="165.0" promptText="Precio" />
-                        <TextField fx:id="concessionary_tf" prefHeight="25.0" prefWidth="165.0" promptText="Concesionario" />
+                        <TextField fx:id="matricula_tf" prefHeight="25.0" prefWidth="165.0" promptText="Matricula" />
+                        <TextField fx:id="color_tf" prefHeight="25.0" prefWidth="165.0" promptText="Color" />
+                        <TextField fx:id="estado_tf" prefHeight="25.0" prefWidth="165.0" promptText="Estado" />
+                        <TextField fx:id="kilometraje_tf" prefHeight="25.0" prefWidth="165.0" promptText="Kilometraje" />
+                        <TextField fx:id="precio_tf" prefHeight="25.0" prefWidth="165.0" promptText="Precio" />
                         <Separator prefWidth="200.0" />
                         <Button fx:id="send_bb" mnemonicParsing="false" text="Enviar formulario" />
                     </children>
