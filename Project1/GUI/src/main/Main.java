@@ -32,7 +32,7 @@ public class Main extends Application {
     }
 
     public void showShopPane() throws IOException {
-        Pane shopPane = FXMLLoader.load(getClass().getResource("/stages/menu/MainMenu.fxml"));
+        Pane shopPane = FXMLLoader.load(getClass().getResource("/stages/shop/shop.fxml"));
         mainLayout.setCenter(shopPane);
     }
 
