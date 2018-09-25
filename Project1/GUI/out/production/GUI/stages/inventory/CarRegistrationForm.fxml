@@ -14,7 +14,7 @@
     <center>
         <ScrollPane BorderPane.alignment="CENTER">
             <content>
-                <VBox>
+                <VBox fx:id="vBox">
                     <children>
                         <HBox spacing="10">
                             <ComboBox fx:id="marca_cb" editable="true" prefHeight="25.0" prefWidth="190.0" promptText="Selecciona una Marca" />

@@ -3,9 +3,12 @@ package stages.inventory;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.*;
@@ -15,16 +18,15 @@ import static main.Main.dao;
 
 public class CarRegistrationFormController implements Initializable {
 
-    @FXML
-    ComboBox<String> marca_cb;
-    @FXML
-    ComboBox<String> modelo_cb;
+    @FXML ComboBox<String> marca_cb;
+    @FXML ComboBox<String> modelo_cb;
     @FXML TextField matricula_tf;
     @FXML TextField color_tf;
     @FXML TextField estado_tf;
     @FXML TextField kilometraje_tf;
     @FXML TextField precio_tf;
     @FXML Button send_bb;
+    @FXML VBox vBox;
 
     private final int[] indexes = new int[4]; //index0 : country, index1 : province, index2: city, index3: direction
     private static List<String> brand_indexes;
@@ -51,7 +53,7 @@ public class CarRegistrationFormController implements Initializable {
         marca_cb.getItems().setAll(brand_list.get("nombre"));
 
         listenToBrand();
-
+        listenToSend();
     }
 
     private void clear_cb(ComboBox<String> cb){
@@ -85,6 +87,22 @@ public class CarRegistrationFormController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void listenToSend(){
+        send_bb.setOnMouseClicked(event -> {
+            for( Node node: vBox.getChildren()) {
+                if( node instanceof TextField) {
+                    if(((TextField) node).getText().replace(" ","") == ""){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Ooops!");
+                        alert.setContentText("El campo "+node.getId().split("_")[0] + "no puede ser vacio.");
+
+                        alert.showAndWait();
+                    }
+                }
+            }
+        });
     }
 
 }
