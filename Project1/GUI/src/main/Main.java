@@ -51,7 +51,10 @@ public class Main extends Application {
         Pane shopPane = FXMLLoader.load(Main.class.getResource("/stages/shop/shop.fxml"));
         mainLayout.setCenter(shopPane);
     }
-
+    public static void showCarRegistrationForm() throws IOException {
+        Pane pane = FXMLLoader.load(Main.class.getResource("/stages/inventory/CarRegistrationForm.fxml"));
+        mainLayout.setCenter(pane);
+    }
     public static void showUserPane() throws IOException {
         Pane shopPane = FXMLLoader.load(Main.class.getResource("/stages/userRegistration/RegistrationForm.fxml"));
         mainLayout.setCenter(shopPane);
