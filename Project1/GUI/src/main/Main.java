@@ -27,13 +27,13 @@ public class Main extends Application {
         Main.primaryStage = primaryStage;
         Main.primaryStage.setTitle("Developer Workbench");
 
-        //queries = Queries.getInstance();
-        //dao = new MySQLAccess();
-        //dao.connectToDB();
+        queries = Queries.getInstance();
+        dao = new MySQLAccess();
+        dao.connectToDB();
 
         showMainPane();
-        showPreview();
-        //showMainMenu();
+        //showPreview();
+        showMainMenu();
         //showUserPane();
         //showShopPane();
 
@@ -71,7 +71,7 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         launch(args);
     }
 

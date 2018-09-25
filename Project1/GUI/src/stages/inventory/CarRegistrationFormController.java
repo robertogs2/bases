@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
@@ -28,6 +29,7 @@ public class CarRegistrationFormController implements Initializable {
     @FXML TextField precio_tf;
     @FXML Button send_bb;
     @FXML VBox vBox;
+    @FXML HBox cb_box;
 
     private final int[] indexes = new int[4]; //index0 : brand, index1 : modelo
     private static List<String> brand_indexes;
@@ -101,38 +103,55 @@ public class CarRegistrationFormController implements Initializable {
 
     private void listenToSend(){
         send_bb.setOnMouseClicked(event -> {
+            boolean flag = true;
             for( Node node: vBox.getChildren()) {
                 if( node instanceof TextField) {
                     if(((TextField) node).getText().replace(" ","").equals("")){
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Ooops!");
-                        alert.setContentText("El campo "+node.getId().split("_")[0] + " no puede ser vacio.");
-                        alert.showAndWait();
+                        showErrorMessage("El campo "+node.getId().split("_")[0] + " no puede ser vacio.");
+                        flag = false;
                         break;
                     }
                 }
             }
 
-            int ubicacion = NULL;
-            /*try {
-                if(indexes[0] == -1){
-                    ubicacion = addFromCountry(country, province, city, zipCode, locationDescription);
-                    //Add from country
+            for(Node node: cb_box.getChildren()){
+                if(node instanceof ComboBox){
+                    if(((ComboBox)node).valueProperty().getValue().equals("")){
+                        showErrorMessage("El campo "+node.getId().split("_")[0] + " no puede ser vacio.");
+                        flag = false;
+                        break;
+                    }
                 }
-                else if(indexes[1] == -1){
-                    //Add from province
-                    ubicacion = addFromProvince(indexes[0], province, city, zipCode, locationDescription);
-                }
+            }
+
+            if(flag) {
+                try {
+                    if (indexes[0] == -1) {
+                        HashMap<String, List<String>> city_id = dao.selectData(queries.AGREGAR_MARCA, marca_cb.valueProperty().getValue());
+                        indexes[0] = Integer.parseInt(city_id.get("LAST_INSERT_ID()").get(0));
+                    }
+                    if (indexes[1] == -1) {
+                        HashMap<String, List<String>> city_id = dao.selectData(queries.AGREGAR_CIUDAD, modelo_cb.valueProperty().getValue(), indexes[0]);
+                        indexes[1] = Integer.parseInt(city_id.get("LAST_INSERT_ID()").get(0));
+                    }
 
 
-                //Generates new person
-                HashMap<String, List<String>> person_id = dao.selectData(queries.AGREGAR_PERSONA,
-                        id, name, last_name, age, phone, extension, ubicacion);
-                int new_person_id = Integer.parseInt(person_id.get("LAST_INSERT_ID()").get(0));
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }*/
+                    //Generates new person
+                    HashMap<String, List<String>> car_id = dao.selectData(queries.AGREGAR_CARRO,
+                            matricula_tf.getText(), indexes[1], color_tf.getText(), estado_tf.getText(), kilometraje_tf.getText(), precio_tf.getText(), 1);
+                    int new_car_id = Integer.parseInt(car_id.get("LAST_INSERT_ID()").get(0));
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
         });
+    }
+
+    private void showErrorMessage(String msg){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Ooops!");
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 
 }

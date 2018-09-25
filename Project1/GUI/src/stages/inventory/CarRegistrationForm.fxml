@@ -16,7 +16,7 @@
             <content>
                 <VBox fx:id="vBox">
                     <children>
-                        <HBox spacing="10">
+                        <HBox fx:id="cb_box" spacing="10">
                             <ComboBox fx:id="marca_cb" editable="true" prefHeight="25.0" prefWidth="190.0" promptText="Selecciona una Marca" />
                             <ComboBox fx:id="modelo_cb" editable="true" prefHeight="25.0" prefWidth="190.0" promptText="Seleccione un Modelo" />
                         </HBox>
