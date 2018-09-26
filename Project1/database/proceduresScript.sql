@@ -127,7 +127,7 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
     
 	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, precio, idConcesionario_fk)
     VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, ePrecio, eIdConcesionario);
-    
+    SELECT LAST_INSERT_ID() FROM Coche;
 END$$
 
 CREATE PROCEDURE AgregarFoto (IN eIdCoche INT, IN eUrl TEXT) BEGIN

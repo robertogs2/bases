@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import main.Main;
 import tools.ImageUploader;
 
 import javax.imageio.ImageIO;
@@ -37,10 +38,9 @@ public class CarRegistrationFormController implements Initializable {
     @FXML ComboBox<String> modelo_cb;
     @FXML TextField matricula_tf;
     @FXML TextField color_tf;
-    @FXML TextField estado_tf;
     @FXML TextField kilometraje_tf;
     @FXML TextField precio_tf;
-    @FXML Button send_bb;
+    @FXML Button send_bb,cancel_bb;
     @FXML VBox vBox;
     @FXML HBox cb_box;
     @FXML HBox img_hb;
@@ -50,6 +50,7 @@ public class CarRegistrationFormController implements Initializable {
     private final Desktop desktop = Desktop.getDesktop();
     private final ImageUploader imageUploader = ImageUploader.getInstance();
     private ObservableList<File> imgFiles;
+    ProgressIndicator p1 = new ProgressIndicator();
 
     private final int[] indexes = new int[4]; //index0 : brand, index1 : modelo
     private static List<String> brand_indexes;
@@ -60,6 +61,10 @@ public class CarRegistrationFormController implements Initializable {
         //Dinamycally change size of flow pane according to parent stage
         //flowPane.prefWidthProperty().bind(primaryStage.widthProperty());
         //flowPane.prefHeightProperty().bind(primaryStage.heightProperty());
+
+
+        img_hb.getChildren().add(p1);
+        p1.setVisible(false);
 
         HashMap<String, List<String>> brand_list = new HashMap<>();
         imgFiles = FXCollections.observableArrayList();
@@ -79,6 +84,7 @@ public class CarRegistrationFormController implements Initializable {
         listenToBrand();
         listenToModel();
         listenToImg();
+        listenToCancel();
         listenToSend();
     }
 
@@ -157,21 +163,28 @@ public class CarRegistrationFormController implements Initializable {
                         indexes[1] = Integer.parseInt(city_id.get("LAST_INSERT_ID()").get(0));
                     }
 
+                    String estado = (kilometraje_tf.getText().equals("0"))? "nuevo" : "usado";
 
                     //Generates new car
                     HashMap<String, List<String>> car_id = dao.selectData(queries.AGREGAR_CARRO,
-                            matricula_tf.getText(), indexes[1], color_tf.getText(), estado_tf.getText(), kilometraje_tf.getText(), precio_tf.getText(), 1);
+                            matricula_tf.getText(), indexes[1], color_tf.getText(), estado, kilometraje_tf.getText(), precio_tf.getText(), 1);
                     int new_car_id = Integer.parseInt(car_id.get("LAST_INSERT_ID()").get(0));
-                    ProgressIndicator p1 = new ProgressIndicator();
-                    img_hb.getChildren().add(p1);
+
+                    p1.progressProperty().unbind();
+                    p1.setVisible(true);
                     for(File file: imgFiles){
                         try {
-                            imageUploader.uploadImage(String.valueOf(new_car_id) + "-" +  imgFiles.indexOf(file), file);
+                            String imgUrl = imageUploader.uploadImage(String.valueOf(new_car_id) + "-" +  imgFiles.indexOf(file), file);
+                            dao.pushData(queries.AGREGAR_FOTO,new_car_id,imgUrl);
                         }catch (Exception e){
                             e.printStackTrace();
                         }
                     }
-                    img_hb.getChildren().remove(p1);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Awesome!");
+                    alert.setContentText("El carro se agrego correctamente.");
+                    alert.showAndWait();
+                    Main.showMainMenu();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -214,6 +227,16 @@ public class CarRegistrationFormController implements Initializable {
         } catch (IOException ex) {
             showErrorMessage("No se  pudo acceder al archivo.");
         }
+    }
+
+    private void listenToCancel(){
+        cancel_bb.setOnMouseClicked(e -> {
+            try {
+                Main.showMainMenu();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
     private void showErrorMessage(String msg){
