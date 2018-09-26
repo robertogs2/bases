@@ -24,6 +24,7 @@ public class Main extends Application {
 
     public static MySQLAccess dao;
     public static Queries queries;
+    public static Stage popUpStage;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -38,8 +39,8 @@ public class Main extends Application {
         showMainPane();
 
         ///Shows the main menu
-        //showMainMenu();
-        showMechanicPane();
+        showMainMenu();
+        //showMechanicPane();
         //showMainMenu();
         //showUserPane();
         //showShopPane();
@@ -101,15 +102,15 @@ public class Main extends Application {
     public static int showAddPersonStage(String cedula) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/userRegistration/client/RegistrationForm.fxml"));
         BorderPane borderPane = fxmlLoader.load();
-        Stage addInventoryStage = new Stage();
-        addInventoryStage.setTitle("Agregar Persona");
-        addInventoryStage.initModality(Modality.WINDOW_MODAL);
-        addInventoryStage.initOwner(primaryStage);
+        popUpStage = new Stage();
+        popUpStage.setTitle("Agregar Persona");
+        popUpStage.initModality(Modality.WINDOW_MODAL);
+        popUpStage.initOwner(primaryStage);
         Scene scene = new Scene(borderPane);
-        addInventoryStage.setScene(scene);
+        popUpStage.setScene(scene);
         RegistrationFormController previewController = fxmlLoader.getController();
         previewController.setCedula(cedula);
-        addInventoryStage.showAndWait();
+        popUpStage.showAndWait();
         return previewController.getPersonId();
     }
 

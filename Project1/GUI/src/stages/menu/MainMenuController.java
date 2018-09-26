@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 
 import static main.Main.*;
 import static main.Main.queries;
+import static stages.userRegistration.client.RegistrationFormController.past;
 
 public class MainMenuController implements Initializable {
 
@@ -76,7 +77,7 @@ public class MainMenuController implements Initializable {
     private void listenToClient(){
         client_bb.setOnAction(event -> {
             try {
-                RegistrationFormController.past = "menu";
+                past = "menu";
                 showUserPane();
             } catch (IOException e) {
                 e.printStackTrace();

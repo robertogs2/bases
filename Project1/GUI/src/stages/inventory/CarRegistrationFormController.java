@@ -201,7 +201,7 @@ public class CarRegistrationFormController implements Initializable {
                     alert.showAndWait();
                     Main.showMainMenu();
                 } catch (Exception e1) {
-                    e1.printStackTrace();
+                    showErrorMessage(e1.getMessage());
                 }
             }
         });

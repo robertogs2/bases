@@ -274,7 +274,11 @@ public class RegistrationFormController implements Initializable {
                     indexes[4] = new_person_id;
                     try {
                         showInformation("Se ha agregado una nueva persona", "Agregar persona");
-                        Main.showString(past);
+                        if(past == null){
+                            popUpStage.close();
+                            return;
+                        }
+                        showString(past);
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
