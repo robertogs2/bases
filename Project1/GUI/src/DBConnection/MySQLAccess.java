@@ -45,7 +45,11 @@ public class MySQLAccess {
         HashMap<String, List<String>> data = new HashMap<>();
         statement = connect.prepareCall(query);
         for(int i = 1; i <= params.length; ++i) {
-            statement.setString(i, params[i-1].toString());
+            if(params[i-1].toString().equals("NUll INT")){
+                statement.setNull(i, Types.INTEGER);
+            }else {
+                statement.setString(i, params[i - 1].toString());
+            }
         }
         resultSet = statement.executeQuery();
 

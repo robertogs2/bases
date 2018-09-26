@@ -39,6 +39,7 @@ public class Main extends Application {
 
         ///Shows the main menu
         //showMainMenu();
+        showMechanicPane();
         //showMainMenu();
         //showUserPane();
         //showShopPane();
@@ -73,6 +74,12 @@ public class Main extends Application {
         Pane pane = FXMLLoader.load(Main.class.getResource("/stages/menu/MainMenu.fxml"));
         mainLayout.setCenter(pane);
     }
+    public static void showMechanicPane() throws IOException {
+        Main.primaryStage.setTitle("Agregar mecánico");
+        Pane pane = FXMLLoader.load(Main.class.getResource("/stages/userRegistration/mechanic/MechanicForm.fxml"));
+        mainLayout.setCenter(pane);
+    }
+
     public static void showPreview() throws IOException {
         AnchorPane previewPane = FXMLLoader.load(Main.class.getResource("/stages/preview/preview.fxml"));
         mainLayout.setCenter(previewPane);
@@ -96,7 +103,7 @@ public class Main extends Application {
         addInventoryStage.showAndWait();
     }
 
-    public static void showAddCustomerStage(String cedula) throws IOException {
+    public static int showAddPersonStage(String cedula) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/userRegistration/client/RegistrationForm.fxml"));
         BorderPane borderPane = fxmlLoader.load();
         Stage addInventoryStage = new Stage();
@@ -108,6 +115,7 @@ public class Main extends Application {
         RegistrationFormController previewController = fxmlLoader.getController();
         previewController.setCedula(cedula);
         addInventoryStage.showAndWait();
+        return previewController.getPersonId();
     }
 
     public static void showAddCar(String matricula) throws IOException {
@@ -133,6 +141,9 @@ public class Main extends Application {
         }
         else if(toShow.compareTo("shop") == 0){
             showShopPane();
+        }
+        else if(toShow.compareTo("mechanic") == 0){
+            showMechanicPane();
         }
     }
 

@@ -45,6 +45,14 @@ DROP PROCEDURE IF EXISTS ObtenerModelosPorMarca;
 DROP PROCEDURE IF EXISTS ObtenerInfoCarroPorConcesionario;
 DROP PROCEDURE IF EXISTS ObtenerPersonas;
 
+DROP PROCEDURE IF EXISTS ObtenerIdPersonaPorCedula;
+DROP PROCEDURE IF EXISTS AgregarCompraCompletoCedula;
+DROP PROCEDURE IF EXISTS ObtenerFotos;
+DROP PROCEDURE IF EXISTS ObtenerCarroMasBarato;
+DROP PROCEDURE IF EXISTS ObtenerCarroMasCaro;
+DROP PROCEDURE IF EXISTS ObtenerCarroDeMaximo;
+DROP PROCEDURE IF EXISTS BorrarPersonaPorId;
+DROP PROCEDURE IF EXISTS BorrarProvinciaDePais;
 
 DELIMITER $$
 CREATE PROCEDURE AgregarPais (IN eNombre varchar(50)) BEGIN
@@ -454,4 +462,57 @@ CALL ObtenerDireccionPorCiudad(1);
 CALL ObtenerUbicacionPorDireccion(1);
 
 CALL ObtenerMarcasRegistradas();
-CALL ObtenerModelosPorMarca(1);
+CALL ObtenerModelosPorMarca(1);CALL ObtenerModelosPorMarca(1);
+CREATE PROCEDURE ObtenerMatriculasPorCliente(IN eIdCliente INT) BEGIN
+	SELECT
+		Co.matricula
+    FROM Coche AS Co
+    INNER JOIN Cliente AS Cl ON Cl.idCliente = Co.idCliente_fk
+    WHERE eIdCliente = Cl.idCliente;
+END$$
+
+CREATE PROCEDURE ObtenerIdPersonaPorCedula(IN eCedula INT) BEGIN
+	SELECT
+		P.idPersona
+    FROM Persona as P
+    WHERE P.cedula = eCedula;
+END$$
+CALL ObtenerIdPersonaPorCedula(123);
+
+CREATE PROCEDURE ObtenerCarroMasBarato() BEGIN
+	SELECT 
+		MIN(precio) AS Precio
+    FROM Coche;
+END$$
+
+CREATE PROCEDURE ObtenerCarroMasCaro() BEGIN
+	SELECT 
+		MAX(precio) AS Precio
+    FROM Coche;
+END$$
+
+CREATE PROCEDURE ObtenerCarroDeMaximo(IN precioMaximo INT) BEGIN
+	SELECT  
+		idCoche
+    FROM Coche 
+    GROUP BY idMarca_fk
+    HAVING precio < precioMaximo;
+END$$
+
+
+
+
+-- -----------------------------------------------------
+-- SecciÃ³n de borrado
+-- -----------------------------------------------------
+
+CREATE PROCEDURE BorrarPersonaPorId(IN eid INT) BEGIN
+	DELETE FROM Persona
+    WHERE idPersona = eId;
+END$$
+
+CREATE PROCEDURE BorrarProvinciaDePais(IN eIdPais INT, 
+									   IN eIdProvincia INT) BEGIN
+	DELETE FROM Provincia
+    WHERE idProvincia = eIdProvincia AND idPais_fk = eIdPais;
+END$$
