@@ -152,6 +152,16 @@ CREATE TABLE IF NOT EXISTS Coche (
   FOREIGN KEY (idModelo_fk) REFERENCES Modelo(idModelo))
 ENGINE = InnoDB;
 
+-- ------------------------------------------------------
+-- Table CocheXFoto
+-- ------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS CocheXFoto(
+		idCoche_fk INT NOT NULL, 
+		url TEXT,
+        FOREIGN KEY (idCOche_fk) REFERENCES Coche(idCoche)
+)
+ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table Mecanico
 -- -----------------------------------------------------
