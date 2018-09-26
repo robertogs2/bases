@@ -25,6 +25,9 @@
                         <TextField fx:id="estado_tf" prefHeight="25.0" prefWidth="165.0" promptText="Estado" />
                         <TextField fx:id="kilometraje_tf" prefHeight="25.0" prefWidth="165.0" promptText="Kilometraje" />
                         <TextField fx:id="precio_tf" prefHeight="25.0" prefWidth="165.0" promptText="Precio" />
+                        <HBox fx:id="img_hb" spacing="10">
+                            <Button fx:id="upload_img_bb" mnemonicParsing="false" text="Subir Imagen" />
+                        </HBox>
                         <Separator prefWidth="200.0" />
                         <Button fx:id="send_bb" mnemonicParsing="false" text="Enviar formulario" />
                     </children>

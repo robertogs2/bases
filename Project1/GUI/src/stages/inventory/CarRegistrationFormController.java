@@ -1,20 +1,33 @@
 package stages.inventory;
 
 import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import tools.ImageUploader;
 
+import javax.imageio.ImageIO;
+import javax.swing.text.Element;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 import static java.sql.Types.NULL;
+import static main.Main.primaryStage;
 import static main.Main.queries;
 import static main.Main.dao;
 
@@ -30,6 +43,13 @@ public class CarRegistrationFormController implements Initializable {
     @FXML Button send_bb;
     @FXML VBox vBox;
     @FXML HBox cb_box;
+    @FXML HBox img_hb;
+    @FXML Button upload_img_bb;
+
+    private final FileChooser fileChooser = new FileChooser();
+    private final Desktop desktop = Desktop.getDesktop();
+    private final ImageUploader imageUploader = ImageUploader.getInstance();
+    private ObservableList<File> imgFiles;
 
     private final int[] indexes = new int[4]; //index0 : brand, index1 : modelo
     private static List<String> brand_indexes;
@@ -42,6 +62,7 @@ public class CarRegistrationFormController implements Initializable {
         //flowPane.prefHeightProperty().bind(primaryStage.heightProperty());
 
         HashMap<String, List<String>> brand_list = new HashMap<>();
+        imgFiles = FXCollections.observableArrayList();
 
         clear_cb(marca_cb);
         clear_cb(modelo_cb);
@@ -57,6 +78,7 @@ public class CarRegistrationFormController implements Initializable {
 
         listenToBrand();
         listenToModel();
+        listenToImg();
         listenToSend();
     }
 
@@ -123,6 +145,16 @@ public class CarRegistrationFormController implements Initializable {
                     }
                 }
             }
+            ProgressIndicator p1 = new ProgressIndicator();
+            img_hb.getChildren().add(p1);
+            for(File file: imgFiles){
+                try {
+                    imageUploader.uploadImage("TEST" + imgFiles.indexOf(file), file);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            img_hb.getChildren().remove(p1);
 
             if(flag) {
                 try {
@@ -137,14 +169,54 @@ public class CarRegistrationFormController implements Initializable {
 
 
                     //Generates new person
-                    HashMap<String, List<String>> car_id = dao.selectData(queries.AGREGAR_CARRO,
+                   /* HashMap<String, List<String>> car_id = dao.selectData(queries.AGREGAR_CARRO,
                             matricula_tf.getText(), indexes[1], color_tf.getText(), estado_tf.getText(), kilometraje_tf.getText(), precio_tf.getText(), 1);
-                    int new_car_id = Integer.parseInt(car_id.get("LAST_INSERT_ID()").get(0));
+                    int new_car_id = Integer.parseInt(car_id.get("LAST_INSERT_ID()").get(0));*/
+                    for(File file: imgFiles){
+                        imageUploader.uploadImage("TEST"+imgFiles.indexOf(file), file);
+                    }
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
             }
         });
+    }
+
+    private void listenToImg(){
+        imgFiles.addListener((ListChangeListener<File>) c -> {
+            try {
+                Image image = new Image(imgFiles.get(imgFiles.size() - 1).toURI().toString());//ImageIO.read(imgFiles.get(imgFiles.size() - 1));
+                ImageView iv = new ImageView(image);
+                iv.setFitHeight(100);
+                iv.setFitWidth(100);
+                img_hb.getChildren().add(0, iv);
+            }catch (Exception e){
+                showErrorMessage("No se puede mostrar la image.");
+            }
+        });
+        upload_img_bb.setOnMouseClicked(event -> {
+            File file = fileChooser.showOpenDialog(primaryStage);
+            if (file != null) {
+                try {
+                    if(imgFiles.size() < 6){
+                        imgFiles.add(file);
+                    }else{
+                        showErrorMessage("Solo puede subir 5 imagenes.");
+                    }
+                    //imageUploader.uploadImage("TEST", file);
+                }catch (Exception e){
+                    showErrorMessage(e.getMessage());
+                }
+            }
+        });
+    }
+
+    private void openFile(File file){
+        try {
+            desktop.open(file);
+        } catch (IOException ex) {
+            showErrorMessage("No se  pudo acceder al archivo.");
+        }
     }
 
     private void showErrorMessage(String msg){

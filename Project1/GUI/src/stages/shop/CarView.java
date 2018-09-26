@@ -2,6 +2,7 @@ package stages.shop;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -22,9 +23,10 @@ public class CarView extends VBox {
         this.description = description;
         this.pk = pk;
 
-        ImageView photo = new ImageView();
-        photo.setFitWidth(50);
-        photo.setFitHeight(150);
+        Image image = new Image("https://res.cloudinary.com/cb-dev-cloud/image/upload/v1537928827/DB/project1/TEST0.jpg");
+        ImageView photo = new ImageView(image);
+        photo.setFitWidth(100);
+        photo.setFitHeight(100);
         lbName = new Label();
         lbName.setText(name);
         lbName.setFont(Font.font("System",FontWeight.BOLD,14));
