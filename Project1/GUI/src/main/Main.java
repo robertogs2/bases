@@ -8,9 +8,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import stages.preview.previewController;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -31,9 +34,9 @@ public class Main extends Application {
 
         showMainPane();
         //showPreview();
-        showMainMenu();
+        //showMainMenu();
         //showUserPane();
-        //showShopPane();
+        showShopPane();
 
     }
 
@@ -64,6 +67,20 @@ public class Main extends Application {
     public static void showPreview() throws IOException {
         AnchorPane previewPane = FXMLLoader.load(Main.class.getResource("/stages/preview/preview.fxml"));
         mainLayout.setCenter(previewPane);
+    }
+
+    public static void showPreviewStage(List<String> attributes, List<String> values) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/preview/preview.fxml"));
+        AnchorPane anchorPane = fxmlLoader.load();
+        Stage addInventoryStage = new Stage();
+        addInventoryStage.setTitle("Car Preview");
+        addInventoryStage.initModality(Modality.WINDOW_MODAL);
+        addInventoryStage.initOwner(primaryStage);
+        Scene scene = new Scene(anchorPane);
+        addInventoryStage.setScene(scene);
+        previewController previewController = fxmlLoader.getController();
+        previewController.addAttributes(attributes,values);
+        addInventoryStage.showAndWait();
     }
 
     public static void show_pane(String pane) throws IOException{
