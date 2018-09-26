@@ -135,7 +135,7 @@ END$$
 
 CREATE PROCEDURE AgregarFoto (IN eIdCoche INT, IN eUrl TEXT) BEGIN
 	INSERT INTO CocheXFoto (idCoche_fk, url)
-    VALUES(eIdCoche, eUrl);
+  VALUES(eIdCoche, eUrl);
 END$$
 
 CREATE PROCEDURE AgregarTaller (IN eNombre VARCHAR(50), IN eIdUbicacion INT, IN eIdConcesionario INT) BEGIN
@@ -189,6 +189,31 @@ CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eIdCliente IN
     
     CALL AgregarCompra(eFechaHora, vMonto, eIdCliente, vIdConcesionario, eIdCoche);
 END$$
+
+-- Infiere monto a partir de precio del carro, infiere concesionario a partir del carro
+CREATE PROCEDURE AgregarCompraCompletoCedula (IN eFechaHora DATETIME, IN eCedula INT, IN eIdCoche INT) BEGIN
+
+    DECLARE vIdConcesionario INT;
+    DECLARE vMonto INT;
+	DECLARE vIdCliente INT;
+    -- This takes the idCoche from the eIdCoche input and gives monto
+	SELECT precio, idConcesionario_fk into vMonto, vIdConcesionario FROM Coche
+    WHERE idCoche = eIdCoche
+    LIMIT 1;   
+    
+    -- This takes the idPersona from the eCedula input
+	SELECT idClient into vIdCliente FROM Cliente
+    INNER JOIN Persona ON Persona.idPersona = Cliente.idPersona_fk
+    WHERE cedula = eCedula
+    LIMIT 1;
+    
+    UPDATE Coche
+    SET estado = "vendido"
+    WHERE idCoche = eIdCoche;
+    
+    CALL AgregarCompra(eFechaHora, vMonto, eIdCliente, vIdConcesionario, eIdCoche);
+END$$
+
 CREATE PROCEDURE AgregarReparacion (IN eFechaHoraInicio DATETIME, 
 								 IN eFechaHoraFinal DATETIME,
                                  IN eDescripcion VARCHAR(50),
@@ -323,7 +348,13 @@ CREATE PROCEDURE ObtenerInfoCarroMatricula (IN eMatricula INT) BEGIN
 END$$
 
 
-
+CREATE PROCEDURE ObtenerFotos (
+	IN eCocheId INT) BEGIN
+	SELECT
+    CocheXFoto.url
+    FROM Coche AS C
+    INNER JOIN CocheXFoto ON C.idCoche = eIdCoche;
+END$$
 CREATE PROCEDURE ObtenerReparaciones (
 	IN eMatricula INT) BEGIN
 	SELECT

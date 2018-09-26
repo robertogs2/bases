@@ -39,7 +39,7 @@ public class Main extends Application {
         showMainMenu();
         //showMainMenu();
         //showUserPane();
-        showShopPane();
+        //showShopPane();
 
     }
 
