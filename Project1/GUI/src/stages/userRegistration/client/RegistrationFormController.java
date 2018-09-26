@@ -24,7 +24,7 @@ public class RegistrationFormController implements Initializable {
     @FXML TextField name_tf, last_name_tf, id_tf, age_tf, phone_tf, extension_tf;
     @FXML Button send_bb, cancel_bb;
     @FXML TextArea location_ta;
-    private final int[] indexes = new int[5]; //index0 : country, index1 : province, index2: city, index3: direction, index4: persona
+    public static final int[] indexes = new int[5]; //index0 : country, index1 : province, index2: city, index3: direction, index4: persona
     private static List<String> country_indexes;
     private static List<String> province_indexes;
     private static List<String> city_indexes;
@@ -163,101 +163,100 @@ public class RegistrationFormController implements Initializable {
     private void clear_cb(ComboBox cb){
         cb.getItems().clear(); //removes list
         cb.valueProperty().set(""); //removes string in the field
-
     }
 
     private void listenToSend() {
         send_bb.setOnMouseClicked (e -> {
-            String name = name_tf.getText();
-            String last_name = last_name_tf.getText();
-            String id = id_tf.getText();
-            String age = age_tf.getText();
-            String phone = phone_tf.getText();
-            String extension = extension_tf.getText();
+            if(showConfirmation("¿Continuar?", "Agregar persona") == 1){
+                String name = name_tf.getText();
+                String last_name = last_name_tf.getText();
+                String id = id_tf.getText();
+                String age = age_tf.getText();
+                String phone = phone_tf.getText();
+                String extension = extension_tf.getText();
 
-
-            String country = country_cb.valueProperty().getValue().toString();
-            String province = province_cb.valueProperty().getValue().toString();
-            String city = city_cb.valueProperty().getValue().toString();
-            String zipCode = direction_cb.valueProperty().getValue().toString();
-            String locationDescription = location_ta.getText();
-            int ubicacion = 0;
-            //checks for something null
-            if(name.length() <= 0){//There is not a name
-                showErrorMessage("Por favor ingrese su nombre");
-            }
-            else if(last_name.length() <= 0){//There is not a last name
-                showErrorMessage("Por favor ingrese los apellidos");
-            }
-            else if(id.length() <= 0){//There is not an id
-                showErrorMessage("Por favor ingrese su cédula");
-            }
-            else if(age.length() <= 0){//There is not an age
-                showErrorMessage("Por favor ingrese su edad");
-            }
-            else if(phone.length() <= 0){//There is not a phone number
-                showErrorMessage("Por favor ingrese su número de teléfono");
-            }
-            else if(extension.length() <= 0){//There is not an extension
-                showErrorMessage("Por favor ingrese la extension");
-            }
-            else if(zipCode.length() <= 0){
-                showErrorMessage("Por favor ingrese su código postal");
-            }
-            else if(country.length() <= 0){
-                showErrorMessage("Por favor seleccione o ingrese su país");
-            }
-            else if(province.length() <= 0){
-                showErrorMessage("Por favor seleccione o ingrese su provincia/estado");
-            }
-            else if(city.length() <= 0){
-                showErrorMessage("Por favor seleccione o ingrese su ciudad");
-            }
-            else if(locationDescription.length() <= 0){
-                showErrorMessage("Por favor una descripción de su dirección");
-            }
-            else{
-                //Checks if we need to add another country or whatever
-                try {
-                    if(indexes[0] == -1){
-                        ubicacion = addFromCountry(country, province, city, zipCode, locationDescription);
-                        //Add from country
-                    }
-                    else if(indexes[1] == -1){
-                        //Add from province
-                        ubicacion = addFromProvince(indexes[0], province, city, zipCode, locationDescription);
-                    }
-                    else if(indexes[2] == -1){
-                        //Add from city
-                        ubicacion = addFromCity(indexes[1], city, zipCode, locationDescription);
-                    }
-                    else if(indexes[3] == -1){
-                        ubicacion = addFromDirection(indexes[2], zipCode, locationDescription);
-                        //Add from direction
-                    }
-                    else{
-                        //Add pure
-                        ubicacion = addLocation(indexes[3], locationDescription);
-                    }
-                } catch (Exception e1) {
-                    e1.printStackTrace();
+                String country = country_cb.valueProperty().getValue().toString();
+                String province = province_cb.valueProperty().getValue().toString();
+                String city = city_cb.valueProperty().getValue().toString();
+                String zipCode = direction_cb.valueProperty().getValue().toString();
+                String locationDescription = location_ta.getText();
+                int ubicacion = 0;
+                //checks for something null
+                if(name.length() <= 0){//There is not a name
+                    showErrorMessage("Por favor ingrese su nombre");
                 }
-                //Generates new person
-                HashMap<String, List<String>> person_id = null;
-                int new_person_id = -1;
-                boolean avaliable = true;
-                try {
-                    System.out.println(ubicacion);
-                    person_id = dao.selectData(queries.AGREGAR_PERSONA,
-                            id, name, last_name, age, phone, extension, ubicacion);
-                    new_person_id = Integer.parseInt(person_id.get("LAST_INSERT_ID()").get(0));
-                } catch (Exception e1) {
-                    System.out.println("La cedula esta repetida");
-                    e1.printStackTrace();
-                    avaliable = false;
+                else if(last_name.length() <= 0){//There is not a last name
+                    showErrorMessage("Por favor ingrese los apellidos");
                 }
+                else if(id.length() <= 0){//There is not an id
+                    showErrorMessage("Por favor ingrese su cédula");
+                }
+                else if(age.length() <= 0){//There is not an age
+                    showErrorMessage("Por favor ingrese su edad");
+                }
+                else if(phone.length() <= 0){//There is not a phone number
+                    showErrorMessage("Por favor ingrese su número de teléfono");
+                }
+                else if(extension.length() <= 0){//There is not an extension
+                    showErrorMessage("Por favor ingrese la extension");
+                }
+                else if(zipCode.length() <= 0){
+                    showErrorMessage("Por favor ingrese su código postal");
+                }
+                else if(country.length() <= 0){
+                    showErrorMessage("Por favor seleccione o ingrese su país");
+                }
+                else if(province.length() <= 0){
+                    showErrorMessage("Por favor seleccione o ingrese su provincia/estado");
+                }
+                else if(city.length() <= 0){
+                    showErrorMessage("Por favor seleccione o ingrese su ciudad");
+                }
+                else if(locationDescription.length() <= 0){
+                    showErrorMessage("Por favor una descripción de su dirección");
+                }
+                else{
+                    //Checks if we need to add another country or whatever
+                    try {
+                        if(indexes[0] == -1){
+                            ubicacion = addFromCountry(country, province, city, zipCode, locationDescription);
+                            //Add from country
+                        }
+                        else if(indexes[1] == -1){
+                            //Add from province
+                            ubicacion = addFromProvince(indexes[0], province, city, zipCode, locationDescription);
+                        }
+                        else if(indexes[2] == -1){
+                            //Add from city
+                            ubicacion = addFromCity(indexes[1], city, zipCode, locationDescription);
+                        }
+                        else if(indexes[3] == -1){
+                            ubicacion = addFromDirection(indexes[2], zipCode, locationDescription);
+                            //Add from direction
+                        }
+                        else{
+                            //Add pure
+                            ubicacion = addLocation(indexes[3], locationDescription);
+                        }
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                    //Generates new person
+                    HashMap<String, List<String>> person_id = null;
+                    int new_person_id = -1;
+                    boolean avaliable = true;
+                    try {
+                        System.out.println(ubicacion);
+                        person_id = dao.selectData(queries.AGREGAR_PERSONA,
+                                id, name, last_name, age, phone, extension, ubicacion);
+                        new_person_id = Integer.parseInt(person_id.get("LAST_INSERT_ID()").get(0));
+                    } catch (Exception e1) {
+                        System.out.println("La cedula esta repetida");
+                        e1.printStackTrace();
+                        avaliable = false;
+                    }
 
-                //Generates new client with the person id, could be done with the table id
+                    //Generates new client with the person id, could be done with the table id
                 /*HashMap<String, List<String>> client_id = null;
                 if(avaliable){
                     try {
@@ -272,14 +271,15 @@ public class RegistrationFormController implements Initializable {
                     //La persona ya está registrada
                 }*/
 
-                indexes[4] = new_person_id;
-                try {
-                    Main.showString(past);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                    indexes[4] = new_person_id;
+                    try {
+                        showInformation("Se ha agregado una nueva persona", "Agregar persona");
+                        Main.showString(past);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
-
 
         });
     }
@@ -336,15 +336,27 @@ public class RegistrationFormController implements Initializable {
         System.out.println();
     }
 
-    private void showErrorMessage(String msg){
+    public static void showErrorMessage(String msg){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Ooooooops!");
         alert.setContentText(msg);
         alert.showAndWait();
     }
 
-    private void showErrorMessage(String msg, String label){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+    public static int showConfirmation(String msg, String label){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(label);
+        alert.setContentText(msg);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public static void showInformation(String msg, String label){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(label);
         alert.setContentText(msg);
         alert.showAndWait();
@@ -354,7 +366,7 @@ public class RegistrationFormController implements Initializable {
         id_tf.setText(cedula);
     }
 
-    public int getPersonId(){
+    public static int getPersonId(){
         return indexes[4];
     }
 }
