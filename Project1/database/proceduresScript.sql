@@ -44,7 +44,6 @@ DROP PROCEDURE IF EXISTS ObtenerMarcasRegistradas;
 DROP PROCEDURE IF EXISTS ObtenerModelosPorMarca;
 DROP PROCEDURE IF EXISTS ObtenerInfoCarroPorConcesionario;
 DROP PROCEDURE IF EXISTS ObtenerPersonas;
-
 DROP PROCEDURE IF EXISTS ObtenerIdPersonaPorCedula;
 DROP PROCEDURE IF EXISTS AgregarCompraCompletoCedula;
 DROP PROCEDURE IF EXISTS ObtenerFotos;
@@ -462,7 +461,7 @@ CALL ObtenerDireccionPorCiudad(1);
 CALL ObtenerUbicacionPorDireccion(1);
 
 CALL ObtenerMarcasRegistradas();
-CALL ObtenerModelosPorMarca(1);CALL ObtenerModelosPorMarca(1);
+CALL ObtenerModelosPorMarca(1);
 CREATE PROCEDURE ObtenerMatriculasPorCliente(IN eIdCliente INT) BEGIN
 	SELECT
 		Co.matricula
