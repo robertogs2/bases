@@ -122,7 +122,8 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
                                  IN eEstado VARCHAR(30),
                                  IN eKilometraje INT,
                                  IN ePrecio INT,
-                                 IN eIdConcesionario INT) BEGIN
+                                 IN eIdConcesionario INT,
+                                 IN eIdCliente INT) BEGIN
 	
     -- This takes the idMarca from the idModelo input
     DECLARE vIdMarca INT;
@@ -130,8 +131,8 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
     WHERE idModelo = eIdModelo
     LIMIT 1;
     
-	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, precio, idConcesionario_fk)
-    VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, ePrecio, eIdConcesionario);
+	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, precio, idConcesionario_fk, idCliente_fk)
+    VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, ePrecio, eIdConcesionario, eIdCliente);
     SELECT LAST_INSERT_ID() FROM Coche;
 END$$
 

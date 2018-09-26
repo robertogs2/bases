@@ -36,10 +36,7 @@ public class CarRegistrationFormController implements Initializable {
 
     @FXML ComboBox<String> marca_cb;
     @FXML ComboBox<String> modelo_cb;
-    @FXML TextField matricula_tf;
-    @FXML TextField color_tf;
-    @FXML TextField kilometraje_tf;
-    @FXML TextField precio_tf;
+    @FXML TextField matricula_tf, color_tf, kilometraje_tf, precio_tf, cedula_tf;
     @FXML Button send_bb,cancel_bb;
     @FXML VBox vBox;
     @FXML HBox cb_box;
@@ -134,7 +131,7 @@ public class CarRegistrationFormController implements Initializable {
             boolean flag = true;
             for( Node node: vBox.getChildren()) {
                 if( node instanceof TextField) {
-                    if(((TextField) node).getText().replace(" ","").equals("")){
+                    if(((TextField) node).getText().replace(" ","").equals("") && !node.getId().contains("cedula")){
                         showErrorMessage("El campo "+node.getId().split("_")[0] + " no puede ser vacio.");
                         flag = false;
                         break;
@@ -150,6 +147,11 @@ public class CarRegistrationFormController implements Initializable {
                         break;
                     }
                 }
+            }
+
+            if(cedula_tf.getText().length() == 0 || !cedula_tf.getText().matches("\\d+")){
+                showErrorMessage("La ceula debe ser un numero, o nula en caso de ser un concecionario.");
+                flag = false;
             }
 
             if(flag) {
@@ -244,6 +246,10 @@ public class CarRegistrationFormController implements Initializable {
         alert.setTitle("Ooops!");
         alert.setContentText(msg);
         alert.showAndWait();
+    }
+
+    public void setMatricula(String matricula){
+        matricula_tf.setText(matricula);
     }
 
 }
