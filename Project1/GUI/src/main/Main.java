@@ -38,7 +38,8 @@ public class Main extends Application {
         showMainPane();
 
         ///Shows the main menu
-        showMainMenu();
+        //showMainMenu();
+        showMechanicPane();
         //showMainMenu();
         //showUserPane();
         //showShopPane();
@@ -72,6 +73,12 @@ public class Main extends Application {
         Pane pane = FXMLLoader.load(Main.class.getResource("/stages/menu/MainMenu.fxml"));
         mainLayout.setCenter(pane);
     }
+    public static void showMechanicPane() throws IOException {
+        Main.primaryStage.setTitle("Agregar mecánico");
+        Pane pane = FXMLLoader.load(Main.class.getResource("/stages/userRegistration/mechanic/MechanicForm.fxml"));
+        mainLayout.setCenter(pane);
+    }
+
     public static void showPreview() throws IOException {
         AnchorPane previewPane = FXMLLoader.load(Main.class.getResource("/stages/preview/preview.fxml"));
         mainLayout.setCenter(previewPane);
@@ -129,6 +136,9 @@ public class Main extends Application {
         }
         else if(toShow.compareTo("shop") == 0){
             showShopPane();
+        }
+        else if(toShow.compareTo("mechanic") == 0){
+            showMechanicPane();
         }
     }
 
