@@ -12,11 +12,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static main.Main.primaryStage;
 
 public class previewController implements Initializable {
+
+    private ObservableList<carAttribute> carAttributes = FXCollections.observableArrayList();
 
     @FXML TableView<carAttribute> tbvAttribute;
     @FXML TableColumn<carAttribute,String> tbcName;
@@ -32,11 +35,11 @@ public class previewController implements Initializable {
         tbcName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tbcValue.setCellValueFactory(new PropertyValueFactory<>("value"));
 
-        ObservableList<carAttribute> carAttributes = FXCollections.observableArrayList();
-        for (int i = 0; i < 10; ++i){
+
+        /*for (int i = 0; i < 10; ++i){
             carAttribute carAttribute = new carAttribute("Atributo " + i, "Valor " + i);
             carAttributes.addAll(carAttribute);
-        }
+        }*/
 
         tbvAttribute.setItems(carAttributes);
         tbvAttribute.widthProperty().addListener((ov, t, t1) -> {
@@ -54,5 +57,12 @@ public class previewController implements Initializable {
         tbvAttribute.prefHeightProperty().bind(tbvAttribute.fixedCellSizeProperty().multiply(Bindings.size(tbvAttribute.getItems()).add(0.1)));
         tbvAttribute.minHeightProperty().bind(tbvAttribute.prefHeightProperty());
         tbvAttribute.maxHeightProperty().bind(tbvAttribute.prefHeightProperty());
+    }
+
+    public void addAttributes(List<String> attributes, List<String> values){
+        for (int i = 0; i < attributes.size(); ++i){
+            carAttribute carAttribute = new carAttribute(attributes.get(i), values.get(i));
+            carAttributes.addAll(carAttribute);
+        }
     }
 }

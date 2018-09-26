@@ -9,8 +9,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import stages.preview.previewController;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -31,9 +33,14 @@ public class Main extends Application {
         dao.connectToDB();
 
         showMainPane();
+<<<<<<< HEAD
 
         ///Shows the main menu
         showMainMenu();
+        //showMainMenu();
+        //showUserPane();
+        showShopPane();
+>>>>>>> 2db3ff9bbd68c207ab8d5cb7fd380c45b946a713
 
     }
 
@@ -69,6 +76,37 @@ public class Main extends Application {
         mainLayout.setCenter(previewPane);
     }
 
+<<<<<<< HEAD
+=======
+    public static void showPreviewStage(List<String> attributes, List<String> values) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/preview/preview.fxml"));
+        AnchorPane anchorPane = fxmlLoader.load();
+        Stage addInventoryStage = new Stage();
+        addInventoryStage.setTitle("Car Preview");
+        addInventoryStage.initModality(Modality.WINDOW_MODAL);
+        addInventoryStage.initOwner(primaryStage);
+        Scene scene = new Scene(anchorPane);
+        addInventoryStage.setScene(scene);
+        previewController previewController = fxmlLoader.getController();
+        previewController.addAttributes(attributes,values);
+        addInventoryStage.showAndWait();
+    }
+
+    public static void show_pane(String pane) throws IOException{
+        if(pane == "shop"){
+            showShopPane();
+        }
+        else if(pane == "user"){
+            showUserPane();
+        }
+        else if(pane == "main"){
+            showMainMenu();
+        }
+        else if(pane == "car_registration"){
+            showCarRegistrationForm();
+        }
+    }
+>>>>>>> 2db3ff9bbd68c207ab8d5cb7fd380c45b946a713
 
     public static void main(String[] args) throws Exception{
         launch(args);

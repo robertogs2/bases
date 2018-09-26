@@ -45,6 +45,8 @@ DROP PROCEDURE IF EXISTS ObtenerUbicacionPorDireccion;
 DROP PROCEDURE IF EXISTS ObtenerMarcasRegistradas;
 DROP PROCEDURE IF EXISTS ObtenerModelosPorMarca;
 DROP PROCEDURE IF EXISTS ObtenerTallerPorConcesionario;
+DROP PROCEDURE IF EXISTS ObtenerInfoCarroPorConcesionario;
+
 
 DELIMITER $$
 CREATE PROCEDURE AgregarPais (IN eNombre varchar(50)) BEGIN
@@ -128,7 +130,7 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
     
 	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, precio, idConcesionario_fk)
     VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, ePrecio, eIdConcesionario);
-    
+    SELECT LAST_INSERT_ID() FROM Coche;
 END$$
 
 CREATE PROCEDURE AgregarFoto (IN eIdCoche INT, IN eUrl TEXT) BEGIN
@@ -279,16 +281,31 @@ END$$
 
 CREATE PROCEDURE ObtenerInfoCarro (IN eIdCoche INT) BEGIN
 	SELECT 
-		C.matricula AS "Matricula",
-        Mo.nombre AS "Modelo",
-		Ma.nombre AS "Marca",
-        C.color AS "Color"
+		C.matricula,
+        Mo.nombre AS "modelo",
+		Ma.nombre AS "marca",
+        C.color,
+        C.kilometraje,
+        C.precio
 	FROM 
 		Coche AS C
 	INNER JOIN Marca AS Ma ON Ma.idMarca = C.idMarca_fk
     INNER JOIN Modelo AS Mo ON Mo.idModelo = C.idModelo_fk
     WHERE C.idCoche = eIdCoche
     LIMIT 1;
+END$$
+CREATE PROCEDURE ObtenerInfoCarroPorConcesionario (IN eIdConcesionario INT) BEGIN
+	SELECT 
+		C.matricula,
+        Mo.nombre AS "modelo",
+		Ma.nombre AS "marca",
+        C.precio,
+        C.idCoche
+	FROM 
+		Coche AS C
+	INNER JOIN Marca AS Ma ON Ma.idMarca = C.idMarca_fk
+    INNER JOIN Modelo AS Mo ON Mo.idModelo = C.idModelo_fk
+    WHERE C.idConcesionario_fk = eIdConcesionario;
 END$$
 CREATE PROCEDURE ObtenerInfoCarroMatricula (IN eMatricula INT) BEGIN
 	-- Saca el id del carro reparado

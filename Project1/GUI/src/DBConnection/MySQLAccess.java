@@ -75,6 +75,19 @@ public class MySQLAccess {
         return data;
     }
 
+    public void pushData(String query) throws Exception{
+        statement = connect.prepareCall(query);
+        resultSet = statement.executeQuery();
+    }
+
+    public void pushData(String query, Object... params) throws Exception{
+        statement = connect.prepareCall(query);
+        for(int i = 1; i <= params.length; ++i) {
+            statement.setString(i, params[i-1].toString());
+        }
+        resultSet = statement.executeQuery();
+    }
+
     private HashMap<String, List<String>> mergeData(HashMap<String, List<String>> d1, HashMap<String, List<String>> d2){
         HashMap<String, List<String>> data = d1;
         for(String k : d1.keySet()){
@@ -100,7 +113,7 @@ public class MySQLAccess {
         ResultSetMetaData metaData = resultSet.getMetaData();
         HashMap<String, List<String>> data = new HashMap<>();
         for(int i = 1; i <= metaData.getColumnCount(); ++i){
-            String columnName = metaData.getColumnName(i);
+            String columnName = metaData.getColumnLabel(i);
             if(!data.keySet().contains(columnName))data.put(columnName,new ArrayList<>());
             data.get(columnName).add(resultSet.getString(columnName));
         }

@@ -27,7 +27,7 @@ public class Main2 extends Application {
         queries = Queries.getInstance();
         MySQLAccess dao = new MySQLAccess();
         dao.connectToDB();
-        HashMap<String, List<String>> data = dao.selectData(queries.OBTENER_PAISES);
+        HashMap<String, List<String>> data = dao.selectData(queries.ObTENER_INFO_CARRO_POR_CONCESIONARIO, 1);
         for(String key : data.keySet()){
             System.out.println(key + " : " + data.get(key));
         }
