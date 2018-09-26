@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane fx:id="user_bp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.userRegistration.client.RegistrationFormController">
+   <center>
+      <ScrollPane BorderPane.alignment="CENTER">
+         <content>
+            <VBox>
+               <children>
+                  <HBox>
+                     <children>
+                        <TextField fx:id="name_tf" prefHeight="25.0" prefWidth="165.0" promptText="Nombre" />
+                        <TextField fx:id="last_name_tf" prefHeight="25.0" prefWidth="165.0" promptText="Apellidos" />
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <TextField fx:id="id_tf" prefHeight="25.0" prefWidth="165.0" promptText="Cédula" />
+                        <TextField fx:id="age_tf" prefHeight="25.0" prefWidth="165.0" promptText="Edad" />
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <TextField fx:id="phone_tf" prefHeight="25.0" prefWidth="165.0" promptText="Teléfono" />
+                        <TextField fx:id="extension_tf" prefHeight="25.0" prefWidth="165.0" promptText="Extensión" />
+                     </children>
+                  </HBox>
+                  <ComboBox fx:id="country_cb" editable="true" prefHeight="25.0" prefWidth="190.0" promptText="Seleccione un país" />
+                  <ComboBox fx:id="province_cb" editable="true" prefHeight="25.0" prefWidth="190.0" promptText="Seleccione una provincia" />
+                  <ComboBox fx:id="city_cb" editable="true" prefHeight="25.0" prefWidth="190.0" promptText="Seleccione una ciudad" />
+                  <ComboBox fx:id="direction_cb" editable="true" prefHeight="25.0" prefWidth="189.0" promptText="Digite su código postal" />
+                  <TextArea fx:id="location_ta" prefHeight="75.0" prefWidth="274.0" promptText="Inserte su dirección" wrapText="true" />
+                  <Separator prefWidth="200.0" />
+                  <Button fx:id="send_bb" mnemonicParsing="false" text="Enviar formulario" />
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

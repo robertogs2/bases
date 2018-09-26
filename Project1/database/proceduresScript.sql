@@ -85,6 +85,7 @@ END$$
 CREATE PROCEDURE AgregarCliente (IN eIdPersona INT) BEGIN
 	INSERT INTO Cliente (idPersona_fk)
     VALUES(eIdPersona);
+    SELECT LAST_INSERT_ID() FROM Cliente;
 END$$
 CREATE PROCEDURE AgregarClientePorCedula(IN eCedula INT) BEGIN
     DECLARE vIdPersona INT;
@@ -171,6 +172,10 @@ CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eIdCliente IN
 	SELECT precio, idConcesionario_fk into vMonto, vIdConcesionario FROM Coche
     WHERE idCoche = eIdCoche
     LIMIT 1;   
+    
+    UPDATE Coche
+    SET estado = "vendido"
+    WHERE idCoche = eIdCoche;
     
     CALL AgregarCompra(eFechaHora, vMonto, eIdCliente, vIdConcesionario, eIdCoche);
 END$$
