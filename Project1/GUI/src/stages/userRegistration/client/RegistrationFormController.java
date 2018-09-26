@@ -333,4 +333,8 @@ public class RegistrationFormController implements Initializable {
         alert.showAndWait();
     }
 
+    public void setCedula(String cedula){
+        id_tf.setText(cedula);
+    }
+
 }

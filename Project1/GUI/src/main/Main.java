@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import stages.preview.previewController;
+import stages.userRegistration.client.RegistrationFormController;
 
 import java.io.IOException;
 import java.util.List;
@@ -86,6 +87,20 @@ public class Main extends Application {
         addInventoryStage.setScene(scene);
         previewController previewController = fxmlLoader.getController();
         previewController.addAttributes(attributes,values);
+        addInventoryStage.showAndWait();
+    }
+
+    public static void showAddCustomerStage(String cedula) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/userRegistration/client/RegistrationForm.fxml"));
+        BorderPane borderPane = fxmlLoader.load();
+        Stage addInventoryStage = new Stage();
+        addInventoryStage.setTitle("Agregar Persona");
+        addInventoryStage.initModality(Modality.WINDOW_MODAL);
+        addInventoryStage.initOwner(primaryStage);
+        Scene scene = new Scene(borderPane);
+        addInventoryStage.setScene(scene);
+        RegistrationFormController previewController = fxmlLoader.getController();
+        previewController.setCedula(cedula);
         addInventoryStage.showAndWait();
     }
 
