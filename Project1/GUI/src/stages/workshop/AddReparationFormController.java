@@ -1,19 +1,14 @@
 package stages.workshop;
 
 import javafx.beans.Observable;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.FileChooser;
 import main.Main;
-import tools.ImageUploader;
 
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -21,7 +16,6 @@ import java.util.List;
 
 import static main.Main.dao;
 import static main.Main.queries;
-import static main.Main.showAddCustomerStage;
 import static main.Main.showAddCar;
 
 public class AddReparationFormController implements Initializable {

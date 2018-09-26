@@ -18,8 +18,6 @@ import javafx.stage.FileChooser;
 import main.Main;
 import tools.ImageUploader;
 
-import javax.imageio.ImageIO;
-import javax.swing.text.Element;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -27,10 +25,10 @@ import java.net.URL;
 import java.util.*;
 import java.util.List;
 
-import static java.sql.Types.NULL;
 import static main.Main.primaryStage;
 import static main.Main.queries;
 import static main.Main.dao;
+import static main.Main.showAddPersonStage;
 
 public class CarRegistrationFormController implements Initializable {
 
@@ -148,10 +146,21 @@ public class CarRegistrationFormController implements Initializable {
                     }
                 }
             }
-
-            if(cedula_tf.getText().length() == 0 || !cedula_tf.getText().matches("\\d+")){
+            String clientId = "NULL";
+            if(cedula_tf.getText().length() > 0 && !cedula_tf.getText().matches("\\d+")){
                 showErrorMessage("La ceula debe ser un numero, o nula en caso de ser un concecionario.");
                 flag = false;
+            }else if(cedula_tf.getText().length() > 0){
+                try {
+                    HashMap<String, List<String>> id = dao.selectData(queries.OBTENER_ID_CLIENTE_POR_CEDULA, cedula_tf.getText());
+                    if(id.get("idCliente").size() > 0){
+                        clientId = id.get("idCliente").get(0);
+                    }else{
+                        int personId = showAddPersonStage(cedula_tf.getText());
+                        HashMap<String, List<String>> client_id = dao.selectData(queries.AGREGAR_CLIENTE_POR_CEDULA, personId);
+                        clientId = client_id.get("LAST_INSERTED_ID()").get(0);
+                    }
+                }catch (Exception e){}
             }
 
             if(flag) {
@@ -169,7 +178,7 @@ public class CarRegistrationFormController implements Initializable {
 
                     //Generates new car
                     HashMap<String, List<String>> car_id = dao.selectData(queries.AGREGAR_CARRO,
-                            matricula_tf.getText(), indexes[1], color_tf.getText(), estado, kilometraje_tf.getText(), precio_tf.getText(), 1);
+                            matricula_tf.getText(), indexes[1], color_tf.getText(), estado, kilometraje_tf.getText(), precio_tf.getText(), 1, clientId);
                     int new_car_id = Integer.parseInt(car_id.get("LAST_INSERT_ID()").get(0));
 
                     p1.progressProperty().unbind();

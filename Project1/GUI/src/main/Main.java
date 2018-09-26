@@ -91,7 +91,7 @@ public class Main extends Application {
         addInventoryStage.showAndWait();
     }
 
-    public static void showAddCustomerStage(String cedula) throws IOException {
+    public static int showAddPersonStage(String cedula) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/userRegistration/client/RegistrationForm.fxml"));
         BorderPane borderPane = fxmlLoader.load();
         Stage addInventoryStage = new Stage();
@@ -103,6 +103,7 @@ public class Main extends Application {
         RegistrationFormController previewController = fxmlLoader.getController();
         previewController.setCedula(cedula);
         addInventoryStage.showAndWait();
+        return previewController.getPersonId();
     }
 
     public static void showAddCar(String matricula) throws IOException {

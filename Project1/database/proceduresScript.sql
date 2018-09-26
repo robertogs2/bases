@@ -48,6 +48,7 @@ DROP PROCEDURE IF EXISTS ObtenerMatriculasPorCliente;
 DROP PROCEDURE IF EXISTS ObtenerIdClientePorCedula;
 DROP PROCEDURE IF EXISTS ObtenerTallerPorConcesionario;
 DROP PROCEDURE IF EXISTS ObtenerInfoCarroPorConcesionario;
+DROP PROCEDURE IF EXISTS ObtenerIdPersonaPorCedula;
 
 
 DELIMITER $$
@@ -504,4 +505,11 @@ CREATE PROCEDURE ObtenerMatriculasPorCliente(IN eIdCliente INT) BEGIN
     FROM Coche AS Co
     INNER JOIN Cliente AS Cl ON Cl.idCliente = Co.idCliente_fk
     WHERE eIdCliente = Cl.idCliente;
+END$$
+
+CREATE PROCEDURE ObtenerIdPersonaPorCedula(IN eCedula INT) BEGIN
+	SELECT
+		P.idPersona
+    FROM Persona as P
+    WHERE P.cedula = eCedula;
 END$$
