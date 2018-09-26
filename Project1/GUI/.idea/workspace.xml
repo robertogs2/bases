@@ -10,9 +10,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/stages/workshop/AddReparationFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stages/userRegistration/mechanic/MechanicFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GUI/DBConnection/MySQLAccess.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/DBConnection/MySQLAccess.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GUI/DBConnection/Queries.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/DBConnection/Queries.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GUI/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/main/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GUI/sample/Main2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/sample/Main2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GUI/stages/menu/MainMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/stages/menu/MainMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GUI/stages/shop/CarAlbum.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/stages/shop/CarAlbum.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GUI/stages/shop/CarView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/stages/shop/CarView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GUI/stages/shop/shopController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GUI/stages/shop/shopController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/stages/shop/shopController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GUI/stages/userRegistration/mechanic/FormMechanic.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/stages/userRegistration/mechanic/FormMechanic.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DBConnection/MySQLAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBConnection/MySQLAccess.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DBConnection/Queries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBConnection/Queries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Main2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Main2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stages/menu/MainMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/menu/MainMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stages/menu/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/menu/MainMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stages/preview/previewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/preview/previewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stages/shop/CarAlbum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/shop/CarAlbum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stages/shop/CarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/shop/CarView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stages/shop/shopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/shop/shopController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stages/userRegistration/client/RegistrationFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/userRegistration/client/RegistrationFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stages/userRegistration/mechanic/FormMechanic.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/userRegistration/mechanic/MechanicForm.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stages/userRegistration/mechanic/FormMechanicController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../database/proceduresScript.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../database/proceduresScript.sql" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -150,11 +172,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-114">
-              <caret line="29" selection-start-line="29" selection-end-line="29" />
+            <state relative-caret-position="-46">
+              <caret line="33" selection-start-line="33" selection-end-line="33" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -165,8 +187,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/stages/menu/MainMenuController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1173">
-              <caret line="69" selection-start-line="69" selection-end-line="69" />
+            <state relative-caret-position="1445">
+              <caret line="85" selection-start-line="85" selection-end-line="85" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -196,11 +218,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/DBConnection/Queries.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="37" column="130" selection-start-line="37" selection-start-column="130" selection-end-line="37" selection-end-column="130" />
+            <state relative-caret-position="206">
+              <caret line="41" column="74" lean-forward="true" selection-start-line="41" selection-start-column="74" selection-end-line="41" selection-end-column="74" />
             </state>
           </provider>
         </entry>
@@ -218,8 +240,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/stages/inventory/CarRegistrationFormController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="132" column="44" lean-forward="true" selection-start-line="131" selection-start-column="4" selection-end-line="132" selection-end-column="44" />
+            <state relative-caret-position="442">
+              <caret line="143" lean-forward="true" selection-start-line="142" selection-start-column="13" selection-end-line="143" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -317,8 +339,8 @@
         <option value="$PROJECT_DIR$/src/stages/inventory/CarRegistrationForm.fxml" />
         <option value="$PROJECT_DIR$/src/stages/inventory/CarRegistrationFormController.java" />
         <option value="$PROJECT_DIR$/src/stages/workshop/AddReparationForm.fxml" />
-        <option value="$PROJECT_DIR$/src/DBConnection/Queries.java" />
         <option value="$PROJECT_DIR$/src/stages/workshop/AddReparationFormController.java" />
+        <option value="$PROJECT_DIR$/src/DBConnection/Queries.java" />
       </list>
     </option>
   </component>
@@ -400,7 +422,7 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537944075941" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537944092553" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/httpcomponents-httpmime-4.5.6.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
@@ -563,7 +585,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="92402000" />
+    <option name="totallyTimeSpent" value="92516000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -755,8 +777,8 @@
     <entry file="file://$PROJECT_DIR$/src/stages/userRegistration/RegistrationFormController.java" />
     <entry file="file://$PROJECT_DIR$/src/stages/menu/MainMenuController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="69" selection-start-line="69" selection-end-line="69" />
+        <state relative-caret-position="1445">
+          <caret line="85" selection-start-line="85" selection-end-line="85" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -823,17 +845,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/DBConnection/Queries.java">
+    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="37" column="130" selection-start-line="37" selection-start-column="130" selection-end-line="37" selection-end-column="130" />
+        <state relative-caret-position="-46">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stages/inventory/CarRegistrationFormController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="132" column="44" lean-forward="true" selection-start-line="131" selection-start-column="4" selection-end-line="132" selection-end-column="44" />
+        <state relative-caret-position="442">
+          <caret line="143" lean-forward="true" selection-start-line="142" selection-start-column="13" selection-end-line="143" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -850,13 +875,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/DBConnection/Queries.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-114">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="206">
+          <caret line="41" column="74" lean-forward="true" selection-start-line="41" selection-start-column="74" selection-end-line="41" selection-end-column="74" />
         </state>
       </provider>
     </entry>

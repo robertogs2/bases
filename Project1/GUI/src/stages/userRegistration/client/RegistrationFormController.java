@@ -199,22 +199,22 @@ public class RegistrationFormController implements Initializable {
                 showErrorMessage("Por favor ingrese su número de teléfono");
             }
             else if(extension.length() <= 0){//There is not an extension
-                showErrorMessage("Por favor ingrese el extension");
+                showErrorMessage("Por favor ingrese la extension");
             }
             else if(zipCode.length() <= 0){
-                showErrorMessage("Por favor ingrese el zipcode");
+                showErrorMessage("Por favor ingrese su código postal");
             }
             else if(country.length() <= 0){
-                showErrorMessage("Por favor ingrese el country");
+                showErrorMessage("Por favor seleccione o ingrese su país");
             }
             else if(province.length() <= 0){
-                showErrorMessage("Por favor ingrese el province");
+                showErrorMessage("Por favor seleccione o ingrese su provincia/estado");
             }
             else if(city.length() <= 0){
-                showErrorMessage("Por favor ingrese el city");
+                showErrorMessage("Por favor seleccione o ingrese su ciudad");
             }
             else if(locationDescription.length() <= 0){
-                showErrorMessage("Por favor ingrese el description");
+                showErrorMessage("Por favor una descripción de su dirección");
             }
             else{
                 //Checks if we need to add another country or whatever

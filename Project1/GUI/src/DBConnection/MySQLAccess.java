@@ -113,7 +113,7 @@ public class MySQLAccess {
         ResultSetMetaData metaData = resultSet.getMetaData();
         HashMap<String, List<String>> data = new HashMap<>();
         for(int i = 1; i <= metaData.getColumnCount(); ++i){
-            String columnName = metaData.getColumnName(i);
+            String columnName = metaData.getColumnLabel(i);
             if(!data.keySet().contains(columnName))data.put(columnName,new ArrayList<>());
             data.get(columnName).add(resultSet.getString(columnName));
         }
