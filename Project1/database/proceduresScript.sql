@@ -11,7 +11,6 @@ DROP PROCEDURE IF EXISTS AgregarConcesionario;
 DROP PROCEDURE IF EXISTS AgregarMarca;
 DROP PROCEDURE IF EXISTS AgregarModelo;
 DROP PROCEDURE IF EXISTS AgregarCoche;
-DROP PROCEDURE IF EXISTS AgregarFoto;
 DROP PROCEDURE IF EXISTS AgregarTaller;
 DROP PROCEDURE IF EXISTS AgregarMecanico;
 DROP PROCEDURE IF EXISTS AgregarMecanicoCompleto;
@@ -37,17 +36,14 @@ DROP PROCEDURE IF EXISTS ObtenerReparacionesMecanicoPorCedula;
 DROP PROCEDURE IF EXISTS ObtenerCochesPorConcesionario;
 DROP PROCEDURE IF EXISTS ObtenerCochesPorConcesionarioPorNombre;
 DROP PROCEDURE IF EXISTS ObtenerPaises;
-DROP PROCEDURE IF EXISTS ObtenerConcesionarios;
 DROP PROCEDURE IF EXISTS ObtenerProvinciasPorPais;
 DROP PROCEDURE IF EXISTS ObtenerCiudadPorProvincia;
 DROP PROCEDURE IF EXISTS ObtenerDireccionPorCiudad;
 DROP PROCEDURE IF EXISTS ObtenerUbicacionPorDireccion;
 DROP PROCEDURE IF EXISTS ObtenerMarcasRegistradas;
 DROP PROCEDURE IF EXISTS ObtenerModelosPorMarca;
-DROP PROCEDURE IF EXISTS ObtenerMatriculasPorCliente;
-DROP PROCEDURE IF EXISTS ObtenerIdClientePorCedula;
-DROP PROCEDURE IF EXISTS ObtenerTallerPorConcesionario;
 DROP PROCEDURE IF EXISTS ObtenerInfoCarroPorConcesionario;
+DROP PROCEDURE IF EXISTS ObtenerPersonas;
 DROP PROCEDURE IF EXISTS ObtenerIdPersonaPorCedula;
 DROP PROCEDURE IF EXISTS AgregarCompraCompletoCedula;
 DROP PROCEDURE IF EXISTS ObtenerFotos;
@@ -129,8 +125,7 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
                                  IN eEstado VARCHAR(30),
                                  IN eKilometraje INT,
                                  IN ePrecio INT,
-                                 IN eIdConcesionario INT,
-                                 IN eIdCliente INT) BEGIN
+                                 IN eIdConcesionario INT) BEGIN
 	
     -- This takes the idMarca from the idModelo input
     DECLARE vIdMarca INT;
@@ -138,16 +133,10 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
     WHERE idModelo = eIdModelo
     LIMIT 1;
     
-	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, precio, idConcesionario_fk, idCliente_fk)
-    VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, ePrecio, eIdConcesionario, eIdCliente);
-    SELECT LAST_INSERT_ID() FROM Coche;
+	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, precio, idConcesionario_fk)
+    VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, ePrecio, eIdConcesionario);
+    
 END$$
-
-CREATE PROCEDURE AgregarFoto (IN eIdCoche INT, IN eUrl TEXT) BEGIN
-	INSERT INTO CocheXFoto (idCoche_fk, url)
-  VALUES(eIdCoche, eUrl);
-END$$
-
 CREATE PROCEDURE AgregarTaller (IN eNombre VARCHAR(50), IN eIdUbicacion INT, IN eIdConcesionario INT) BEGIN
 	INSERT INTO Taller (nombre, idUbicacion_fk, idConcesionario_fk)
     VALUES(eNombre, eIdUbicacion, eIdConcesionario);
@@ -199,31 +188,6 @@ CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eIdCliente IN
     
     CALL AgregarCompra(eFechaHora, vMonto, eIdCliente, vIdConcesionario, eIdCoche);
 END$$
-
--- Infiere monto a partir de precio del carro, infiere concesionario a partir del carro
-CREATE PROCEDURE AgregarCompraCompletoCedula (IN eFechaHora DATETIME, IN eCedula INT, IN eIdCoche INT) BEGIN
-
-    DECLARE vIdConcesionario INT;
-    DECLARE vMonto INT;
-	DECLARE vIdCliente INT;
-    -- This takes the idCoche from the eIdCoche input and gives monto
-	SELECT precio, idConcesionario_fk into vMonto, vIdConcesionario FROM Coche
-    WHERE idCoche = eIdCoche
-    LIMIT 1;   
-    
-    -- This takes the idPersona from the eCedula input
-	SELECT idClient into vIdCliente FROM Cliente
-    INNER JOIN Persona ON Persona.idPersona = Cliente.idPersona_fk
-    WHERE cedula = eCedula
-    LIMIT 1;
-    
-    UPDATE Coche
-    SET estado = "vendido"
-    WHERE idCoche = eIdCoche;
-    
-    CALL AgregarCompra(eFechaHora, vMonto, eIdCliente, vIdConcesionario, eIdCoche);
-END$$
-
 CREATE PROCEDURE AgregarReparacion (IN eFechaHoraInicio DATETIME, 
 								 IN eFechaHoraFinal DATETIME,
                                  IN eDescripcion VARCHAR(50),
@@ -356,15 +320,6 @@ CREATE PROCEDURE ObtenerInfoCarroMatricula (IN eMatricula INT) BEGIN
     WHERE C.matricula = eMatricula
     LIMIT 1;
 END$$
-
-
-CREATE PROCEDURE ObtenerFotos (
-	IN eCocheId INT) BEGIN
-	SELECT
-    CocheXFoto.url
-    FROM Coche AS C
-    INNER JOIN CocheXFoto ON C.idCoche = eIdCoche;
-END$$
 CREATE PROCEDURE ObtenerReparaciones (
 	IN eMatricula INT) BEGIN
 	SELECT
@@ -417,13 +372,6 @@ CREATE PROCEDURE ObtenerCochesPorConcesionario(
     FROM Coche AS C
     WHERE C.idConcesionario_fk = eIdConcesionario;
 END$$
-CREATE PROCEDURE ObtenerTallerPorConcesionario(
-	IN eIdConcesionario INT) BEGIN
-	SELECT
-		*
-    FROM Taller AS T
-    WHERE T.idConcesionario_fk = eIdConcesionario;
-END$$
 CREATE PROCEDURE ObtenerCochesPorConcesionarioPorNombre(
 	IN eNombreConcesionario VARCHAR(50)) BEGIN
     DECLARE vIdConcesionario INT;
@@ -439,13 +387,6 @@ CREATE PROCEDURE ObtenerPaises() BEGIN
 		*
     FROM Pais AS P
     ORDER BY P.nombre;
-END$$
-
-CREATE PROCEDURE ObtenerConcesionarios() BEGIN
-	SELECT
-		*
-    FROM Concesionario AS C
-    ORDER BY C.nombre;
 END$$
 
 CREATE PROCEDURE ObtenerProvinciasPorPais(
@@ -497,14 +438,30 @@ CREATE PROCEDURE ObtenerModelosPorMarca(IN eid INT) BEGIN
     ORDER BY M.nombre;
 END$$
 
-CREATE PROCEDURE ObtenerIdClientePorCedula(IN eCedula INT) BEGIN
+CREATE PROCEDURE ObtenerPersonas() BEGIN
 	SELECT
-		C.idCliente
-    FROM Cliente AS C
-    INNER JOIN Persona AS P ON C.idPersona_fk = P.idPersona
-    WHERE eCedula = P.cedula;
+		*
+    FROM Persona;
 END$$
 
+CALL ObtenerInfoCarro(1);$$
+CALL ObtenerInfoCarroMatricula(579390);$$
+CALL ObtenerReparaciones(579390);$$
+CALL ObtenerReparacionesFecha(579390, "2008-1-1");$$
+CALL ObtenerReparacionesMecanico(1);$$
+CALL ObtenerReparacionesMecanicoPorCedula(159);$$
+CALL ObtenerCochesPorConcesionario(1);$$
+CALL ObtenerCochesPorConcesionarioPorNombre("Concesionario la UNO");$$
+
+
+CALL ObtenerPaises();
+CALL ObtenerProvinciasPorPais(1);
+CALL ObtenerCiudadPorProvincia(1);
+CALL ObtenerDireccionPorCiudad(1);
+CALL ObtenerUbicacionPorDireccion(1);
+
+CALL ObtenerMarcasRegistradas();
+CALL ObtenerModelosPorMarca(1);
 CREATE PROCEDURE ObtenerMatriculasPorCliente(IN eIdCliente INT) BEGIN
 	SELECT
 		Co.matricula
