@@ -9,6 +9,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import stages.userRegistration.client.RegistrationFormController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -65,6 +66,7 @@ public class MainMenuController implements Initializable {
     private void listenToShop(){
         shop_bb.setOnAction(event -> {
             try {
+                //RegistrationFormController.past = "menu";
                 showShopPane();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -74,6 +76,7 @@ public class MainMenuController implements Initializable {
     private void listenToClient(){
         client_bb.setOnAction(event -> {
             try {
+                RegistrationFormController.past = "menu";
                 showUserPane();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -83,6 +86,7 @@ public class MainMenuController implements Initializable {
     private void listenToCar(){
         car_bb.setOnAction(event -> {
             try {
+                //RegistrationFormController.past = "menu";
                 showCarRegistrationForm();
             } catch (IOException e) {
                 e.printStackTrace();

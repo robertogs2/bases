@@ -119,6 +119,18 @@ public class Main extends Application {
         addInventoryStage.showAndWait();
     }
 
+    public static void showString(String toShow) throws IOException {
+        if(toShow.compareTo("menu") == 0){
+            showMainMenu();
+        }
+        else if(toShow.compareTo("user") == 0){
+            showUserPane();
+        }
+        else if(toShow.compareTo("shop") == 0){
+            showShopPane();
+        }
+    }
+
     public static void main(String[] args) throws Exception{
         launch(args);
     }

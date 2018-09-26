@@ -7,7 +7,8 @@ USE p1;
 -- -----------------------------------------------------
 -- Table Pais
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS Pais (
+DROP TABLE IF EXISTS Pais;
+CREATE TABLE Pais (
   idPais INT AUTO_INCREMENT NOT NULL UNIQUE,  
   PRIMARY KEY (idPais))
 ENGINE = InnoDB;
@@ -18,7 +19,8 @@ ADD nombre VARCHAR(50) NOT NULL UNIQUE;
 -- -----------------------------------------------------
 -- Table Provincia
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS Provincia (
+DROP TABLE IF EXISTS Provincia;
+CREATE TABLE Provincia (
   idProvincia INT AUTO_INCREMENT NOT NULL UNIQUE,
   nombre VARCHAR(50) NOT NULL UNIQUE,
   idPais_fk INT NOT NULL,
@@ -30,7 +32,8 @@ CREATE INDEX indexProvincia ON Provincia(idPais_fk);
 -- -----------------------------------------------------
 -- Table Ciudad
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS Ciudad (
+DROP TABLE IF EXISTS Ciudad;
+CREATE TABLE Ciudad (
   idCiudad INT AUTO_INCREMENT NOT NULL UNIQUE,
   nombre VARCHAR(50) NOT NULL,
   idProvincia_fk INT NOT NULL,
@@ -42,7 +45,8 @@ CREATE INDEX indexCiudad ON Ciudad(idProvincia_fk);
 -- -----------------------------------------------------
 -- Table Direccion
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS Direccion (
+DROP TABLE IF EXISTS Direccion;
+CREATE TABLE Direccion (
   idDireccion INT AUTO_INCREMENT NOT NULL UNIQUE,
   zipCode INT NOT NULL DEFAULT 0,
   idCiudad_fk INT NOT NULL,
@@ -54,7 +58,8 @@ CREATE INDEX indexDireccion ON Direccion(idCiudad_fk);
 -- -----------------------------------------------------
 -- Table Ubicacion
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS Ubicacion (
+DROP TABLE IF EXISTS Ubicacion;
+CREATE TABLE Ubicacion (
   idUbicacion INT AUTO_INCREMENT NOT NULL UNIQUE,
   descripcion VARCHAR(100) NOT NULL,
   idDireccion_fk INT NOT NULL,
@@ -65,7 +70,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table Persona
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS Persona (
+DROP TABLE IF EXISTS Persona;
+CREATE TABLE Persona (
   idPersona INT AUTO_INCREMENT NOT NULL UNIQUE,
   cedula INT NOT NULL UNIQUE,
   nombre VARCHAR(50) NOT NULL,

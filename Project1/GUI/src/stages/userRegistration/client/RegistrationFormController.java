@@ -24,11 +24,12 @@ public class RegistrationFormController implements Initializable {
     @FXML TextField name_tf, last_name_tf, id_tf, age_tf, phone_tf, extension_tf;
     @FXML Button send_bb, cancel_bb;
     @FXML TextArea location_ta;
-    private final int[] indexes = new int[4]; //index0 : country, index1 : province, index2: city, index3: direction
+    private final int[] indexes = new int[5]; //index0 : country, index1 : province, index2: city, index3: direction, index4: persona
     private static List<String> country_indexes;
     private static List<String> province_indexes;
     private static List<String> city_indexes;
     private static List<String> direction_indexes;
+    public static String past;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,7 +52,6 @@ public class RegistrationFormController implements Initializable {
         Arrays.fill(indexes, -1);
         country_indexes = country_list.get("idPais");
         country_cb.getItems().setAll(country_list.get("nombre"));
-
 
         listenToCountry();
         listenToProvince();
@@ -244,7 +244,7 @@ public class RegistrationFormController implements Initializable {
                 }
                 //Generates new person
                 HashMap<String, List<String>> person_id = null;
-                int new_person_id, new_client_id;
+                int new_person_id = -1;
                 boolean avaliable = true;
                 try {
                     System.out.println(ubicacion);
@@ -257,9 +257,8 @@ public class RegistrationFormController implements Initializable {
                     avaliable = false;
                 }
 
-
                 //Generates new client with the person id, could be done with the table id
-                HashMap<String, List<String>> client_id = null;
+                /*HashMap<String, List<String>> client_id = null;
                 if(avaliable){
                     try {
                         client_id = dao.selectData(queries.AGREGAR_CLIENTE_POR_CEDULA, id);
@@ -269,7 +268,18 @@ public class RegistrationFormController implements Initializable {
                         e1.printStackTrace();
                     }
                 }
+                else{
+                    //La persona ya está registrada
+                }*/
+
+                indexes[4] = new_person_id;
+                try {
+                    Main.showString(past);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
+
 
         });
     }
@@ -277,7 +287,7 @@ public class RegistrationFormController implements Initializable {
     private void listenToCancel(){
         cancel_bb.setOnMouseClicked(e -> {
             try {
-                Main.showMainMenu();
+                Main.showString(past);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -333,8 +343,18 @@ public class RegistrationFormController implements Initializable {
         alert.showAndWait();
     }
 
+    private void showErrorMessage(String msg, String label){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(label);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
     public void setCedula(String cedula){
         id_tf.setText(cedula);
     }
 
+    public int getPersonId(){
+        return indexes[4];
+    }
 }
