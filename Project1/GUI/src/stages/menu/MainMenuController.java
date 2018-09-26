@@ -29,7 +29,7 @@ public class MainMenuController implements Initializable {
     @FXML Button car_bb;
     @FXML ComboBox concesionary_cb, carshop_cb;
 
-    public final int[] indexes = new int[2]; //index0 : concesionary, index1: carshop
+    public static final int[] indexes = new int[2]; //index0 : concesionary, index1: carshop
     private static List<String> concesionary_indexes;
     private static List<String> carshop_indexes;
     @Override
