@@ -10,13 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/stages/workshop/AddReparationFormController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GUI/DBConnection/MySQLAccess.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/DBConnection/MySQLAccess.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GUI/DBConnection/Queries.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/DBConnection/Queries.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GUI/stages/inventory/CarRegistrationForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/stages/inventory/CarRegistrationForm.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DBConnection/MySQLAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBConnection/MySQLAccess.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stages/inventory/CarRegistrationForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/inventory/CarRegistrationForm.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stages/inventory/CarRegistrationFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/inventory/CarRegistrationFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DBConnection/Queries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBConnection/Queries.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -89,29 +85,29 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="23" />
-          <entry key="XML" value="8" />
+          <entry key="JAVA" value="24" />
+          <entry key="XML" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="9727" />
-          <entry key="XML" value="174" />
+          <entry key="JAVA" value="10609" />
+          <entry key="XML" value="259" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
       <usages-collector id="statistics.spring.boot.mvc.usages" />
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="fxml" value="8" />
-          <entry key="java" value="23" />
+          <entry key="fxml" value="9" />
+          <entry key="java" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="fxml" value="174" />
-          <entry key="java" value="9727" />
+          <entry key="fxml" value="259" />
+          <entry key="java" value="10609" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.spring.boot.run.usages" />
@@ -154,10 +150,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="141">
+            <state relative-caret-position="-114">
               <caret line="29" selection-start-line="29" selection-end-line="29" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -203,8 +199,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DBConnection/Queries.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="662">
-              <caret line="43" column="5" lean-forward="true" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
+            <state relative-caret-position="342">
+              <caret line="37" column="130" selection-start-line="37" selection-start-column="130" selection-end-line="37" selection-end-column="130" />
             </state>
           </provider>
         </entry>
@@ -213,17 +209,17 @@
         <entry file="file://$PROJECT_DIR$/src/stages/inventory/CarRegistrationForm.fxml">
           <provider editor-type-id="JavaFX-Scene-Builder" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="27" selection-start-line="27" selection-end-line="27" />
+            <state>
+              <caret selection-end-line="51" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/stages/inventory/CarRegistrationFormController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-799">
-              <caret line="181" column="21" lean-forward="true" selection-start-line="181" selection-start-column="21" selection-end-line="181" selection-end-column="21" />
+            <state relative-caret-position="153">
+              <caret line="132" column="44" lean-forward="true" selection-start-line="131" selection-start-column="4" selection-end-line="132" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -232,18 +228,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/stages/shop/CarView.java">
+        <entry file="file://$PROJECT_DIR$/src/stages/workshop/AddReparationForm.fxml">
+          <provider editor-type-id="JavaFX-Scene-Builder" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="28" column="30" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
+            <state relative-caret-position="221">
+              <caret line="25" column="68" lean-forward="true" selection-start-line="25" selection-start-column="68" selection-end-line="25" selection-end-column="68" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/stages/workshop/AddReparationFormController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="339">
+              <caret line="69" selection-start-line="69" selection-end-line="69" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1753#1754#0" expanded="true" />
-                <element signature="e#1780#1781#0" expanded="true" />
-                <element signature="e#1920#1921#0" expanded="true" />
-                <element signature="e#1954#1955#0" expanded="true" />
-                <element signature="e#2124#2125#0" expanded="true" />
-                <element signature="e#2149#2150#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -313,10 +313,12 @@
         <option value="$PROJECT_DIR$/src/stages/shop/CarView.java" />
         <option value="$PROJECT_DIR$/src/main/Main.java" />
         <option value="$PROJECT_DIR$/src/stages/userRegistration/client/RegistrationFormController.java" />
-        <option value="$PROJECT_DIR$/src/DBConnection/Queries.java" />
         <option value="$PROJECT_DIR$/src/DBConnection/MySQLAccess.java" />
         <option value="$PROJECT_DIR$/src/stages/inventory/CarRegistrationForm.fxml" />
         <option value="$PROJECT_DIR$/src/stages/inventory/CarRegistrationFormController.java" />
+        <option value="$PROJECT_DIR$/src/stages/workshop/AddReparationForm.fxml" />
+        <option value="$PROJECT_DIR$/src/DBConnection/Queries.java" />
+        <option value="$PROJECT_DIR$/src/stages/workshop/AddReparationFormController.java" />
       </list>
     </option>
   </component>
@@ -374,6 +376,13 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="stages" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="GUI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GUI" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="stages" type="462c0819:PsiDirectoryNode" />
+              <item name="workshop" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -391,7 +400,7 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537930309271" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537944075941" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/httpcomponents-httpmime-4.5.6.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
@@ -554,10 +563,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87784000" />
+    <option name="totallyTimeSpent" value="92402000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.19664429" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -763,23 +773,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/DBConnection/Queries.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="662">
-          <caret line="43" column="5" lean-forward="true" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/stages/userRegistration/client/RegistrationForm.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
@@ -817,15 +810,50 @@
     <entry file="file://$PROJECT_DIR$/src/stages/inventory/CarRegistrationForm.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        <state>
+          <caret selection-end-line="51" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stages/workshop/AddReparationForm.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="25" column="68" lean-forward="true" selection-start-line="25" selection-start-column="68" selection-end-line="25" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DBConnection/Queries.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="37" column="130" selection-start-line="37" selection-start-column="130" selection-end-line="37" selection-end-column="130" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stages/inventory/CarRegistrationFormController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-799">
-          <caret line="181" column="21" lean-forward="true" selection-start-line="181" selection-start-column="21" selection-end-line="181" selection-end-column="21" />
+        <state relative-caret-position="153">
+          <caret line="132" column="44" lean-forward="true" selection-start-line="131" selection-start-column="4" selection-end-line="132" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stages/workshop/AddReparationFormController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-114">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

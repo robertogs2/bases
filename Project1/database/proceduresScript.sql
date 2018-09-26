@@ -43,6 +43,8 @@ DROP PROCEDURE IF EXISTS ObtenerDireccionPorCiudad;
 DROP PROCEDURE IF EXISTS ObtenerUbicacionPorDireccion;
 DROP PROCEDURE IF EXISTS ObtenerMarcasRegistradas;
 DROP PROCEDURE IF EXISTS ObtenerModelosPorMarca;
+DROP PROCEDURE IF EXISTS ObtenerMatriculasPorCliente;
+DROP PROCEDURE IF EXISTS ObtenerIdClientePorCedula;
 
 
 DELIMITER $$
@@ -422,4 +424,20 @@ CREATE PROCEDURE ObtenerModelosPorMarca(IN eid INT) BEGIN
     FROM Modelo AS M
     WHERE M.idMarca_fk = eId
     ORDER BY M.nombre;
+END$$
+
+CREATE PROCEDURE ObtenerIdClientePorCedula(IN eCedula INT) BEGIN
+	SELECT
+		C.idCliente
+    FROM Cliente AS C
+    INNER JOIN Persona AS P ON C.idPersona_fk = P.idPersona
+    WHERE eCedula = P.cedula;
+END$$
+
+CREATE PROCEDURE ObtenerMatriculasPorCliente(IN eIdCliente INT) BEGIN
+	SELECT
+		Co.matricula
+    FROM Coche AS Co
+    INNER JOIN Cliente AS Cl ON Cl.idCliente = Co.idCliente_fk
+    WHERE eIdCliente = Cl.idCliente;
 END$$

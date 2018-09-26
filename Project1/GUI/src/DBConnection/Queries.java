@@ -34,6 +34,8 @@ public class Queries {
     public final String OBTENER_UBICACION_POR_DIRECCION = "{call ObtenerUbicacionPorDireccion(?)}";             // args: idDireccion
     public final String OBTENER_MARCAS_REGISTRADAS = "{call ObtenerMarcasRegistradas()}";                       // args: NO-ARGS
     public final String ObTENER_MODELOS_POR_MARCA = "{call ObtenerModelosPorMarca(?)}";                         // args: idMarca
+    public final String OBTENER_ID_CLIENTE_POR_CEDULA = "{call ObtenerIdClientePorCedula(?)}";                  // args: cedula
+    public final String OBTENER_MATRICULAS_POR_CLIENTE = "{call ObtenerMatriculasPorCliente(?)}";               // args: idCliente
 
     public final String ACTUALIZAR_FINALIZAR_REPARACION = "{call TerminarReparacion(?)}";                       // args: idReparacion
     public final String OBTENER_ULTIMO_ID = "{call ObtenerUltimoID()}";                       // args: NO-ARGS
