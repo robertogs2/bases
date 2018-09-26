@@ -146,18 +146,22 @@ public class CarRegistrationFormController implements Initializable {
                     }
                 }
             }
-            String clientId = "NULL";
+            String clientId = "NUll INT";
             if(cedula_tf.getText().length() > 0 && !cedula_tf.getText().matches("\\d+")){
                 showErrorMessage("La ceula debe ser un numero, o nula en caso de ser un concecionario.");
                 flag = false;
             }else if(cedula_tf.getText().length() > 0){
                 try {
+                    HashMap<String, List<String>> personIds = dao.selectData(queries.OBTENER_ID_PERSONA_POR_CEDULA, cedula_tf.getText());
+
+                    if(personIds.get("idPersona") == null) {
+                        showAddPersonStage(cedula_tf.getText());
+                    }
                     HashMap<String, List<String>> id = dao.selectData(queries.OBTENER_ID_CLIENTE_POR_CEDULA, cedula_tf.getText());
-                    if(id.get("idCliente").size() > 0){
+                    if(id.get("idCliente") == null){
                         clientId = id.get("idCliente").get(0);
                     }else{
-                        int personId = showAddPersonStage(cedula_tf.getText());
-                        HashMap<String, List<String>> client_id = dao.selectData(queries.AGREGAR_CLIENTE_POR_CEDULA, personId);
+                        HashMap<String, List<String>> client_id = dao.selectData(queries.AGREGAR_CLIENTE_POR_CEDULA, cedula_tf.getText());
                         clientId = client_id.get("LAST_INSERTED_ID()").get(0);
                     }
                 }catch (Exception e){}

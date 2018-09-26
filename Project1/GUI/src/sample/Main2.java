@@ -8,6 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,6 +35,10 @@ public class Main2 extends Application {
             System.out.println(key + " : " + data.get(key));
         }
         System.out.println("DONE READING DATA");
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date dateobj = new Date();
+        System.out.println(df.format(dateobj));
         //launch(args);
     }
 }

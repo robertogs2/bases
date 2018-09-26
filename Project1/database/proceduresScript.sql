@@ -519,6 +519,7 @@ CREATE PROCEDURE ObtenerIdPersonaPorCedula(IN eCedula INT) BEGIN
     FROM Persona as P
     WHERE P.cedula = eCedula;
 END$$
+CALL ObtenerIdPersonaPorCedula(123);
 
 CREATE PROCEDURE ObtenerCarroMasBarato() BEGIN
 	SELECT 
