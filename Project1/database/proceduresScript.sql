@@ -37,13 +37,14 @@ DROP PROCEDURE IF EXISTS ObtenerReparacionesMecanicoPorCedula;
 DROP PROCEDURE IF EXISTS ObtenerCochesPorConcesionario;
 DROP PROCEDURE IF EXISTS ObtenerCochesPorConcesionarioPorNombre;
 DROP PROCEDURE IF EXISTS ObtenerPaises;
+DROP PROCEDURE IF EXISTS ObtenerConcesionarios;
 DROP PROCEDURE IF EXISTS ObtenerProvinciasPorPais;
 DROP PROCEDURE IF EXISTS ObtenerCiudadPorProvincia;
 DROP PROCEDURE IF EXISTS ObtenerDireccionPorCiudad;
 DROP PROCEDURE IF EXISTS ObtenerUbicacionPorDireccion;
 DROP PROCEDURE IF EXISTS ObtenerMarcasRegistradas;
 DROP PROCEDURE IF EXISTS ObtenerModelosPorMarca;
-
+DROP PROCEDURE IF EXISTS ObtenerTallerPorConcesionario;
 
 DELIMITER $$
 CREATE PROCEDURE AgregarPais (IN eNombre varchar(50)) BEGIN
@@ -358,6 +359,13 @@ CREATE PROCEDURE ObtenerCochesPorConcesionario(
     FROM Coche AS C
     WHERE C.idConcesionario_fk = eIdConcesionario;
 END$$
+CREATE PROCEDURE ObtenerTallerPorConcesionario(
+	IN eIdConcesionario INT) BEGIN
+	SELECT
+		*
+    FROM Taller AS T
+    WHERE T.idConcesionario_fk = eIdConcesionario;
+END$$
 CREATE PROCEDURE ObtenerCochesPorConcesionarioPorNombre(
 	IN eNombreConcesionario VARCHAR(50)) BEGIN
     DECLARE vIdConcesionario INT;
@@ -373,6 +381,13 @@ CREATE PROCEDURE ObtenerPaises() BEGIN
 		*
     FROM Pais AS P
     ORDER BY P.nombre;
+END$$
+
+CREATE PROCEDURE ObtenerConcesionarios() BEGIN
+	SELECT
+		*
+    FROM Concesionario AS C
+    ORDER BY C.nombre;
 END$$
 
 CREATE PROCEDURE ObtenerProvinciasPorPais(

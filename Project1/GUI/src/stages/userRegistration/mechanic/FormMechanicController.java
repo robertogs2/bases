@@ -3,30 +3,25 @@ package stages.userRegistration.mechanic;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import main.Main;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
-import static main.Main.dao;
-import static main.Main.queries;
+import static java.sql.Types.NULL;
+import static main.Main.*;
 
 public class FormMechanicController implements Initializable {
-
 
     @FXML FlowPane flowPane;
     @FXML BorderPane borderPane;
     @FXML ComboBox country_cb, province_cb, city_cb, direction_cb;
     @FXML TextField name_tf, last_name_tf, id_tf, age_tf, phone_tf, extension_tf;
-    @FXML Button send_bb;
+    @FXML Button send_bb, cancel_bb;
     @FXML TextArea location_ta;
     private final int[] indexes = new int[4]; //index0 : country, index1 : province, index2: city, index3: direction
     private static List<String> country_indexes;
@@ -36,9 +31,6 @@ public class FormMechanicController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //Dinamycally change size of flow pane according to parent stage
-        //flowPane.prefWidthProperty().bind(primaryStage.widthProperty());
-        //flowPane.prefHeightProperty().bind(primaryStage.heightProperty());
 
         HashMap<String, List<String>> country_list = new HashMap<>();
 
@@ -56,12 +48,12 @@ public class FormMechanicController implements Initializable {
         country_indexes = country_list.get("idPais");
         country_cb.getItems().setAll(country_list.get("nombre"));
 
-
         listenToCountry();
         listenToProvince();
         listenToCity();
         listenToDirection();
         listenToSend();
+        listenToCancel();
     }
 
     private void listenToCountry(){
@@ -187,37 +179,37 @@ public class FormMechanicController implements Initializable {
             int ubicacion = 0;
             //checks for something null
             if(name.length() <= 0){//There is not a name
-                System.out.println("Missing name");
+                showErrorMessage("Por favor ingrese su nombre");
             }
             else if(last_name.length() <= 0){//There is not a last name
-                System.out.println("Missing last name");
+                showErrorMessage("Por favor ingrese los apellidos");
             }
             else if(id.length() <= 0){//There is not an id
-                System.out.println("Missing id");
+                showErrorMessage("Por favor ingrese su cédula");
             }
             else if(age.length() <= 0){//There is not an age
-                System.out.println("Missing age");
+                showErrorMessage("Por favor ingrese su edad");
             }
             else if(phone.length() <= 0){//There is not a phone number
-                System.out.println("Missing phone");
+                showErrorMessage("Por favor ingrese su número de teléfono");
             }
             else if(extension.length() <= 0){//There is not an extension
-                System.out.println("Missing extension");
+                showErrorMessage("Por favor ingrese la extension");
             }
             else if(zipCode.length() <= 0){
-                System.out.println("Missing zipcode");
+                showErrorMessage("Por favor ingrese su código postal");
             }
             else if(country.length() <= 0){
-                System.out.println("Missing country");
+                showErrorMessage("Por favor seleccione o ingrese su país");
             }
             else if(province.length() <= 0){
-                System.out.println("Missing province");
+                showErrorMessage("Por favor seleccione o ingrese su provincia/estado");
             }
             else if(city.length() <= 0){
-                System.out.println("Missing city");
+                showErrorMessage("Por favor seleccione o ingrese su ciudad");
             }
             else if(locationDescription.length() <= 0){
-                System.out.println("Missing description");
+                showErrorMessage("Por favor una descripción de su dirección");
             }
             else{
                 //Checks if we need to add another country or whatever
@@ -276,6 +268,15 @@ public class FormMechanicController implements Initializable {
 
         });
     }
+    private void listenToCancel(){ // Listens to the cancel button
+        cancel_bb.setOnMouseClicked(e -> {
+            try {
+                Main.showMainMenu();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
+    }
 
     private int addLocation(int direction_id, String location_description)throws Exception {
         //Generates new location
@@ -317,6 +318,13 @@ public class FormMechanicController implements Initializable {
             System.out.print(indexe);
         }
         System.out.println();
+    }
+
+    private void showErrorMessage(String msg){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Ooooooops!");
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 
 }

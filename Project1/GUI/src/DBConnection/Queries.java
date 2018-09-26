@@ -21,6 +21,8 @@ public class Queries {
     public final String AGREGAR_REPARACION = "{call AgregarReparacionCompleto(?,?,?,?)}";                       // args: fechaHoraInicio,fechaHoraFinal,Matricula,Descripcion
     public final String AGREGAR_REPARACION_X_MECANICO = "{call AgregarReparacionXMecanico(?,?,?)}";             // args: idReparacion,idMecanico,horas
 
+    public final String OBTENER_CONCESIONARIOS = "{call ObtenerConcesionarios()}";                               // args:NO-ARGS
+    public final String OBTENER_TALLER_POR_CONCESIONARIO = "{call ObtenerTallerPorConcesionario(?)}";            // args: idConcesionario
     public final String OBTENER_DIRECCION = "{call ObtenerDireccionCompleta(?)}";                               // args: idUbicacion
     public final String OBTENER_INFORMACION_PARA_VEHICULO = "{call ObtenerInfoCarroMatricula(?)}";              // args: matricula
     public final String OBTENER_REPARACIONES = "{call ObtenerReparaciones(?)}";                                 // args: matricula

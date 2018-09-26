@@ -25,18 +25,17 @@ public class Main extends Application {
         Main.primaryStage = primaryStage;
         Main.primaryStage.setTitle("Developer Workbench");
 
+        ///Conects to the database and generates the wrapper
         queries = Queries.getInstance();
         dao = new MySQLAccess();
         dao.connectToDB();
 
         showMainPane();
-        //showPreview();
+
+        ///Shows the main menu
         showMainMenu();
-        //showUserPane();
-        //showShopPane();
 
     }
-
 
     public void showMainPane() throws IOException {
         mainLayout = FXMLLoader.load(getClass().getResource("/main/MainPane.fxml"));
@@ -46,18 +45,22 @@ public class Main extends Application {
     }
 
     public static void showShopPane() throws IOException {
+        Main.primaryStage.setTitle("Tienda");
         Pane shopPane = FXMLLoader.load(Main.class.getResource("/stages/shop/shop.fxml"));
         mainLayout.setCenter(shopPane);
     }
     public static void showCarRegistrationForm() throws IOException {
+        Main.primaryStage.setTitle("Registrar carro");
         Pane pane = FXMLLoader.load(Main.class.getResource("/stages/inventory/CarRegistrationForm.fxml"));
         mainLayout.setCenter(pane);
     }
     public static void showUserPane() throws IOException {
+        Main.primaryStage.setTitle("Registrar cliente");
         Pane shopPane = FXMLLoader.load(Main.class.getResource("/stages/userRegistration/client/RegistrationForm.fxml"));
         mainLayout.setCenter(shopPane);
     }
     public static void showMainMenu() throws IOException {
+        Main.primaryStage.setTitle("Menu principal");
         Pane pane = FXMLLoader.load(Main.class.getResource("/stages/menu/MainMenu.fxml"));
         mainLayout.setCenter(pane);
     }
@@ -66,20 +69,6 @@ public class Main extends Application {
         mainLayout.setCenter(previewPane);
     }
 
-    public static void show_pane(String pane) throws IOException{
-        if(pane == "shop"){
-            showShopPane();
-        }
-        else if(pane == "user"){
-            showUserPane();
-        }
-        else if(pane == "main"){
-            showMainMenu();
-        }
-        else if(pane == "car_registration"){
-            showCarRegistrationForm();
-        }
-    }
 
     public static void main(String[] args) throws Exception{
         launch(args);
