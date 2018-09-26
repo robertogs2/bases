@@ -48,7 +48,7 @@ public class MechanicFormController implements Initializable {
                 boolean avaliable = false;
 
                 try {
-                    avaliable = dao.selectData(queries.OBTENER_ID_PERSONA_POR_CEDULA, id).get("idPersona").size() == 0;
+                    avaliable = dao.selectData(queries.OBTENER_ID_PERSONA_POR_CEDULA, id).get("idPersona") == null;
                     if (!avaliable) {//There is a person with that id already
                         dao.selectData(queries.AGREGAR_MECANICO, "", salary, id, car_shop);
                     } else {
