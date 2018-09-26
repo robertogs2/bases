@@ -11,6 +11,7 @@ DROP PROCEDURE IF EXISTS AgregarConcesionario;
 DROP PROCEDURE IF EXISTS AgregarMarca;
 DROP PROCEDURE IF EXISTS AgregarModelo;
 DROP PROCEDURE IF EXISTS AgregarCoche;
+DROP PROCEDURE IF EXISTS AgregarFoto;
 DROP PROCEDURE IF EXISTS AgregarTaller;
 DROP PROCEDURE IF EXISTS AgregarMecanico;
 DROP PROCEDURE IF EXISTS AgregarMecanicoCompleto;
@@ -128,6 +129,12 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
     VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, ePrecio, eIdConcesionario);
     
 END$$
+
+CREATE PROCEDURE AgregarFoto (IN eIdCoche INT, IN eUrl TEXT) BEGIN
+	INSERT INTO CocheXFoto (idCoche_fk, url)
+    VALUES(eIdCoche, eUrl);
+END$$
+
 CREATE PROCEDURE AgregarTaller (IN eNombre VARCHAR(50), IN eIdUbicacion INT, IN eIdConcesionario INT) BEGIN
 	INSERT INTO Taller (nombre, idUbicacion_fk, idConcesionario_fk)
     VALUES(eNombre, eIdUbicacion, eIdConcesionario);
@@ -296,6 +303,9 @@ CREATE PROCEDURE ObtenerInfoCarroMatricula (IN eMatricula INT) BEGIN
     WHERE C.matricula = eMatricula
     LIMIT 1;
 END$$
+
+
+
 CREATE PROCEDURE ObtenerReparaciones (
 	IN eMatricula INT) BEGIN
 	SELECT
@@ -413,22 +423,3 @@ CREATE PROCEDURE ObtenerModelosPorMarca(IN eid INT) BEGIN
     WHERE M.idMarca_fk = eId
     ORDER BY M.nombre;
 END$$
-
-CALL ObtenerInfoCarro(1);$$
-CALL ObtenerInfoCarroMatricula(579390);$$
-CALL ObtenerReparaciones(579390);$$
-CALL ObtenerReparacionesFecha(579390, "2008-1-1");$$
-CALL ObtenerReparacionesMecanico(1);$$
-CALL ObtenerReparacionesMecanicoPorCedula(159);$$
-CALL ObtenerCochesPorConcesionario(1);$$
-CALL ObtenerCochesPorConcesionarioPorNombre("Concesionario la UNO");$$
-
-
-CALL ObtenerPaises();
-CALL ObtenerProvinciasPorPais(1);
-CALL ObtenerCiudadPorProvincia(1);
-CALL ObtenerDireccionPorCiudad(1);
-CALL ObtenerUbicacionPorDireccion(1);
-
-CALL ObtenerMarcasRegistradas();
-CALL ObtenerModelosPorMarca(1);

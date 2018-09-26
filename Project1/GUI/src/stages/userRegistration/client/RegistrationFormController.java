@@ -3,10 +3,7 @@ package stages.userRegistration.client;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import main.Main;
@@ -187,37 +184,37 @@ public class RegistrationFormController implements Initializable {
             int ubicacion = 0;
             //checks for something null
             if(name.length() <= 0){//There is not a name
-                System.out.println("Missing name");
+                showErrorMessage("Por favor ingrese su nombre");
             }
             else if(last_name.length() <= 0){//There is not a last name
-                System.out.println("Missing last name");
+                showErrorMessage("Por favor ingrese los apellidos");
             }
             else if(id.length() <= 0){//There is not an id
-                System.out.println("Missing id");
+                showErrorMessage("Por favor ingrese su cédula");
             }
             else if(age.length() <= 0){//There is not an age
-                System.out.println("Missing age");
+                showErrorMessage("Por favor ingrese su edad");
             }
             else if(phone.length() <= 0){//There is not a phone number
-                System.out.println("Missing phone");
+                showErrorMessage("Por favor ingrese su número de teléfono");
             }
             else if(extension.length() <= 0){//There is not an extension
-                System.out.println("Missing extension");
+                showErrorMessage("Por favor ingrese el extension");
             }
             else if(zipCode.length() <= 0){
-                System.out.println("Missing zipcode");
+                showErrorMessage("Por favor ingrese el zipcode");
             }
             else if(country.length() <= 0){
-                System.out.println("Missing country");
+                showErrorMessage("Por favor ingrese el country");
             }
             else if(province.length() <= 0){
-                System.out.println("Missing province");
+                showErrorMessage("Por favor ingrese el province");
             }
             else if(city.length() <= 0){
-                System.out.println("Missing city");
+                showErrorMessage("Por favor ingrese el city");
             }
             else if(locationDescription.length() <= 0){
-                System.out.println("Missing description");
+                showErrorMessage("Por favor ingrese el description");
             }
             else{
                 //Checks if we need to add another country or whatever
@@ -327,6 +324,13 @@ public class RegistrationFormController implements Initializable {
             System.out.print(indexe);
         }
         System.out.println();
+    }
+
+    private void showErrorMessage(String msg){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Ooooooops!");
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 
 }

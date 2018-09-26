@@ -29,6 +29,7 @@
                             <Button fx:id="upload_img_bb" mnemonicParsing="false" text="Subir Imagen" />
                         </HBox>
                         <Separator prefWidth="200.0" />
+
                         <Button fx:id="send_bb" mnemonicParsing="false" text="Enviar formulario" />
                     </children>
                 </VBox>
