@@ -39,12 +39,11 @@ public class Main extends Application {
         showMainPane();
 
         ///Shows the main menu
-        //showMainMenu();
+        showMainMenu();
         //showMechanicPane();
         //showMainMenu();
         //showUserPane();
         //showShopPane();
-        showTables();
 
     }
 
@@ -83,10 +82,6 @@ public class Main extends Application {
 
     public static void showPreview() throws IOException {
         AnchorPane previewPane = FXMLLoader.load(Main.class.getResource("/stages/preview/preview.fxml"));
-        mainLayout.setCenter(previewPane);
-    }
-    public static void showTables() throws IOException {
-        AnchorPane previewPane = FXMLLoader.load(Main.class.getResource("/stages/tables/TableVisualization.fxml"));
         mainLayout.setCenter(previewPane);
     }
 
