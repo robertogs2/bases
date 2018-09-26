@@ -85,6 +85,7 @@ END$$
 CREATE PROCEDURE AgregarCliente (IN eIdPersona INT) BEGIN
 	INSERT INTO Cliente (idPersona_fk)
     VALUES(eIdPersona);
+    SELECT LAST_INSERT_ID() FROM Cliente;
 END$$
 CREATE PROCEDURE AgregarClientePorCedula(IN eCedula INT) BEGIN
     DECLARE vIdPersona INT;

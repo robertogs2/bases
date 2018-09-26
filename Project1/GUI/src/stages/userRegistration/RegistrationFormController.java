@@ -23,16 +23,8 @@ public class RegistrationFormController implements Initializable {
 
     @FXML FlowPane flowPane;
     @FXML BorderPane borderPane;
-    @FXML ComboBox country_cb;
-    @FXML ComboBox province_cb;
-    @FXML ComboBox city_cb;
-    @FXML ComboBox direction_cb;
-    @FXML TextField name_tf;
-    @FXML TextField last_name_tf;
-    @FXML TextField id_tf;
-    @FXML TextField age_tf;
-    @FXML TextField phone_tf;
-    @FXML TextField extension_tf;
+    @FXML ComboBox country_cb, province_cb, city_cb, direction_cb;
+    @FXML TextField name_tf, last_name_tf, id_tf, age_tf, phone_tf, extension_tf;
     @FXML Button send_bb;
     @FXML TextArea location_ta;
     private final int[] indexes = new int[4]; //index0 : country, index1 : province, index2: city, index3: direction
@@ -191,8 +183,7 @@ public class RegistrationFormController implements Initializable {
             String city = city_cb.valueProperty().getValue().toString();
             String zipCode = direction_cb.valueProperty().getValue().toString();
             String locationDescription = location_ta.getText();
-
-            int ubicacion = NULL;
+            int ubicacion = 0;
             //checks for something null
             if(name.length() <= 0){//There is not a name
                 System.out.println("Missing name");
@@ -227,33 +218,61 @@ public class RegistrationFormController implements Initializable {
             else if(locationDescription.length() <= 0){
                 System.out.println("Missing description");
             }
-            //Checks if we need to add another country or whatever
-            try {
-                if(indexes[0] == -1){
-                    ubicacion = addFromCountry(country, province, city, zipCode, locationDescription);
-                    //Add from country
+            else{
+                //Checks if we need to add another country or whatever
+                try {
+                    if(indexes[0] == -1){
+                        ubicacion = addFromCountry(country, province, city, zipCode, locationDescription);
+                        //Add from country
+                    }
+                    else if(indexes[1] == -1){
+                        //Add from province
+                        ubicacion = addFromProvince(indexes[0], province, city, zipCode, locationDescription);
+                    }
+                    else if(indexes[2] == -1){
+                        //Add from city
+                        ubicacion = addFromCity(indexes[1], city, zipCode, locationDescription);
+                    }
+                    else if(indexes[3] == -1){
+                        ubicacion = addFromDirection(indexes[2], zipCode, locationDescription);
+                        //Add from direction
+                    }
+                    else{
+                        //Add pure
+                        ubicacion = addLocation(indexes[3], locationDescription);
+                    }
+                } catch (Exception e1) {
+                    e1.printStackTrace();
                 }
-                else if(indexes[1] == -1){
-                    //Add from province
-                    ubicacion = addFromProvince(indexes[0], province, city, zipCode, locationDescription);
-                }
-                else if(indexes[2] == -1){
-                    //Add from city
-                    ubicacion = addFromCity(indexes[1], city, zipCode, locationDescription);
-                }
-                else if(indexes[3] == -1){
-                    ubicacion = addFromDirection(indexes[2], zipCode, locationDescription);
-                    //Add from direction
-                }
-
-
                 //Generates new person
-                HashMap<String, List<String>> person_id = dao.selectData(queries.AGREGAR_PERSONA,
-                        id, name, last_name, age, phone, extension, ubicacion);
-                int new_person_id = Integer.parseInt(person_id.get("LAST_INSERT_ID()").get(0));
-            } catch (Exception e1) {
-                e1.printStackTrace();
+                HashMap<String, List<String>> person_id = null;
+                int new_person_id, new_client_id;
+                boolean avaliable = true;
+                try {
+                    System.out.println(ubicacion);
+                    person_id = dao.selectData(queries.AGREGAR_PERSONA,
+                            id, name, last_name, age, phone, extension, ubicacion);
+                    new_person_id = Integer.parseInt(person_id.get("LAST_INSERT_ID()").get(0));
+                } catch (Exception e1) {
+                    System.out.println("La cedula esta repetida");
+                    e1.printStackTrace();
+                    avaliable = false;
+                }
+
+
+                //Generates new client with the person id, could be done with the table id
+                HashMap<String, List<String>> client_id = null;
+                if(avaliable){
+                    try {
+                        client_id = dao.selectData(queries.AGREGAR_CLIENTE_POR_CEDULA, id);
+                        new_client_id = Integer.parseInt(client_id.get("LAST_INSERTED_ID()").get(0));
+                    } catch (Exception e1) {
+                        System.out.println("La persona no existe");
+                        e1.printStackTrace();
+                    }
+                }
             }
+
         });
     }
 
