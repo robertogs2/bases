@@ -145,16 +145,6 @@ public class CarRegistrationFormController implements Initializable {
                     }
                 }
             }
-            ProgressIndicator p1 = new ProgressIndicator();
-            img_hb.getChildren().add(p1);
-            for(File file: imgFiles){
-                try {
-                    imageUploader.uploadImage("TEST" + imgFiles.indexOf(file), file);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-            img_hb.getChildren().remove(p1);
 
             if(flag) {
                 try {
@@ -168,13 +158,20 @@ public class CarRegistrationFormController implements Initializable {
                     }
 
 
-                    //Generates new person
-                   /* HashMap<String, List<String>> car_id = dao.selectData(queries.AGREGAR_CARRO,
+                    //Generates new car
+                    HashMap<String, List<String>> car_id = dao.selectData(queries.AGREGAR_CARRO,
                             matricula_tf.getText(), indexes[1], color_tf.getText(), estado_tf.getText(), kilometraje_tf.getText(), precio_tf.getText(), 1);
-                    int new_car_id = Integer.parseInt(car_id.get("LAST_INSERT_ID()").get(0));*/
+                    int new_car_id = Integer.parseInt(car_id.get("LAST_INSERT_ID()").get(0));
+                    ProgressIndicator p1 = new ProgressIndicator();
+                    img_hb.getChildren().add(p1);
                     for(File file: imgFiles){
-                        imageUploader.uploadImage("TEST"+imgFiles.indexOf(file), file);
+                        try {
+                            imageUploader.uploadImage(String.valueOf(new_car_id) + "-" +  imgFiles.indexOf(file), file);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
+                    img_hb.getChildren().remove(p1);
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
