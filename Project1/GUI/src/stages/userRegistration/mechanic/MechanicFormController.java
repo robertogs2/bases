@@ -45,21 +45,23 @@ public class MechanicFormController implements Initializable {
 
                 String id = id_tf.getText();
                 String salary = salary_tf.getText();
+                boolean avaliable = false;
 
-                dao.selectData(queries.OBTENER_ID_PERSONA_POR_CEDULA, )
-
-                if (false) {//There is a person with that id already
-
-                } else {
-                    try {
+                try {
+                    avaliable = dao.selectData(queries.OBTENER_ID_PERSONA_POR_CEDULA, id).get("idPersona").size() == 0;
+                    if (!avaliable) {//There is a person with that id already
+                        dao.selectData(queries.AGREGAR_MECANICO, "", salary, id, car_shop);
+                    } else {
                         Main.showUserPane();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
                     }
                 }
+                catch (Exception e1) {
+                        e1.printStackTrace();
+                }
+
                 try {
                     //RegistrationFormController.showInformation("Se ha agregado un nuevo mecánico", "Agregar mecánico");
-                    dao.selectData(queries.AGREGAR_MECANICO, "", salary, car_shop);
+                    dao.selectData(queries.AGREGAR_MECANICO, "agregue la fecha bien", salary, id, car_shop);
                     Main.showString(past);
                 } catch (Exception e1) {
                     e1.printStackTrace();

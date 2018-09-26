@@ -27,6 +27,7 @@
                         <TextField fx:id="color_tf" prefHeight="25.0" prefWidth="165.0" promptText="Color" />
                         <TextField fx:id="kilometraje_tf" prefHeight="25.0" prefWidth="165.0" promptText="Kilometraje" />
                         <TextField fx:id="precio_tf" prefHeight="25.0" prefWidth="165.0" promptText="Precio" />
+                        <TextField fx:id="cedula_tf" prefHeight="25.0" prefWidth="165.0" promptText="Cedula, si no es concesionario" />
                         <HBox fx:id="img_hb" spacing="10">
                             <Button fx:id="upload_img_bb" mnemonicParsing="false" text="Subir Imagen" />
                         </HBox>

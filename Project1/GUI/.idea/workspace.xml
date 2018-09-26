@@ -115,12 +115,12 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="fxml" value="246" />
-          <entry key="java" value="6835" />
+          <entry key="java" value="7100" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="6835" />
+          <entry key="JAVA" value="7100" />
           <entry key="XML" value="246" />
         </counts>
       </usages-collector>
@@ -153,14 +153,8 @@
         <entry file="file://$PROJECT_DIR$/src/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="763">
-              <caret line="133" lean-forward="true" selection-start-line="133" selection-end-line="133" />
+              <caret line="149" lean-forward="true" selection-start-line="149" selection-end-line="149" />
               <folding>
-                <element signature="e#1122#1139#0" />
-                <element signature="method#showMainPane#0;class#Main#0" />
-                <element signature="method#showShopPane#0;class#Main#0" />
-                <element signature="method#showCarRegistrationForm#0;class#Main#0" />
-                <element signature="method#showPreview#0;class#Main#0" />
-                <element signature="method#showPreviewStage#0;class#Main#0" />
                 <element signature="method#showString#0;class#Main#0" />
                 <element signature="method#main#0;class#Main#0" />
               </folding>
@@ -202,8 +196,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/stages/userRegistration/mechanic/MechanicFormController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="50" column="20" selection-start-line="50" selection-start-column="20" selection-end-line="50" selection-end-column="20" />
+            <state relative-caret-position="522">
+              <caret line="63" column="83" selection-start-line="63" selection-start-column="83" selection-end-line="63" selection-end-column="83" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -429,7 +423,7 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537950544424" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537950600493" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/httpcomponents-httpmime-4.5.6.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
@@ -592,7 +586,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="98844000" />
+    <option name="totallyTimeSpent" value="99562000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
@@ -857,14 +851,8 @@
     <entry file="file://$PROJECT_DIR$/src/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="763">
-          <caret line="133" lean-forward="true" selection-start-line="133" selection-end-line="133" />
+          <caret line="149" lean-forward="true" selection-start-line="149" selection-end-line="149" />
           <folding>
-            <element signature="e#1122#1139#0" />
-            <element signature="method#showMainPane#0;class#Main#0" />
-            <element signature="method#showShopPane#0;class#Main#0" />
-            <element signature="method#showCarRegistrationForm#0;class#Main#0" />
-            <element signature="method#showPreview#0;class#Main#0" />
-            <element signature="method#showPreviewStage#0;class#Main#0" />
             <element signature="method#showString#0;class#Main#0" />
             <element signature="method#main#0;class#Main#0" />
           </folding>
@@ -928,8 +916,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stages/userRegistration/mechanic/MechanicFormController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="50" column="20" selection-start-line="50" selection-start-column="20" selection-end-line="50" selection-end-column="20" />
+        <state relative-caret-position="522">
+          <caret line="63" column="83" selection-start-line="63" selection-start-column="83" selection-end-line="63" selection-end-column="83" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
