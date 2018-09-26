@@ -18,8 +18,6 @@ import javafx.stage.FileChooser;
 import main.Main;
 import tools.ImageUploader;
 
-import javax.imageio.ImageIO;
-import javax.swing.text.Element;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -27,19 +25,16 @@ import java.net.URL;
 import java.util.*;
 import java.util.List;
 
-import static java.sql.Types.NULL;
 import static main.Main.primaryStage;
 import static main.Main.queries;
 import static main.Main.dao;
+import static main.Main.showAddPersonStage;
 
 public class CarRegistrationFormController implements Initializable {
 
     @FXML ComboBox<String> marca_cb;
     @FXML ComboBox<String> modelo_cb;
-    @FXML TextField matricula_tf;
-    @FXML TextField color_tf;
-    @FXML TextField kilometraje_tf;
-    @FXML TextField precio_tf;
+    @FXML TextField matricula_tf, color_tf, kilometraje_tf, precio_tf, cedula_tf;
     @FXML Button send_bb,cancel_bb;
     @FXML VBox vBox;
     @FXML HBox cb_box;
@@ -134,7 +129,7 @@ public class CarRegistrationFormController implements Initializable {
             boolean flag = true;
             for( Node node: vBox.getChildren()) {
                 if( node instanceof TextField) {
-                    if(((TextField) node).getText().replace(" ","").equals("")){
+                    if(((TextField) node).getText().replace(" ","").equals("") && !node.getId().contains("cedula")){
                         showErrorMessage("El campo "+node.getId().split("_")[0] + " no puede ser vacio.");
                         flag = false;
                         break;
@@ -150,6 +145,22 @@ public class CarRegistrationFormController implements Initializable {
                         break;
                     }
                 }
+            }
+            String clientId = "NULL";
+            if(cedula_tf.getText().length() > 0 && !cedula_tf.getText().matches("\\d+")){
+                showErrorMessage("La ceula debe ser un numero, o nula en caso de ser un concecionario.");
+                flag = false;
+            }else if(cedula_tf.getText().length() > 0){
+                try {
+                    HashMap<String, List<String>> id = dao.selectData(queries.OBTENER_ID_CLIENTE_POR_CEDULA, cedula_tf.getText());
+                    if(id.get("idCliente").size() > 0){
+                        clientId = id.get("idCliente").get(0);
+                    }else{
+                        int personId = showAddPersonStage(cedula_tf.getText());
+                        HashMap<String, List<String>> client_id = dao.selectData(queries.AGREGAR_CLIENTE_POR_CEDULA, personId);
+                        clientId = client_id.get("LAST_INSERTED_ID()").get(0);
+                    }
+                }catch (Exception e){}
             }
 
             if(flag) {
@@ -167,7 +178,7 @@ public class CarRegistrationFormController implements Initializable {
 
                     //Generates new car
                     HashMap<String, List<String>> car_id = dao.selectData(queries.AGREGAR_CARRO,
-                            matricula_tf.getText(), indexes[1], color_tf.getText(), estado, kilometraje_tf.getText(), precio_tf.getText(), 1);
+                            matricula_tf.getText(), indexes[1], color_tf.getText(), estado, kilometraje_tf.getText(), precio_tf.getText(), 1, clientId);
                     int new_car_id = Integer.parseInt(car_id.get("LAST_INSERT_ID()").get(0));
 
                     p1.progressProperty().unbind();
@@ -244,6 +255,10 @@ public class CarRegistrationFormController implements Initializable {
         alert.setTitle("Ooops!");
         alert.setContentText(msg);
         alert.showAndWait();
+    }
+
+    public void setMatricula(String matricula){
+        matricula_tf.setText(matricula);
     }
 
 }

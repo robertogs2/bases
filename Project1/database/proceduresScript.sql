@@ -48,7 +48,14 @@ DROP PROCEDURE IF EXISTS ObtenerMatriculasPorCliente;
 DROP PROCEDURE IF EXISTS ObtenerIdClientePorCedula;
 DROP PROCEDURE IF EXISTS ObtenerTallerPorConcesionario;
 DROP PROCEDURE IF EXISTS ObtenerInfoCarroPorConcesionario;
-
+DROP PROCEDURE IF EXISTS ObtenerIdPersonaPorCedula;
+DROP PROCEDURE IF EXISTS AgregarCompraCompletoCedula;
+DROP PROCEDURE IF EXISTS ObtenerFotos;
+DROP PROCEDURE IF EXISTS ObtenerCarroMasBarato;
+DROP PROCEDURE IF EXISTS ObtenerCarroMasCaro;
+DROP PROCEDURE IF EXISTS ObtenerCarroDeMaximo;
+DROP PROCEDURE IF EXISTS BorrarPersonaPorId;
+DROP PROCEDURE IF EXISTS BorrarProvinciaDePais;
 
 DELIMITER $$
 CREATE PROCEDURE AgregarPais (IN eNombre varchar(50)) BEGIN
@@ -122,7 +129,8 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
                                  IN eEstado VARCHAR(30),
                                  IN eKilometraje INT,
                                  IN ePrecio INT,
-                                 IN eIdConcesionario INT) BEGIN
+                                 IN eIdConcesionario INT,
+                                 IN eIdCliente INT) BEGIN
 	
     -- This takes the idMarca from the idModelo input
     DECLARE vIdMarca INT;
@@ -130,8 +138,8 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
     WHERE idModelo = eIdModelo
     LIMIT 1;
     
-	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, precio, idConcesionario_fk)
-    VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, ePrecio, eIdConcesionario);
+	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, precio, idConcesionario_fk, idCliente_fk)
+    VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, ePrecio, eIdConcesionario, eIdCliente);
     SELECT LAST_INSERT_ID() FROM Coche;
 END$$
 
@@ -503,4 +511,49 @@ CREATE PROCEDURE ObtenerMatriculasPorCliente(IN eIdCliente INT) BEGIN
     FROM Coche AS Co
     INNER JOIN Cliente AS Cl ON Cl.idCliente = Co.idCliente_fk
     WHERE eIdCliente = Cl.idCliente;
+END$$
+
+CREATE PROCEDURE ObtenerIdPersonaPorCedula(IN eCedula INT) BEGIN
+	SELECT
+		P.idPersona
+    FROM Persona as P
+    WHERE P.cedula = eCedula;
+END$$
+
+CREATE PROCEDURE ObtenerCarroMasBarato() BEGIN
+	SELECT 
+		MIN(precio) AS Precio
+    FROM Coche;
+END$$
+
+CREATE PROCEDURE ObtenerCarroMasCaro() BEGIN
+	SELECT 
+		MAX(precio) AS Precio
+    FROM Coche;
+END$$
+
+CREATE PROCEDURE ObtenerCarroDeMaximo(IN precioMaximo INT) BEGIN
+	SELECT  
+		idCoche
+    FROM Coche 
+    GROUP BY idMarca_fk
+    HAVING precio < precioMaximo;
+END$$
+
+
+
+
+-- -----------------------------------------------------
+-- SecciÃ³n de borrado
+-- -----------------------------------------------------
+
+CREATE PROCEDURE BorrarPersonaPorId(IN eid INT) BEGIN
+	DELETE FROM Persona
+    WHERE idPersona = eId;
+END$$
+
+CREATE PROCEDURE BorrarProvinciaDePais(IN eIdPais INT, 
+									   IN eIdProvincia INT) BEGIN
+	DELETE FROM Provincia
+    WHERE idProvincia = eIdProvincia AND idPais_fk = eIdPais;
 END$$

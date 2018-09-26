@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import stages.inventory.CarRegistrationFormController;
 import stages.preview.previewController;
 import stages.userRegistration.client.RegistrationFormController;
 
@@ -97,7 +98,7 @@ public class Main extends Application {
         addInventoryStage.showAndWait();
     }
 
-    public static void showAddCustomerStage(String cedula) throws IOException {
+    public static int showAddPersonStage(String cedula) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/userRegistration/client/RegistrationForm.fxml"));
         BorderPane borderPane = fxmlLoader.load();
         Stage addInventoryStage = new Stage();
@@ -108,6 +109,21 @@ public class Main extends Application {
         addInventoryStage.setScene(scene);
         RegistrationFormController previewController = fxmlLoader.getController();
         previewController.setCedula(cedula);
+        addInventoryStage.showAndWait();
+        return previewController.getPersonId();
+    }
+
+    public static void showAddCar(String matricula) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/inventory/CarRegistrationForm.fxml"));
+        BorderPane borderPane = fxmlLoader.load();
+        Stage addInventoryStage = new Stage();
+        addInventoryStage.setTitle("Agregar Carro");
+        addInventoryStage.initModality(Modality.WINDOW_MODAL);
+        addInventoryStage.initOwner(primaryStage);
+        Scene scene = new Scene(borderPane);
+        addInventoryStage.setScene(scene);
+        CarRegistrationFormController previewController = fxmlLoader.getController();
+        previewController.setMatricula(matricula);
         addInventoryStage.showAndWait();
     }
 

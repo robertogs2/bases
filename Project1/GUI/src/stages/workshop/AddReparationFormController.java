@@ -1,18 +1,14 @@
 package stages.workshop;
 
-import javafx.collections.ObservableList;
+import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.FileChooser;
 import main.Main;
-import tools.ImageUploader;
 
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -20,6 +16,7 @@ import java.util.List;
 
 import static main.Main.dao;
 import static main.Main.queries;
+import static main.Main.showAddCar;
 
 public class AddReparationFormController implements Initializable {
 
@@ -41,9 +38,9 @@ public class AddReparationFormController implements Initializable {
         cedula_tf.textProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue.length() > 0 && newValue.matches("\\d+")){
                 try {
-                    HashMap<String, List<String>> cedula = dao.selectData(queries.OBTENER_ID_CLIENTE_POR_CEDULA,newValue);
-                    if(cedula.get("matricula").size() > 0){
-                        indexes[0] = Integer.valueOf(newValue);
+                    HashMap<String, List<String>> clientId = dao.selectData(queries.OBTENER_ID_CLIENTE_POR_CEDULA,newValue);
+                    if(clientId.get("idCliente").size() > 0){
+                        indexes[0] = Integer.valueOf(clientId.get("idCliente").get(0));
                         updateMatricula();
                     }
                 }catch (Exception e){
@@ -65,9 +62,35 @@ public class AddReparationFormController implements Initializable {
         }
     }
 
+    private void listenToMatricula(){
+        matricula_cb.getSelectionModel().selectedIndexProperty().addListener((Observable o) -> {
+            indexes[1] = matricula_cb.getSelectionModel().getSelectedIndex();
+        });
+    }
+
     private void listenToSend(){
         send_bb.setOnMouseClicked(event -> {
+            boolean flag = true;
+            if(cedula_tf.getText().equals("")){
+                showErrorMessage("Ingrese la cedula.");
+                flag = false;
+            }
+            if(matricula_cb.valueProperty().getValue().equals("")){
+                showErrorMessage("ingrese un numero de matricula.");
+                flag = false;
+            }
+            if(flag){
+                if (indexes[0] == -1) {
 
+                }
+                if (indexes[1] == -1) {
+                    try {
+                        showAddCar(matricula_cb.valueProperty().getValue());
+                    }catch (Exception e){
+                        showErrorMessage("No se pudo agregar el carro.");
+                    }
+                }
+            }
         });
     }
 

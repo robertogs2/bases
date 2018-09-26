@@ -13,7 +13,7 @@ public class Queries {
     public final String AGREGAR_CONCESIONARIO = "{call AgregarConcesionario(?,?)}";                             // args: nombre,idUbicacion
     public final String AGREGAR_MARCA = "{call AgregarMarca(?)}";                                               // args: nombre
     public final String AGREGAR_MODELO = "{call AgregarModelo(?,?)}";                                           // args: nombre,idMarca
-    public final String AGREGAR_CARRO = "{call AgregarCoche(?,?,?,?,?,?,?)}";                                   // args: matricula,idModelo,color,estado,kilometraje,precio,idConcesionario
+    public final String AGREGAR_CARRO = "{call AgregarCoche(?,?,?,?,?,?,?,?)}";                                   // args: matricula,idModelo,color,estado,kilometraje,precio,idConcesionario,idCliente
     public final String AGREGAR_FOTO = "{call AgregarFoto(?,?)}";                                              // args: idCarro, urlFoto
     public final String AGREGAR_TALLER = "{call AgregarTaller(?,?,?)}";                                         // args: nombre,idUbicacion,idConcesionario
     public final String AGREGAR_MECANICO = "{call AgregarMecanicoCompleto(?,?,?,?)}";                           // args: fechaContratacion,salario,cedula,idTaller
@@ -40,6 +40,7 @@ public class Queries {
     public final String OBTENER_MATRICULAS_POR_CLIENTE = "{call ObtenerMatriculasPorCliente(?)}";               // args: idCliente
     public final String ObTENER_INFO_CARRO_POR_CONCESIONARIO = "{call ObtenerInfoCarroPorConcesionario(?)}";
     public final String ObTENER_INFO_CARRO = "{call ObtenerInfoCarro(?)}";
+    public final String OBTENER_ID_PERSONA_POR_CEDULA = "{call ObtenerIdPersonaPorCedula(?)}";                  // args: cedula
 
     public final String ACTUALIZAR_FINALIZAR_REPARACION = "{call TerminarReparacion(?)}";                       // args: idReparacion
     public final String OBTENER_ULTIMO_ID = "{call ObtenerUltimoID()}";                       // args: NO-ARGS
