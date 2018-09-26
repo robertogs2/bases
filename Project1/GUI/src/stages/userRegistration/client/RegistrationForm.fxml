@@ -7,10 +7,13 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="user_bp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.userRegistration.RegistrationFormController">
+<BorderPane fx:id="user_bp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.userRegistration.client.RegistrationFormController">
    <center>
       <ScrollPane BorderPane.alignment="CENTER">
          <content>
@@ -40,7 +43,19 @@
                   <ComboBox fx:id="direction_cb" editable="true" prefHeight="25.0" prefWidth="189.0" promptText="Digite su código postal" />
                   <TextArea fx:id="location_ta" prefHeight="75.0" prefWidth="274.0" promptText="Inserte su dirección" wrapText="true" />
                   <Separator prefWidth="200.0" />
-                  <Button fx:id="send_bb" mnemonicParsing="false" text="Enviar formulario" />
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Button fx:id="send_bb" mnemonicParsing="false" text="Enviar formulario" />
+                        <Button fx:id="cancel_bb" mnemonicParsing="false" text="Cancelar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                     </children>
+                  </GridPane>
                </children>
             </VBox>
          </content>

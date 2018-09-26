@@ -1,4 +1,4 @@
-package stages.userRegistration;
+package stages.userRegistration.mechanic;
 
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
@@ -11,14 +11,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ResourceBundle;
 
-import static java.sql.Types.NULL;
-import static main.Main.primaryStage;
-import static main.Main.queries;
 import static main.Main.dao;
+import static main.Main.queries;
 
-public class RegistrationFormController implements Initializable {
+public class FormMechanicController implements Initializable {
 
 
     @FXML FlowPane flowPane;

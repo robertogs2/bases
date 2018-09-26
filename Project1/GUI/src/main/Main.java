@@ -20,8 +20,6 @@ public class Main extends Application {
     public static MySQLAccess dao;
     public static Queries queries;
 
-
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         Main.primaryStage = primaryStage;
@@ -56,20 +54,32 @@ public class Main extends Application {
         mainLayout.setCenter(pane);
     }
     public static void showUserPane() throws IOException {
-        Pane shopPane = FXMLLoader.load(Main.class.getResource("/stages/userRegistration/RegistrationForm.fxml"));
+        Pane shopPane = FXMLLoader.load(Main.class.getResource("/stages/userRegistration/client/RegistrationForm.fxml"));
         mainLayout.setCenter(shopPane);
     }
-
-    public void showMainMenu() throws IOException {
-        Pane pane = FXMLLoader.load(getClass().getResource("/stages/menu/MainMenu.fxml"));
+    public static void showMainMenu() throws IOException {
+        Pane pane = FXMLLoader.load(Main.class.getResource("/stages/menu/MainMenu.fxml"));
         mainLayout.setCenter(pane);
     }
-
     public static void showPreview() throws IOException {
         AnchorPane previewPane = FXMLLoader.load(Main.class.getResource("/stages/preview/preview.fxml"));
         mainLayout.setCenter(previewPane);
     }
 
+    public static void show_pane(String pane) throws IOException{
+        if(pane == "shop"){
+            showShopPane();
+        }
+        else if(pane == "user"){
+            showUserPane();
+        }
+        else if(pane == "main"){
+            showMainMenu();
+        }
+        else if(pane == "car_registration"){
+            showCarRegistrationForm();
+        }
+    }
 
     public static void main(String[] args) throws Exception{
         launch(args);

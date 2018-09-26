@@ -31,7 +31,12 @@ public class MainMenuController implements Initializable {
 
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(10);
+        Button btn1 = button_shop();
+        Button btn2 = button_client();
+        Button btn3 = button_car();
+    }
 
+    private Button button_shop(){
         Button btn = new Button();
         btn.setText("SHOP");
         btn.setOnAction(event -> {
@@ -42,7 +47,9 @@ public class MainMenuController implements Initializable {
             }
         });
         vBox.getChildren().add(btn);
-
+        return btn;
+    }
+    private Button button_client(){
         Button btn1 = new Button();
         btn1.setText("ClientRegistration");
         btn1.setOnAction(event -> {
@@ -53,7 +60,9 @@ public class MainMenuController implements Initializable {
             }
         });
         vBox.getChildren().add(btn1);
-
+        return btn1;
+    }
+    private Button button_car(){
         Button btn_ShowCarRegistrationForm = new Button();
         btn_ShowCarRegistrationForm.setText("CarRegistration");
         btn_ShowCarRegistrationForm.setOnAction(event -> {
@@ -64,6 +73,8 @@ public class MainMenuController implements Initializable {
             }
         });
         vBox.getChildren().add(btn_ShowCarRegistrationForm);
+        return btn_ShowCarRegistrationForm;
     }
 
 }
+

@@ -173,6 +173,10 @@ CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eIdCliente IN
     WHERE idCoche = eIdCoche
     LIMIT 1;   
     
+    UPDATE Coche
+    SET estado = "vendido"
+    WHERE idCoche = eIdCoche;
+    
     CALL AgregarCompra(eFechaHora, vMonto, eIdCliente, vIdConcesionario, eIdCoche);
 END$$
 CREATE PROCEDURE AgregarReparacion (IN eFechaHoraInicio DATETIME, 
