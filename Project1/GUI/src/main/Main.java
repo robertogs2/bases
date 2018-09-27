@@ -40,7 +40,7 @@ public class Main extends Application {
 
         ///Shows the main menu
         //showMainMenu();
-        showMechanicPane();
+        //showMechanicPane();
         //showMainMenu();
         //showUserPane();
         //showShopPane();
