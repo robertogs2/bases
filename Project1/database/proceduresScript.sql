@@ -345,6 +345,7 @@ CREATE PROCEDURE ObtenerInfoCarroPorConcesionario (IN eIdConcesionario INT) BEGI
         Mo.nombre AS "modelo",
 		Ma.nombre AS "marca",
         C.precio,
+        C.color,
         C.idCoche
 	FROM 
 		Coche AS C

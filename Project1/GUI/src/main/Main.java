@@ -43,10 +43,9 @@ public class Main extends Application {
         //showMechanicPane();
         //showMainMenu();
         //showUserPane();
-        //showShopPane();
+        showShopPane();
         //showTables();
         //showReparationsForm();
-
     }
 
     public void showMainPane() throws IOException {
@@ -132,18 +131,23 @@ public class Main extends Application {
         return previewController.getPersonId();
     }
 
-    public static void showAddCar(String matricula) throws IOException {
+    public static void showAddCar(String matricula, String cedula) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/inventory/CarRegistrationForm.fxml"));
         BorderPane borderPane = fxmlLoader.load();
-        Stage addInventoryStage = new Stage();
-        addInventoryStage.setTitle("Agregar Carro");
-        addInventoryStage.initModality(Modality.WINDOW_MODAL);
-        addInventoryStage.initOwner(primaryStage);
+        popUpStage = new Stage();
+        popUpStage.setTitle("Agregar Carro");
+        popUpStage.initModality(Modality.WINDOW_MODAL);
+        popUpStage.initOwner(primaryStage);
         Scene scene = new Scene(borderPane);
-        addInventoryStage.setScene(scene);
+        popUpStage.setScene(scene);
         CarRegistrationFormController previewController = fxmlLoader.getController();
         previewController.setMatricula(matricula);
-        addInventoryStage.showAndWait();
+        previewController.setCedula(cedula);
+        popUpStage.showAndWait();
+    }
+
+    public static void showAddCar(String matricula) throws IOException {
+        showAddCar(matricula,"");
     }
 
     public static void showString(String toShow) throws IOException {
