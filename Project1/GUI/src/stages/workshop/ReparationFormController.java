@@ -2,6 +2,7 @@ package stages.workshop;
 
 import javafx.application.Platform;
 import javafx.beans.Observable;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -15,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import main.Main;
+import stages.menu.MainMenuController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -60,12 +62,11 @@ public class ReparationFormController implements Initializable {
     private void listenToDate(){
         fecha_cb.getSelectionModel().selectedIndexProperty().addListener((Observable o) -> {
                 int i = -1;
-                i = matricula_cb.getSelectionModel().getSelectedIndex();
+                i = fecha_cb.getSelectionModel().getSelectedIndex();
                 if(i != -1){
                     try {
                         HashMap<String,List<String>> reparations = dao.selectData(queries.OBTENER_REPARACIONES_POR_FECHA,
                                 matricula_cb.valueProperty().getValue(),fecha_cb.valueProperty().getValue());
-                        System.out.println(fecha_cb.valueProperty().getValue());
                         if(reparations.get("fechaHoraInicio") != null){
                             descripcion_ta.setText(reparations.get("descripcion").get(0));
                             indexes[2] = Integer.valueOf(reparations.get("idReparacion").get(0));
@@ -104,7 +105,6 @@ public class ReparationFormController implements Initializable {
             if(newValue.length() > 0 && newValue.matches("\\d+")){
                 try {
                     HashMap<String, List<String>> clientId = dao.selectData(queries.OBTENER_ID_CLIENTE_POR_CEDULA,newValue);
-                    System.out.println(clientId);
                     if(clientId.get("idCliente").size() > 0){
                         indexes[0] = Integer.valueOf(clientId.get("idCliente").get(0));
                         updateMatricula();
@@ -120,7 +120,6 @@ public class ReparationFormController implements Initializable {
         try {
             clear_cb(matricula_cb);
             HashMap<String, List<String>> matriculas = dao.selectData(queries.OBTENER_MATRICULAS_POR_CLIENTE, indexes[0]);
-            System.out.println(matriculas);
             if(matriculas.get("matricula")!=null) {
                 matricula_cb.getItems().setAll(matriculas.get("matricula"));
             }
@@ -136,7 +135,7 @@ public class ReparationFormController implements Initializable {
             if(indexes[1] != -1){
                 try {
                     HashMap<String,List<String>> reparations = dao.selectData(queries.OBTENER_REPARACIONES,matricula_cb.valueProperty().getValue());
-                    if(reparations.get("fechaHoraInicio").size() > 0){
+                    if(reparations.get("fechaHoraInicio") != null){
                         fecha_cb.getItems().clear();
                         fecha_cb.getItems().setAll(reparations.get("fechaHoraInicio"));
                     }
@@ -183,7 +182,7 @@ public class ReparationFormController implements Initializable {
                             showAddCar(matricula_cb.valueProperty().getValue(),cedula_tf.getText(),true);
                         } catch (Exception e) {
                             showErrorMessage("No se pudo agregar el carro.");
-                        }
+                    }
                     }
 
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -207,11 +206,13 @@ public class ReparationFormController implements Initializable {
                 Map<String, List<String>> mecanicos = dao.selectData(queries.OBTENER_MECANICOS_POR_REPARACION, indexes[2]);
                 if(mecanicos.get("nombre") != null){
                     int totHrs = 0;
+                    mecanicos_tbl.getItems().clear();
                     for(int i = 0; i < mecanicos.get("nombre").size(); ++i){
                         mecanicos_tbl.getItems().add(new Mecanico(mecanicos.get("nombre").get(i), mecanicos.get("horas").get(i)));
                         totHrs += Integer.valueOf(mecanicos.get("horas").get(i));
                     }
-                    descripcion_ta.setText(descripcion_ta.getText()+"\n"+"En esta reparacion se ha invertido un total de " + totHrs + " horas.");
+                    String prevText = descripcion_ta.getText().split("\n")[0];
+                    descripcion_ta.setText(prevText+"\n"+"En esta reparacion se ha invertido un total de " + totHrs + " horas.");
                 }
             } catch (Exception e) {
                 showErrorMessage(e.getMessage());
@@ -232,7 +233,15 @@ public class ReparationFormController implements Initializable {
 
     private void listenToAddMechanic(){
         addMechanic_bb.setOnMouseClicked(event -> {
-            if(indexes[2] != -1){
+            Map<String,List<String>> mecanicos = new HashMap<>();
+            try{
+                mecanicos = dao.selectData(queries.OBTENER_MECANICOS_POR_CONCESIONARIO, MainMenuController.indexes[0]);
+            }catch (Exception e){
+                showErrorMessage(e.getMessage());
+            }
+            if(mecanicos.get("cedula") == null){
+                showErrorMessage("No existen mecanicos asociados a este concesionario.");
+            }else if(indexes[2] != -1){
                 Dialog<Pair<String, String>> dialog = new Dialog<>();
                 dialog.setTitle("Agregar Mecanico");
 
@@ -244,21 +253,27 @@ public class ReparationFormController implements Initializable {
                 grid.setVgap(10);
                 grid.setPadding(new Insets(20, 150, 10, 10));
 
-                TextField username = new TextField();
-                username.setPromptText("Cedula");
+                List<String> mechData = new ArrayList<>();
+                for(int i = 0; i < mecanicos.get("nombre").size() ; ++i){
+                    mechData.add(mecanicos.get("nombre").get(i)+" ced: "+mecanicos.get("cedula").get(i));
+                }
+                ChoiceBox<String> choices = new ChoiceBox<>();
+                choices.getItems().setAll(mechData);
+
                 TextField horas = new TextField();
                 horas.setPromptText("Horas");
 
-                grid.add(new Label("Cedula:"), 0, 0);
-                grid.add(username, 1, 0);
+                grid.add(new Label("Mecanico:"), 0, 0);
+                grid.add(choices, 1, 0);
                 grid.add(new Label("Horas:"), 0, 1);
                 grid.add(horas, 1, 1);
 
                 Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
                 loginButton.setDisable(true);
 
-                username.textProperty().addListener((observable, oldValue, newValue) -> {
-                    loginButton.setDisable(newValue.trim().isEmpty() || !newValue.matches("\\d+"));
+                choices.getSelectionModel().selectedIndexProperty().addListener((Observable o) -> {
+                    int i = choices.getSelectionModel().getSelectedIndex();
+                    loginButton.setDisable(i == -1);
                 });
 
                 horas.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -267,11 +282,9 @@ public class ReparationFormController implements Initializable {
 
                 dialog.getDialogPane().setContent(grid);
 
-                Platform.runLater(() -> username.requestFocus());
-
                 dialog.setResultConverter(dialogButton -> {
                     if (dialogButton == loginButtonType) {
-                        return new Pair<String, String>(username.getText(), horas.getText());
+                        return new Pair<String, String>(choices.getValue(), horas.getText());
                     }
                     return null;
                 });
@@ -280,7 +293,7 @@ public class ReparationFormController implements Initializable {
 
                 result.ifPresent(data -> {
                     try {
-                        Map<String, List<String>> mecanico = dao.selectData(queries.OBTENER_MECANICO_POR_CEDULA, data.getKey());
+                        Map<String, List<String>> mecanico = dao.selectData(queries.OBTENER_MECANICO_POR_CEDULA, data.getKey().split(" ced: ")[1]);
                         if(mecanico.get("idMecanico") != null) {
                             String hrs = (data.getValue().equals(""))? "0" : data.getValue();
                             dao.pushData(queries.AGREGAR_REPARACION_X_MECANICO,indexes[2],mecanico.get("idMecanico").get(0),hrs);

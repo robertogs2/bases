@@ -498,11 +498,13 @@ CREATE PROCEDURE ObtenerMecanicos() BEGIN
     
 END$$
 
-CREATE PROCEDURE ObtenerMecanicosConConcesionario() BEGIN
+CREATE PROCEDURE ObtenerMecanicosConConcesionario(IN eIdConcesionario INT) BEGIN
 	SELECT 
-		C.idConcesionario, C.nombre, M.idMecanico
+		P.cedula, P.nombre, M.idMecanico
 	FROM Concesionario AS C
-    LEFT JOIN Mecanico AS M ON C.idConcesionario = M.idConcesionario_fk;
+    LEFT JOIN Mecanico AS M ON C.idConcesionario = M.idConcesionario_fk
+    INNER JOIN Persona AS P ON P.idPersona = M.idPersona_fk
+    WHERE C.idConcesionario = eIdConcesionario;
 END$$
 
 CREATE PROCEDURE ObtenerProvinciasPorPais(
