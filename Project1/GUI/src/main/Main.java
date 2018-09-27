@@ -39,13 +39,13 @@ public class Main extends Application {
         showMainPane();
 
         ///Shows the main menu
-        //showMainMenu();
+        showMainMenu();
         //showMechanicPane();
         //showMainMenu();
         //showUserPane();
         //showShopPane();
         //showTables();
-        showReparationsForm();
+        //showReparationsForm();
     }
 
     public void showMainPane() throws IOException {

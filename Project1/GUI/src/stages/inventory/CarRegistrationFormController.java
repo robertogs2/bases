@@ -29,6 +29,7 @@ import static main.Main.primaryStage;
 import static main.Main.queries;
 import static main.Main.dao;
 import static main.Main.showAddPersonStage;
+import static main.Main.popUpStage;
 
 public class CarRegistrationFormController implements Initializable {
 

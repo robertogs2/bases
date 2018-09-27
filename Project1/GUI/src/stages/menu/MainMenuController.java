@@ -121,7 +121,11 @@ public class MainMenuController implements Initializable {
             int selected = car_shop2_cb.getSelectionModel().getSelectedIndex();
             if(selected == 0){ //If we selected to go to reparaciones
                 //Show Reparaiones
-                System.out.println("Entrar a reparaciones");
+                try {
+                    showReparationsForm();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             else if(selected == 1){
                 System.out.println("Entrar a ver los mecánicos");
