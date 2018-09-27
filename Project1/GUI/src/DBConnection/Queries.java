@@ -17,7 +17,7 @@ public class Queries {
     public final String AGREGAR_FOTO = "{call AgregarFoto(?,?)}";                                              // args: idCarro, urlFoto
     public final String AGREGAR_TALLER = "{call AgregarTaller(?,?,?)}";                                         // args: nombre,idUbicacion,idConcesionario
     public final String AGREGAR_MECANICO = "{call AgregarMecanicoCompleto(?,?,?,?)}";                           // args: fechaContratacion,salario,cedula,idTaller
-    public final String AGREGAR_COMPRA = "{call AgregarCompraCompleto(?,?,?)}";                                 // args: fechaHora,idCiente,idCoche
+    public final String AGREGAR_COMPRA = "{call AgregarCompraCompletoCedula(?,?,?)}";                                 // args: fechaHora,idCiente,idCoche
     public final String AGREGAR_REPARACION = "{call AgregarReparacionCompleto(?,?,?,?)}";                       // args: fechaHoraInicio,fechaHoraFinal,Matricula,Descripcion
     public final String AGREGAR_REPARACION_X_MECANICO = "{call AgregarReparacionXMecanico(?,?,?)}";             // args: idReparacion,idMecanico,horas
     public final String OBTENER_MECANICOS_POR_REPARACION = "call ObtenerMecanicoPorReparacion(?)";              // args: idReparacion
@@ -47,6 +47,7 @@ public class Queries {
     public final String OBTENER_FOTOS = "{call ObtenerFotos(?)}";                                               // args: idCoche
     public final String OBTENER_MECANICO_POR_CEDULA = "{call ObtenerMecanicoPorCedula(?)}";                     // args: cedula
     public final String OBTENER_MECANICOS_POR_CONCESIONARIO = "{call ObtenerMecanicosConConcesionario(?)}";     // args: idConcesionario
+    public final String OBTENER_VENTAS_POR_CONCESIONARIO = "{call ObtenerComprasPorConcecionario(?)}";          // args: idConcesionario
 
     public final String ACTUALIZAR_FINALIZAR_REPARACION = "{call TerminarReparacion(?)}";                       // args: idReparacion
     public final String OBTENER_ULTIMO_ID = "{call ObtenerUltimoID()}";                       // args: NO-ARGS

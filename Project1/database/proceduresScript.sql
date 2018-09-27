@@ -65,6 +65,7 @@ DROP PROCEDURE IF EXISTS ObtenerPrecioPromedio;
 DROP PROCEDURE IF EXISTS ObtenerCarroPorEstado;
 DROP PROCEDURE IF EXISTS ObtenerCarrosDeIgualMarca;
 DROP PROCEDURE IF EXISTS ObtenerMecanicoPorCedula;
+DROP PROCEDURE IF EXISTS ObtenerComprasPorConcecionario;
 
 DROP PROCEDURE IF EXISTS BorrarPersonaPorId;
 DROP PROCEDURE IF EXISTS BorrarProvinciaDePais;
@@ -195,8 +196,25 @@ CREATE PROCEDURE AgregarCompra (IN eFechaHora DATETIME, IN eMonto INT, IN eIdCli
 	INSERT INTO Compra (idCliente_fk, idConcesionario_fk, idCoche_fk, monto, fechaHora)
     VALUES(eIdCliente, eIdConcesionario, eIdCoche, eMonto, eFechaHora);
 END$$
+
+CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eIdCliente INT, IN eIdCoche INT) BEGIN
+
+    DECLARE vIdConcesionario INT;
+    DECLARE vMonto INT;
+    -- This takes the idCoche from the eIdCoche input and gives monto
+	SELECT precio, idConcesionario_fk into vMonto, vIdConcesionario FROM Coche
+    WHERE idCoche = eIdCoche
+    LIMIT 1;   
+
+    UPDATE Coche
+    SET estado = "vendido"
+    WHERE idCoche = eIdCoche;
+    
+    CALL AgregarCompra(eFechaHora, vMonto, eIdCliente, vIdConcesionario, eIdCoche);
+END$$
+
 -- Infiere monto a partir de precio del carro, infiere concesionario a partir del carro
-CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eCedula INT, IN eIdCoche INT) BEGIN
+CREATE PROCEDURE AgregarCompraCompletoCedula (IN eFechaHora DATETIME, IN eCedula INT, IN eIdCoche INT) BEGIN
 
     DECLARE vIdConcesionario INT;
     DECLARE vMonto INT;
@@ -213,32 +231,6 @@ CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eCedula INT, 
     -- Con ese id saca el del cliente
     SELECT idCliente  into vIdCliente FROM Cliente AS C
     Where C.idPersona_fk = vIdPersona
-    LIMIT 1;
-    
-
-    
-    UPDATE Coche
-    SET estado = "vendido"
-    WHERE idCoche = eIdCoche;
-    
-    CALL AgregarCompra(eFechaHora, vMonto, vIdCliente, vIdConcesionario, eIdCoche);
-END$$
-
--- Infiere monto a partir de precio del carro, infiere concesionario a partir del carro
-CREATE PROCEDURE AgregarCompraCompletoCedula (IN eFechaHora DATETIME, IN eCedula INT, IN eIdCoche INT) BEGIN
-
-    DECLARE vIdConcesionario INT;
-    DECLARE vMonto INT;
-	DECLARE vIdCliente INT;
-    -- This takes the idCoche from the eIdCoche input and gives monto
-	SELECT precio, idConcesionario_fk into vMonto, vIdConcesionario FROM Coche
-    WHERE idCoche = eIdCoche
-    LIMIT 1;   
-    
-    -- This takes the idPersona from the eCedula input
-	SELECT idClient into vIdCliente FROM Cliente
-    INNER JOIN Persona ON Persona.idPersona = Cliente.idPersona_fk
-    WHERE cedula = eCedula
     LIMIT 1;
     
     UPDATE Coche
@@ -623,6 +615,24 @@ CREATE PROCEDURE ObtenerMecanicoPorReparacion(IN eIdReparacion INT) BEGIN
     WHERE eIdReparacion =  MXR.idReparacion_fk;
 END$$
 
+CREATE PROCEDURE ObtenerComprasPorConcecionario(IN eIdConcesionario INT) BEGIN
+	SELECT  
+		P.nombre,
+        P.apellidos,
+        Ma.nombre AS 'Marca',
+        Mo.nombre AS 'Modelo',
+        C.precio,
+        C.estado,
+        Co.fechaHora
+    FROM Compra AS Co
+    INNER JOIN Cliente AS Cl ON Cl.idCliente = Co.idCliente_fk
+    INNER JOIN Persona AS P ON P.idPersona = Cl.idPersona_fk
+    INNER JOIN Coche AS C ON C.idCoche = Co.idCoche_fk
+    INNER JOIN Marca AS Ma ON Ma.idMarca = C.idMarca_fk
+    INNER JOIN Modelo AS Mo ON Mo.idModelo = C.idModelo_fk
+    INNER JOIN Concesionario AS Con ON Con.idConcesionario = C.idConcesionario_fk
+    WHERE Con.idConcesionario = eIdConcesionario;
+END$$
 -- -----------------------------------------------------
 -- Seccion de booleanas
 -- -----------------------------------------------------

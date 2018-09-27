@@ -16,7 +16,7 @@
       <GridPane BorderPane.alignment="CENTER">
           <columnConstraints>
               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="142.0" />
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="350.0" />
               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           </columnConstraints>
           <rowConstraints>
@@ -27,7 +27,7 @@
          <children>
             <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <ComboBox fx:id="concessionary_cb" prefHeight="28.0" prefWidth="144.0" promptText="Concesionario" />
+                  <ComboBox fx:id="concessionary_cb" prefHeight="28.0" prefWidth="200.0" promptText="Concesionario" />
                   <ComboBox fx:id="car_shop_cb" prefWidth="150.0" promptText="Taller" />
                </children>
                <GridPane.margin>
