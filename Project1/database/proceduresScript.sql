@@ -52,6 +52,11 @@ DROP PROCEDURE IF EXISTS ObtenerCarroMasCaro;
 DROP PROCEDURE IF EXISTS ObtenerCarroDeMaximo;
 DROP PROCEDURE IF EXISTS BorrarPersonaPorId;
 DROP PROCEDURE IF EXISTS BorrarProvinciaDePais;
+DROP PROCEDURE IF EXISTS AgregarFoto;
+DROP PROCEDURE IF EXISTS ObtenerConcesionarios;
+DROP PROCEDURE IF EXISTS ObtenerMatriculasPorCliente;
+DROP PROCEDURE IF EXISTS ObtenerIdClientePorCedula;
+DROP PROCEDURE IF EXISTS ObtenerTallerPorConcesionario;
 
 DELIMITER $$
 CREATE PROCEDURE AgregarPais (IN eNombre varchar(50)) BEGIN
@@ -125,7 +130,8 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
                                  IN eEstado VARCHAR(30),
                                  IN eKilometraje INT,
                                  IN ePrecio INT,
-                                 IN eIdConcesionario INT) BEGIN
+                                 IN eIdConcesionario INT,
+                                 IN eIdCliente INT) BEGIN
 	
     -- This takes the idMarca from the idModelo input
     DECLARE vIdMarca INT;
@@ -133,10 +139,61 @@ CREATE PROCEDURE AgregarCoche (IN eMatricula INT,
     WHERE idModelo = eIdModelo
     LIMIT 1;
     
-	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, precio, idConcesionario_fk)
-    VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, ePrecio, eIdConcesionario);
-    
+	INSERT INTO Coche (matricula, idModelo_fk, idMarca_fk, color, estado, kilometraje, precio, idConcesionario_fk, idCliente_fk)
+    VALUES(eMatricula, eIdModelo, vIdMarca, eColor, eEstado, eKilometraje, ePrecio, eIdConcesionario, eIdCliente);
+    SELECT LAST_INSERT_ID() FROM Coche;
 END$$
+
+CREATE PROCEDURE AgregarFoto (IN eIdCoche INT, IN eUrl TEXT) BEGIN
+	INSERT INTO CocheXFoto (idCoche_fk, url)
+  VALUES(eIdCoche, eUrl);
+END$$
+
+CREATE PROCEDURE AgregarCompraCompletoCedula (IN eFechaHora DATETIME, IN eCedula INT, IN eIdCoche INT) BEGIN
+     DECLARE vIdConcesionario INT;
+    DECLARE vMonto INT;
+	DECLARE vIdCliente INT;
+    -- This takes the idCoche from the eIdCoche input and gives monto
+	SELECT precio, idConcesionario_fk into vMonto, vIdConcesionario FROM Coche
+    WHERE idCoche = eIdCoche
+    LIMIT 1;   
+    
+    -- This takes the idPersona from the eCedula input
+	SELECT idClient into vIdCliente FROM Cliente
+    INNER JOIN Persona ON Persona.idPersona = Cliente.idPersona_fk
+    WHERE cedula = eCedula
+    LIMIT 1;
+    
+    UPDATE Coche
+    SET estado = "vendido"
+    WHERE idCoche = eIdCoche;
+    
+    CALL AgregarCompra(eFechaHora, vMonto, eIdCliente, vIdConcesionario, eIdCoche);
+END$$
+
+CREATE PROCEDURE ObtenerFotos (
+	IN eCocheId INT) BEGIN
+	SELECT
+    CocheXFoto.url
+    FROM Coche AS C
+    INNER JOIN CocheXFoto ON C.idCoche = eIdCoche;
+END$$
+
+CREATE PROCEDURE ObtenerTallerPorConcesionario(
+	IN eIdConcesionario INT) BEGIN
+	SELECT
+		*
+    FROM Taller AS T
+    WHERE T.idConcesionario_fk = eIdConcesionario;
+END$$
+
+CREATE PROCEDURE ObtenerConcesionarios() BEGIN
+	SELECT
+		*
+    FROM Concesionario AS C
+    ORDER BY C.nombre;
+END$$
+
 CREATE PROCEDURE AgregarTaller (IN eNombre VARCHAR(50), IN eIdUbicacion INT, IN eIdConcesionario INT) BEGIN
 	INSERT INTO Taller (nombre, idUbicacion_fk, idConcesionario_fk)
     VALUES(eNombre, eIdUbicacion, eIdConcesionario);
@@ -514,4 +571,12 @@ CREATE PROCEDURE BorrarProvinciaDePais(IN eIdPais INT,
 									   IN eIdProvincia INT) BEGIN
 	DELETE FROM Provincia
     WHERE idProvincia = eIdProvincia AND idPais_fk = eIdPais;
+END$$
+
+CREATE PROCEDURE ObtenerIdClientePorCedula(IN eCedula INT) BEGIN
+	SELECT
+		C.idCliente
+    FROM Cliente AS C
+    INNER JOIN Persona AS P ON C.idPersona_fk = P.idPersona
+    WHERE eCedula = P.cedula;
 END$$
