@@ -65,6 +65,7 @@ DROP PROCEDURE IF EXISTS ObtenerPrecioPromedio;
 DROP PROCEDURE IF EXISTS ObtenerCarroPorEstado;
 DROP PROCEDURE IF EXISTS ObtenerCarrosDeIgualMarca;
 DROP PROCEDURE IF EXISTS ObtenerMecanicoPorCedula;
+DROP PROCEDURE IF EXISTS ObtenerComprasPorConcecionario;
 
 DROP PROCEDURE IF EXISTS BorrarPersonaPorId;
 DROP PROCEDURE IF EXISTS BorrarProvinciaDePais;
@@ -623,6 +624,24 @@ CREATE PROCEDURE ObtenerMecanicoPorReparacion(IN eIdReparacion INT) BEGIN
     WHERE eIdReparacion =  MXR.idReparacion_fk;
 END$$
 
+CREATE PROCEDURE ObtenerComprasPorConcecionario(IN eIdConcesionario INT) BEGIN
+	SELECT  
+		P.nombre,
+        P.apellidos,
+        Ma.nombre AS 'Marca',
+        Mo.nombre AS 'Modelo',
+        C.precio,
+        C.estado,
+        Co.fechaHora
+    FROM Compra AS Co
+    INNER JOIN Cliente AS Cl ON Cl.idCliente = Co.idCliente_fk
+    INNER JOIN Persona AS P ON P.idPersona = Cl.idPersona_fk
+    INNER JOIN Coche AS C ON C.idCoche = Co.idCoche_fk
+    INNER JOIN Marca AS Ma ON Ma.idMarca = C.idMarca_fk
+    INNER JOIN Modelo AS Mo ON Mo.idModelo = C.idModelo_fk
+    INNER JOIN Concesionario AS Con ON Con.idConcesionario = C.idConcesionario_fk
+    WHERE Con.idConcesionario = eIdConcesionario;
+END$$
 -- -----------------------------------------------------
 -- Seccion de booleanas
 -- -----------------------------------------------------
