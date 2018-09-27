@@ -154,7 +154,6 @@ public class CarRegistrationFormController implements Initializable {
             }else if(cedula_tf.getText().length() > 0){
                 try {
                     HashMap<String, List<String>> personIds = dao.selectData(queries.OBTENER_ID_PERSONA_POR_CEDULA, cedula_tf.getText());
-
                     if(personIds.get("idPersona") == null) {
                         showAddPersonStage(cedula_tf.getText());
                     }
@@ -200,7 +199,7 @@ public class CarRegistrationFormController implements Initializable {
                     alert.setTitle("Awesome!");
                     alert.setContentText("El carro se agrego correctamente.");
                     alert.showAndWait();
-                    Main.showMainMenu();
+                    exitForm();
                 } catch (Exception e1) {
                     showErrorMessage(e1.getMessage());
                 }
@@ -247,16 +246,20 @@ public class CarRegistrationFormController implements Initializable {
 
     private void listenToCancel(){
         cancel_bb.setOnMouseClicked(e -> {
-            if(popUpStage!=null){
-                popUpStage.close();
-            }else {
-                try {
-                    Main.showMainMenu();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
+            exitForm();
         });
+    }
+
+    private void exitForm(){
+        if(popUpStage!=null){
+            popUpStage.close();
+        }else {
+            try {
+                Main.showMainMenu();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
     private void showErrorMessage(String msg){
@@ -268,6 +271,10 @@ public class CarRegistrationFormController implements Initializable {
 
     public void setMatricula(String matricula){
         matricula_tf.setText(matricula);
+    }
+
+    public void setCedula(String cedula){
+        cedula_tf.setText(cedula);
     }
 
 }

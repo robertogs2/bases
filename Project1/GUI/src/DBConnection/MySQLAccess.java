@@ -44,13 +44,7 @@ public class MySQLAccess {
     public HashMap<String, List<String>> selectData(String query, Object... params) throws Exception{
         HashMap<String, List<String>> data = new HashMap<>();
         statement = connect.prepareCall(query);
-        for(int i = 1; i <= params.length; ++i) {
-            if(params[i-1].toString().equals("NUll INT")){
-                statement.setNull(i, Types.INTEGER);
-            }else {
-                statement.setString(i, params[i - 1].toString());
-            }
-        }
+        checkParams(params);
         resultSet = statement.executeQuery();
 
         while(resultSet.next()) {
@@ -86,10 +80,20 @@ public class MySQLAccess {
 
     public void pushData(String query, Object... params) throws Exception{
         statement = connect.prepareCall(query);
-        for(int i = 1; i <= params.length; ++i) {
-            statement.setString(i, params[i-1].toString());
-        }
+        checkParams(params);
         resultSet = statement.executeQuery();
+    }
+
+    private void checkParams(Object... params)throws Exception{
+        for(int i = 1; i <= params.length; ++i) {
+            if(params[i-1].toString().equals("NUll INT")){
+                statement.setNull(i, Types.INTEGER);
+            }else if(params[i-1].toString().equals("NULL DATE")){
+                statement.setNull(i, Types.DATE);
+            }else {
+                statement.setString(i, params[i - 1].toString());
+            }
+        }
     }
 
     private HashMap<String, List<String>> mergeData(HashMap<String, List<String>> d1, HashMap<String, List<String>> d2){

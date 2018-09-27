@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import main.Main;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ import java.util.*;
 import java.util.List;
 
 import static main.Main.*;
+import static main.Main.popUpStage;
 
 public class ReparationFormController implements Initializable {
 
@@ -35,6 +37,7 @@ public class ReparationFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        Arrays.fill(indexes,-1);
         this.mode = "VIEW";
 
         listenToMode();
@@ -125,7 +128,7 @@ public class ReparationFormController implements Initializable {
                     }
                     if (indexes[1] == -1) {
                         try {
-                            showAddCar(matricula_cb.valueProperty().getValue());
+                            showAddCar(matricula_cb.valueProperty().getValue(),cedula_tf.getText());
                         } catch (Exception e) {
                             showErrorMessage("No se pudo agregar el carro.");
                         }
@@ -134,9 +137,12 @@ public class ReparationFormController implements Initializable {
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     Date dateobj = new Date();
                     try {
-                        dao.pushData(queries.AGREGAR_REPARACION, df.format(dateobj), "NULL", matricula_cb.valueProperty().getValue(), descripcion_ta.getText());
+                        dao.pushData(queries.AGREGAR_REPARACION, df.format(dateobj), "NULL DATE", matricula_cb.valueProperty().getValue(), descripcion_ta.getText());
+                        this.mode = "VIEW";
+                        listenToMode();
                     } catch (Exception e) {
                         showErrorMessage(e.getMessage());
+                        //e.printStackTrace();
                     }
                 }
             }
@@ -150,17 +156,16 @@ public class ReparationFormController implements Initializable {
 
     private void listenToCancel(){
         cancel_bb.setOnMouseClicked(e -> {
-            if(this.mode.equals("VIEW")){
-                try {
-                    Main.showMainMenu();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }else if(this.mode.equals("ADD")){
-                this.mode = "VIEW";
-                listenToMode();
-            }
+            exitForm();
         });
+    }
+
+    private void exitForm(){
+        try {
+            Main.showMainMenu();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
     private void showErrorMessage(String msg){
