@@ -12,10 +12,10 @@ import stages.userRegistration.client.RegistrationFormController;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static main.Main.dao;
 import static main.Main.queries;
@@ -45,23 +45,28 @@ public class MechanicFormController implements Initializable {
 
                 String id = id_tf.getText();
                 String salary = salary_tf.getText();
-                boolean avaliable = false;
+                boolean avaliable;
 
                 try {
-                    avaliable = dao.selectData(queries.OBTENER_ID_PERSONA_POR_CEDULA, id).get("idPersona").size() == 0;
+                    avaliable = dao.selectData(queries.OBTENER_ID_PERSONA_POR_CEDULA, id).get("idPersona") == null;
                     if (!avaliable) {//There is a person with that id already
-                        dao.selectData(queries.AGREGAR_MECANICO, "", salary, id, car_shop);
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        Date dateobj = new Date();
+                        dao.selectData(queries.AGREGAR_MECANICO, df.format(dateobj), salary, id, car_shop);
                     } else {
+                        //RegistrationFormController.past == "mechanic"; Not needed at the end
                         Main.showUserPane();
                     }
                 }
                 catch (Exception e1) {
-                        e1.printStackTrace();
+                    e1.printStackTrace();
                 }
 
                 try {
                     //RegistrationFormController.showInformation("Se ha agregado un nuevo mecánico", "Agregar mecánico");
-                    dao.selectData(queries.AGREGAR_MECANICO, "agregue la fecha bien", salary, id, car_shop);
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    Date dateobj = new Date();
+                    dao.selectData(queries.AGREGAR_MECANICO, df.format(dateobj), salary, id, car_shop);
                     Main.showString(past);
                 } catch (Exception e1) {
                     e1.printStackTrace();
