@@ -75,6 +75,9 @@ public class ReparationFormController implements Initializable {
                         e.printStackTrace();
                     }
 
+                }else{
+                    descripcion_ta.setText("");
+                    mecanicos_tbl.getItems().clear();
                 }
         });
     }
@@ -128,6 +131,7 @@ public class ReparationFormController implements Initializable {
 
     private void listenToMatricula(){
         matricula_cb.getSelectionModel().selectedIndexProperty().addListener((Observable o) -> {
+            clear_cb(fecha_cb);
             indexes[1] = matricula_cb.getSelectionModel().getSelectedIndex();
             if(indexes[1] != -1){
                 try {
@@ -176,7 +180,7 @@ public class ReparationFormController implements Initializable {
                     }
                     if (indexes[1] == -1) {
                         try {
-                            showAddCar(matricula_cb.valueProperty().getValue(),cedula_tf.getText());
+                            showAddCar(matricula_cb.valueProperty().getValue(),cedula_tf.getText(),true);
                         } catch (Exception e) {
                             showErrorMessage("No se pudo agregar el carro.");
                         }
@@ -202,9 +206,12 @@ public class ReparationFormController implements Initializable {
             try {
                 Map<String, List<String>> mecanicos = dao.selectData(queries.OBTENER_MECANICOS_POR_REPARACION, indexes[2]);
                 if(mecanicos.get("nombre") != null){
+                    int totHrs = 0;
                     for(int i = 0; i < mecanicos.get("nombre").size(); ++i){
                         mecanicos_tbl.getItems().add(new Mecanico(mecanicos.get("nombre").get(i), mecanicos.get("horas").get(i)));
+                        totHrs += Integer.valueOf(mecanicos.get("horas").get(i));
                     }
+                    descripcion_ta.setText(descripcion_ta.getText()+"\n"+"En esta reparacion se ha invertido un total de " + totHrs + " horas.");
                 }
             } catch (Exception e) {
                 showErrorMessage(e.getMessage());

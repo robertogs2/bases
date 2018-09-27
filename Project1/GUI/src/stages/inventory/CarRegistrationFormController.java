@@ -52,6 +52,8 @@ public class CarRegistrationFormController implements Initializable {
     private static List<String> brand_indexes;
     private static List<String> model_indexes;
 
+    private boolean toRep = false;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Dinamycally change size of flow pane according to parent stage
@@ -184,6 +186,7 @@ public class CarRegistrationFormController implements Initializable {
                     }
 
                     String estado = (kilometraje_tf.getText().equals("0"))? "nuevo" : "usado";
+                    estado = (toRep)? "reparacion" : estado;
 
                     //Generates new car
                     HashMap<String, List<String>> car_id = dao.selectData(queries.AGREGAR_CARRO,
@@ -282,6 +285,12 @@ public class CarRegistrationFormController implements Initializable {
     public void setCedula(String cedula){
         cedula_tf.setText(cedula);
         cedula_tf.editableProperty().setValue(false);
+    }
+
+    public void setToRep(Boolean rep){
+        toRep = rep;
+        precio_tf.setText("0");
+        vBox.getChildren().remove(precio_tf);
     }
 
 }

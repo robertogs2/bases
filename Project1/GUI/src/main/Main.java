@@ -166,7 +166,7 @@ public class Main extends Application {
         popUpStage.showAndWait();
     }
 
-    public static void showAddCar(String matricula, String cedula) throws IOException {
+    public static void showAddCar(String matricula, String cedula, boolean toRep) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/inventory/CarRegistrationForm.fxml"));
         BorderPane borderPane = fxmlLoader.load();
         popUpStage = new Stage();
@@ -178,12 +178,13 @@ public class Main extends Application {
         CarRegistrationFormController previewController = fxmlLoader.getController();
         previewController.setMatricula(matricula);
         previewController.setCedula(cedula);
+        previewController.setToRep(toRep);
         popUpStage.showAndWait();
     }
 
 
     public static void showAddCar(String matricula) throws IOException {
-        showAddCar(matricula,"");
+        showAddCar(matricula,"",false);
     }
 
     public static void showString(String toShow) throws IOException {
