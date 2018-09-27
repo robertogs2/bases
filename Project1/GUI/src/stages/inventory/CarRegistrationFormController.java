@@ -247,10 +247,14 @@ public class CarRegistrationFormController implements Initializable {
 
     private void listenToCancel(){
         cancel_bb.setOnMouseClicked(e -> {
-            try {
-                Main.showMainMenu();
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            if(popUpStage!=null){
+                popUpStage.close();
+            }else {
+                try {
+                    Main.showMainMenu();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
     }
