@@ -405,20 +405,21 @@ CREATE PROCEDURE ObtenerReparacionesPorCoche () BEGIN
 END$$
 
 
-CREATE PROCEDURE ObtenerReparacionesMecanico(
-	IN eIdMecanico INT) BEGIN
+CREATE PROCEDURE ObtenerReparacionesMecanico(IN eIdMecanico INT) BEGIN
 	SELECT
     R.descripcion,
     R.fechaHoraInicio,
     R.fechaHoraFinal,
     C.matricula,
-    RXM.horas AS "horas"
-    FROM Reparacion AS R
-    INNER JOIN ReparacionXMecanico AS RXM ON RXM.idReparacion_fk = R.idReparacion
-    INNER JOIN Mecanico AS M ON RXM.idMecanico_fk = M.idMecanico
+    RXM.horas AS "horas",
+    R.idReparacion
+    FROM ReparacionXMecanico AS RXM
+    INNER JOIN Reparacion AS R ON RXM.idReparacion_fk = R.idReparacion
+    INNER JOIN Mecanico AS M ON M.idMecanico = eIdMecanico
     INNER JOIN Coche AS C ON C.idCoche = R.idCoche_fk
-    WHERE eIdMecanico = M.idMecanico;
+    WHERE RXM.IdMecanico_fk = eIdMecanico;
 END$$
+
 CREATE PROCEDURE ObtenerReparacionesMecanicoPorCedula(
 	IN eCedMecanico INT) BEGIN
     DECLARE eidMecanico INT;
@@ -430,6 +431,7 @@ CREATE PROCEDURE ObtenerReparacionesMecanicoPorCedula(
 	
     CALL ObtenerReparacionesMecanico(eidMecanico);
 END$$
+
 CREATE PROCEDURE ObtenerCochesPorConcesionario(
 	IN eIdConcesionario INT) BEGIN
 	SELECT
