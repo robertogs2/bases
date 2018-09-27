@@ -34,6 +34,7 @@
                         <TableView fx:id="mecanicos_tbl" focusTraversable="false" prefHeight="200" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="mecanico_clm" editable="false" prefWidth="75.0" text="Mecanicos" />
+                                <TableColumn fx:id="horas_clm" editable="false" prefWidth="75.0" text="Horas" />
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

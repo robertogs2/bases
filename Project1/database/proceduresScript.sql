@@ -55,6 +55,7 @@ DROP PROCEDURE IF EXISTS ObtenerIdClientePorCedula;
 DROP PROCEDURE IF EXISTS ObtenerTallerPorConcesionario;
 DROP PROCEDURE IF EXISTS ObtenerInfoCarroPorConcesionario;
 DROP PROCEDURE IF EXISTS ObtenerIdPersonaPorCedula;
+DROP PROCEDURE IF EXISTS ObtenerMecanicoPorReparacion;
 
 DROP PROCEDURE IF EXISTS AgregarCompraCompletoCedula;
 DROP PROCEDURE IF EXISTS ObtenerFotos;
@@ -63,6 +64,7 @@ DROP PROCEDURE IF EXISTS ObtenerPrecioMasCaro;
 DROP PROCEDURE IF EXISTS ObtenerPrecioPromedio;
 DROP PROCEDURE IF EXISTS ObtenerCarroPorEstado;
 DROP PROCEDURE IF EXISTS ObtenerCarrosDeIgualMarca;
+DROP PROCEDURE IF EXISTS ObtenerMecanicoPorCedula;
 
 DROP PROCEDURE IF EXISTS BorrarPersonaPorId;
 DROP PROCEDURE IF EXISTS BorrarProvinciaDePais;
@@ -389,6 +391,7 @@ END$$
 CREATE PROCEDURE ObtenerReparacionesFecha (
 	IN eMatricula INT, IN eFechaInicio DATETIME) BEGIN
 	SELECT
+    R.idReparacion,
     R.descripcion,
     R.fechaHoraInicio,
     R.fechaHoraFinal
@@ -587,10 +590,23 @@ CREATE PROCEDURE ObtenerCarroPorEstado(IN eEstado VARCHAR(30)) BEGIN
     HAVING estado = eEstado;
 END$$
 
+CREATE PROCEDURE ObtenerMecanicoPorCedula(IN eCedula INT) BEGIN
+	SELECT  
+		*
+    FROM Mecanico AS M
+    INNER JOIN Persona AS P ON P.idPersona = M.idPersona_fk
+    WHERE eCedula = P.cedula;
+END$$
 
-
-
-
+CREATE PROCEDURE ObtenerMecanicoPorReparacion(IN eIdReparacion INT) BEGIN
+	SELECT  
+		P.nombre,
+        MXR.horas
+    FROM Mecanico AS M
+    INNER JOIN Persona AS P ON P.idPersona = M.idPersona_fk
+    INNER JOIN ReparacionXMecanico AS MXR ON MXR.idMecanico_fk = M.idMecanico
+    WHERE eIdReparacion =  MXR.idReparacion_fk;
+END$$
 
 -- -----------------------------------------------------
 -- Seccion de booleanas
