@@ -11,7 +11,7 @@ public class Persona {
     private final SimpleStringProperty telefono;
     private final SimpleStringProperty extension;
 
-    Persona (String cedula, String nombre, String apellidos, String edad, String telefono, String extension){
+    public Persona(String cedula, String nombre, String apellidos, String edad, String telefono, String extension){
         this.cedula = new SimpleStringProperty(cedula);
         this.nombre = new SimpleStringProperty(nombre);
         this.apellidos = new SimpleStringProperty(apellidos);

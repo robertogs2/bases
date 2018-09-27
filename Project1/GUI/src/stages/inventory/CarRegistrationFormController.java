@@ -29,6 +29,7 @@ import static main.Main.primaryStage;
 import static main.Main.queries;
 import static main.Main.dao;
 import static main.Main.showAddPersonStage;
+import static main.Main.popUpStage;
 
 public class CarRegistrationFormController implements Initializable {
 
@@ -148,12 +149,11 @@ public class CarRegistrationFormController implements Initializable {
             }
             String clientId = "NUll INT";
             if(cedula_tf.getText().length() > 0 && !cedula_tf.getText().matches("\\d+")){
-                showErrorMessage("La ceula debe ser un numero, o nula en caso de ser un concecionario.");
+                showErrorMessage("La cedula debe ser un numero, o nula en caso de ser un concecionario.");
                 flag = false;
             }else if(cedula_tf.getText().length() > 0){
                 try {
                     HashMap<String, List<String>> personIds = dao.selectData(queries.OBTENER_ID_PERSONA_POR_CEDULA, cedula_tf.getText());
-
                     if(personIds.get("idPersona") == null) {
                         showAddPersonStage(cedula_tf.getText());
                     }
@@ -199,7 +199,7 @@ public class CarRegistrationFormController implements Initializable {
                     alert.setTitle("Awesome!");
                     alert.setContentText("El carro se agrego correctamente.");
                     alert.showAndWait();
-                    Main.showMainMenu();
+                    exitForm();
                 } catch (Exception e1) {
                     showErrorMessage(e1.getMessage());
                 }
@@ -216,7 +216,7 @@ public class CarRegistrationFormController implements Initializable {
                 iv.setFitWidth(100);
                 img_hb.getChildren().add(0, iv);
             }catch (Exception e){
-                showErrorMessage("No se puede mostrar la image.");
+                showErrorMessage("No se puede mostrar la imagen.");
             }
         });
         upload_img_bb.setOnMouseClicked(event -> {
@@ -246,12 +246,20 @@ public class CarRegistrationFormController implements Initializable {
 
     private void listenToCancel(){
         cancel_bb.setOnMouseClicked(e -> {
+            exitForm();
+        });
+    }
+
+    private void exitForm(){
+        if(popUpStage!=null){
+            popUpStage.close();
+        }else {
             try {
                 Main.showMainMenu();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-        });
+        }
     }
 
     private void showErrorMessage(String msg){
@@ -263,6 +271,10 @@ public class CarRegistrationFormController implements Initializable {
 
     public void setMatricula(String matricula){
         matricula_tf.setText(matricula);
+    }
+
+    public void setCedula(String cedula){
+        cedula_tf.setText(cedula);
     }
 
 }
