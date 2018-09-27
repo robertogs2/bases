@@ -1,4 +1,4 @@
-package stages.tables;
+package stages.tables.persona;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

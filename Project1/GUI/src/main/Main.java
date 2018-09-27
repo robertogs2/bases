@@ -106,7 +106,7 @@ public class Main extends Application {
         mainLayout.setCenter(previewPane);
     }
     public static void showTables() throws IOException {
-        AnchorPane previewPane = FXMLLoader.load(Main.class.getResource("/stages/tables/TableVisualization.fxml"));
+        AnchorPane previewPane = FXMLLoader.load(Main.class.getResource("/stages/tables/persona/TableVisualization.fxml"));
         mainLayout.setCenter(previewPane);
     }
 
