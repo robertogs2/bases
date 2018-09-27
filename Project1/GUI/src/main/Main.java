@@ -45,7 +45,7 @@ public class Main extends Application {
         //showUserPane();
         //showShopPane();
         //showTables();
-
+        showReparationsForm();
     }
 
     public void showMainPane() throws IOException {
@@ -78,6 +78,12 @@ public class Main extends Application {
     public static void showMechanicPane() throws IOException {
         Main.primaryStage.setTitle("Agregar mecánico");
         Pane pane = FXMLLoader.load(Main.class.getResource("/stages/userRegistration/mechanic/MechanicForm.fxml"));
+        mainLayout.setCenter(pane);
+    }
+
+    public static void showReparationsForm() throws IOException {
+        Main.primaryStage.setTitle("Reparaciones");
+        Pane pane = FXMLLoader.load(Main.class.getResource("/stages/workshop/ReparationForm.fxml"));
         mainLayout.setCenter(pane);
     }
 
