@@ -5,14 +5,13 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import main.Main;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +19,7 @@ import java.util.ResourceBundle;
 
 import static main.Main.primaryStage;
 import static main.Main.queries;
+import static main.Main.showMainMenu;
 
 public class shopController implements Initializable {
 
@@ -31,15 +31,15 @@ public class shopController implements Initializable {
     @FXML ChoiceBox<String> cbMarca;
     @FXML ChoiceBox<String> cbModelo;
     @FXML ChoiceBox<String> cbColor;
+    @FXML VBox vBox;
+    @FXML Button btnReturn;
     @FXML MenuBar menuBar;
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Dinamycally change size of flow pane according to parent stage
-        flowPane.prefWidthProperty().bind(primaryStage.widthProperty());
-        flowPane.prefHeightProperty().bind(primaryStage.heightProperty());
+        flowPane.prefWidthProperty().bind(primaryStage.widthProperty().subtract(50));
+        vBox.prefHeightProperty().bind(primaryStage.heightProperty().subtract(60));
 
         carAlbum = new CarAlbum();
 
@@ -141,4 +141,9 @@ public class shopController implements Initializable {
                     .add(carAlbum.getCarList().get(i));
         }
     }
+
+    public void retornar() throws IOException {
+        showMainMenu();
+    }
+
 }

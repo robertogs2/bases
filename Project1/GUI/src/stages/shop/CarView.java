@@ -66,7 +66,7 @@ public class CarView extends VBox {
                 for (int i = 0; i < attributes.size(); ++i){
                     values.add(data.get(attributes.get(i)).get(0));
                 }
-                Main.showPreviewStage(attributes,values,this.urlList);
+                Main.showPreviewStage(this.pk,attributes,values,this.urlList);
             } catch (Exception e) {
                 e.printStackTrace();
             }

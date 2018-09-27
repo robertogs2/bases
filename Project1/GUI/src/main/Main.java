@@ -105,7 +105,7 @@ public class Main extends Application {
         mainLayout.setCenter(previewPane);
     }
 
-    public static void showPreviewStage(List<String> attributes, List<String> values, ObservableList<String> urls) throws IOException {
+    public static void showPreviewStage(int pk, List<String> attributes, List<String> values, ObservableList<String> urls) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/preview/preview.fxml"));
         AnchorPane anchorPane = fxmlLoader.load();
         Stage addInventoryStage = new Stage();
@@ -115,7 +115,7 @@ public class Main extends Application {
         Scene scene = new Scene(anchorPane);
         addInventoryStage.setScene(scene);
         previewController previewController = fxmlLoader.getController();
-        previewController.addAttributes(attributes,values,urls);
+        previewController.addAttributes(pk,attributes,values,urls);
         addInventoryStage.showAndWait();
     }
 

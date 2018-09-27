@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class CarAlbum implements Observable {
 
     public void sortByPrice() {
         FXCollections.sort(this.getCarList(),
-                (car1, car2) -> car1.getPrice().compareToIgnoreCase(car2.getPrice()));
+                Comparator.comparing(car -> Integer.valueOf(car.getPrice())));
     }
 
     public void filter(String brand, String model, String color) {
