@@ -25,8 +25,9 @@ import static stages.userRegistration.client.RegistrationFormController.past;
 public class MainMenuController implements Initializable {
 
     @FXML BorderPane borderPane;
-    @FXML VBox vBox;
-    @FXML ComboBox concessionary_cb, car_shop_cb, shop_cb, car_shop2_cb;;
+    @FXML VBox tienda_vBox,taller_vBox;
+    @FXML ComboBox concessionary_cb, car_shop_cb;
+    @FXML Button tienda_btn, vender_btn, rep_btn, mec_btn;
 
     public static final int[] indexes = new int[2]; //index0 : concesionary, index1: carshop
     private static List<String> concessionary_indexes;
@@ -38,10 +39,19 @@ public class MainMenuController implements Initializable {
         //flowPane.prefWidthProperty().bind(primaryStage.widthProperty());
         //flowPane.prefHeightProperty().bind(primaryStage.heightProperty());
 
+        clear_cb(concessionary_cb);
+
+        initCB();
+        initOptions();
+        //listenToClient();
+        //listenToCar();
+        listenToConcesionary();
+        listenToCarshop1();
+    }
+
+    private void initCB(){
         HashMap<String, List<String>> concesionary_list = new HashMap<>();
         HashMap<String, List<String>> car_shop_list = new HashMap<>();
-
-        clear_cb(concessionary_cb);
         try {
             concesionary_list = dao.selectData(queries.OBTENER_CONCESIONARIOS);
         } catch (Exception e) {
@@ -67,22 +77,47 @@ public class MainMenuController implements Initializable {
         car_shop_cb.getItems().setAll(carshops);
         car_shop_cb.setValue(carshops.get(0));
         indexes[1] = 1;
+    }
 
-        //Sets the list for the carshop options
-        car_shop2_cb.getItems().add("Reparaciones");
-        car_shop2_cb.getItems().add("Mecánicos");
+    private void initOptions(){
+        String cssLayout = "-fx-border-color: black;\n" +
+                "-fx-border-insets: 5;\n" +
+                "-fx-border-width: 3;\n" +
+                "-fx-border-style: solid;\n";
+        tienda_vBox.setStyle(cssLayout);
+        taller_vBox.setStyle(cssLayout);
 
-        //Sets the list for the shop options
-        shop_cb.getItems().add("Ver tienda");
-        shop_cb.getItems().add("Vender auto");
+        tienda_btn.setOnMouseClicked(event -> {
+            try {
+                showShopPane();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
+        vender_btn.setOnMouseClicked(event -> {
+            try {
+                showAddCar("");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
-        //listenToClient();
-        //listenToCar();
-        listenToShop();
-        listenToConcesionary();
-        listenToCarshop1();
-        listenToCarshop2();
+        rep_btn.setOnMouseClicked(event -> {
+            try {
+                showReparationsForm();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        mec_btn.setOnMouseClicked(event -> {
+            try {
+                showAllMechanicsPane();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void listenToConcesionary(){//Done
@@ -108,51 +143,6 @@ public class MainMenuController implements Initializable {
             }
         });
     }//Done
-    private void listenToShop(){//Done
-        shop_cb.getSelectionModel().selectedIndexProperty().addListener((Observable o) -> {
-            try {
-                int selected = shop_cb.getSelectionModel().getSelectedIndex();
-                if(selected == 0){ //If we selected to go to the shop
-                    System.out.println("Entrar a tienda");
-                    showShopPane();
-                }
-                else if(selected == 1){
-                    showAddCar("");
-                    System.out.println("Entrar a poner en venta");
-                }
-                else{
-                    System.out.println("No hacer nada tienda");
-                    clear_cb(shop_cb);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }//Done
-    private void listenToCarshop2(){//Done
-        car_shop2_cb.getSelectionModel().selectedIndexProperty().addListener((Observable o) -> {
-            int selected = car_shop2_cb.getSelectionModel().getSelectedIndex();
-            try {
-                if(selected == 0){ //If we selected to go to reparaciones
-                    //Show Reparaiones
-                    showReparationsForm();
-                }
-                else if(selected == 1){
-                    showAllMechanicsPane();
-                    System.out.println("Entrar a ver los mecánicos");
-                }
-                else{
-                    System.out.println("No hacer nada");
-                    clear_cb(car_shop2_cb);
-                }
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }//Done
-
-
     private void updateCarshop(int concesionary_index){
         try {
             car_shop_cb.getItems().clear();

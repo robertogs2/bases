@@ -1,30 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.menu.MainMenuController">
    <top>
       <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="73.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="172.0" minWidth="10.0" prefWidth="158.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="49.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="171.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="49.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="85.0" minHeight="0.0" prefHeight="28.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="82.0" minHeight="0.0" prefHeight="37.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="49.0" minHeight="0.0" prefHeight="3.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+          <columnConstraints>
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="142.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          </columnConstraints>
+          <rowConstraints>
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
          <children>
-            <ComboBox fx:id="concessionary_cb" prefHeight="28.0" prefWidth="144.0" promptText="Concesionario" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ComboBox fx:id="car_shop_cb" prefWidth="150.0" promptText="Taller" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <ComboBox fx:id="concessionary_cb" prefHeight="28.0" prefWidth="144.0" promptText="Concesionario" />
+                  <ComboBox fx:id="car_shop_cb" prefWidth="150.0" promptText="Taller" />
+               </children>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </HBox>
          </children>
       </GridPane>
    </top>
@@ -42,8 +51,28 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ComboBox fx:id="car_shop2_cb" prefWidth="150.0" promptText="Menu Taller" GridPane.rowIndex="1" />
-            <ComboBox fx:id="shop_cb" prefWidth="150.0" promptText="Menu Tienda" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <VBox fx:id="tienda_vBox" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Label text="Tienda">
+                  <padding>
+                     <Insets left="50.0" />
+                  </padding></Label>
+                <Button fx:id="tienda_btn" minWidth="150" text="Comprar Vehiculo">
+                  <VBox.margin>
+                     <Insets />
+                  </VBox.margin></Button>
+                <Button fx:id="vender_btn" minWidth="150" text="Vender Vehiculo" />
+            </VBox>
+             <VBox fx:id="taller_vBox" spacing="10" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                 <Label text="Taller">
+                  <padding>
+                     <Insets left="55.0" />
+                  </padding></Label>
+                 <Button fx:id="rep_btn" minWidth="150" text="Reparaciones">
+                  <VBox.margin>
+                     <Insets />
+                  </VBox.margin></Button>
+                 <Button fx:id="mec_btn" minWidth="150" text="Mecanicos" />
+             </VBox>
          </children>
       </GridPane>
    </center>

@@ -396,6 +396,7 @@ public class RegistrationFormController implements Initializable {
     }
 
     public void setCedula(String cedula){
+        id_tf.editableProperty().setValue(false);
         id_tf.setText(cedula);
     }
 
