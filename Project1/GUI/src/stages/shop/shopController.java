@@ -109,6 +109,9 @@ public class shopController implements Initializable {
                         photos.addAll(url);
                     }
                 }
+                else{
+                    photos.addAll("https://dutcheauction.com/images/default-car.png");
+                }
 
 
                 carAlbum.addCar( Integer.valueOf(pk), marca, modelo, matricula, precio, color, photos);
