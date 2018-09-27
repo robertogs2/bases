@@ -38,10 +38,22 @@ public class MainMenuController implements Initializable {
         //flowPane.prefWidthProperty().bind(primaryStage.widthProperty());
         //flowPane.prefHeightProperty().bind(primaryStage.heightProperty());
 
+        clear_cb(concessionary_cb);
+
+        initCB();
+        initOptions();
+        //listenToClient();
+        //listenToCar();
+        listenToShop();
+        listenToConcesionary();
+        listenToCarshop1();
+        listenToCarshop2();
+
+    }
+
+    private void initCB(){
         HashMap<String, List<String>> concesionary_list = new HashMap<>();
         HashMap<String, List<String>> car_shop_list = new HashMap<>();
-
-        clear_cb(concessionary_cb);
         try {
             concesionary_list = dao.selectData(queries.OBTENER_CONCESIONARIOS);
         } catch (Exception e) {
@@ -67,6 +79,9 @@ public class MainMenuController implements Initializable {
         car_shop_cb.getItems().setAll(carshops);
         car_shop_cb.setValue(carshops.get(0));
         indexes[1] = 1;
+    }
+
+    private void initOptions(){
 
         //Sets the list for the carshop options
         car_shop2_cb.getItems().add("Reparaciones");
@@ -75,14 +90,6 @@ public class MainMenuController implements Initializable {
         //Sets the list for the shop options
         shop_cb.getItems().add("Ver tienda");
         shop_cb.getItems().add("Vender auto");
-
-
-        //listenToClient();
-        //listenToCar();
-        listenToShop();
-        listenToConcesionary();
-        listenToCarshop1();
-        listenToCarshop2();
     }
 
     private void listenToConcesionary(){//Done
@@ -109,9 +116,12 @@ public class MainMenuController implements Initializable {
         });
     }//Done
     private void listenToShop(){//Done
-        shop_cb.getSelectionModel().selectedIndexProperty().addListener((Observable o) -> {
+        shop_cb.getSelectionModel().selectedIndexProperty().addListener((obs, oldItem, newItem) -> {
+            System.out.println(newItem);
+            System.out.println(oldItem);
             try {
                 int selected = shop_cb.getSelectionModel().getSelectedIndex();
+                System.out.println("selected: " + selected);
                 if(selected == 0){ //If we selected to go to the shop
                     System.out.println("Entrar a tienda");
                     showShopPane();
@@ -122,10 +132,11 @@ public class MainMenuController implements Initializable {
                 }
                 else{
                     System.out.println("No hacer nada tienda");
-                    clear_cb(shop_cb);
                 }
+                shop_cb.getSelectionModel().select(2);
+                //initOptions();
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         });
     }//Done
@@ -134,16 +145,16 @@ public class MainMenuController implements Initializable {
             int selected = car_shop2_cb.getSelectionModel().getSelectedIndex();
             try {
                 if(selected == 0){ //If we selected to go to reparaciones
-                    //Show Reparaiones
+                    //Show Reparaciones
                     showReparationsForm();
                 }
                 else if(selected == 1){
+                    //Show Mecanicos
                     showAllMechanicsPane();
                     System.out.println("Entrar a ver los mecánicos");
                 }
                 else{
                     System.out.println("No hacer nada");
-                    clear_cb(car_shop2_cb);
                 }
             }
             catch (IOException e) {
