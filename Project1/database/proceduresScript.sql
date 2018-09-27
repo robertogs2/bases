@@ -195,8 +195,25 @@ CREATE PROCEDURE AgregarCompra (IN eFechaHora DATETIME, IN eMonto INT, IN eIdCli
 	INSERT INTO Compra (idCliente_fk, idConcesionario_fk, idCoche_fk, monto, fechaHora)
     VALUES(eIdCliente, eIdConcesionario, eIdCoche, eMonto, eFechaHora);
 END$$
+
+CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eIdCliente INT, IN eIdCoche INT) BEGIN
+
+    DECLARE vIdConcesionario INT;
+    DECLARE vMonto INT;
+    -- This takes the idCoche from the eIdCoche input and gives monto
+	SELECT precio, idConcesionario_fk into vMonto, vIdConcesionario FROM Coche
+    WHERE idCoche = eIdCoche
+    LIMIT 1;   
+
+    UPDATE Coche
+    SET estado = "vendido"
+    WHERE idCoche = eIdCoche;
+    
+    CALL AgregarCompra(eFechaHora, vMonto, eIdCliente, vIdConcesionario, eIdCoche);
+END$$
+
 -- Infiere monto a partir de precio del carro, infiere concesionario a partir del carro
-CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eCedula INT, IN eIdCoche INT) BEGIN
+CREATE PROCEDURE AgregarCompraCompletoCedula (IN eFechaHora DATETIME, IN eCedula INT, IN eIdCoche INT) BEGIN
 
     DECLARE vIdConcesionario INT;
     DECLARE vMonto INT;
@@ -213,32 +230,6 @@ CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eCedula INT, 
     -- Con ese id saca el del cliente
     SELECT idCliente  into vIdCliente FROM Cliente AS C
     Where C.idPersona_fk = vIdPersona
-    LIMIT 1;
-    
-
-    
-    UPDATE Coche
-    SET estado = "vendido"
-    WHERE idCoche = eIdCoche;
-    
-    CALL AgregarCompra(eFechaHora, vMonto, vIdCliente, vIdConcesionario, eIdCoche);
-END$$
-
--- Infiere monto a partir de precio del carro, infiere concesionario a partir del carro
-CREATE PROCEDURE AgregarCompraCompletoCedula (IN eFechaHora DATETIME, IN eCedula INT, IN eIdCoche INT) BEGIN
-
-    DECLARE vIdConcesionario INT;
-    DECLARE vMonto INT;
-	DECLARE vIdCliente INT;
-    -- This takes the idCoche from the eIdCoche input and gives monto
-	SELECT precio, idConcesionario_fk into vMonto, vIdConcesionario FROM Coche
-    WHERE idCoche = eIdCoche
-    LIMIT 1;   
-    
-    -- This takes the idPersona from the eCedula input
-	SELECT idClient into vIdCliente FROM Cliente
-    INNER JOIN Persona ON Persona.idPersona = Cliente.idPersona_fk
-    WHERE cedula = eCedula
     LIMIT 1;
     
     UPDATE Coche
