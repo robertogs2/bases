@@ -23,8 +23,9 @@
                 <VBox fx:id="vBox" alignment="TOP_CENTER" spacing="10" translateX="10">
                     <children>
                         <HBox fx:id="cb_box" spacing="10">
-                            <TextField fx:id="cedula_tf" prefHeight="25.0" prefWidth="165.0" promptText="Matricula" />
-                            <ComboBox fx:id="matricula_cb" editable="true" prefHeight="25.0" prefWidth="190.0" promptText="Seleccione un Modelo" />
+                            <TextField fx:id="cedula_tf" prefHeight="25.0" prefWidth="165.0" promptText="Cedula del cliente" />
+                            <ComboBox fx:id="matricula_cb" editable="true" prefHeight="25.0" prefWidth="190.0" promptText="Matricula" />
+                            <ComboBox fx:id="fecha_cb" editable="false" prefHeight="25.0" prefWidth="190.0" promptText="Fecha de reparacion" />
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>

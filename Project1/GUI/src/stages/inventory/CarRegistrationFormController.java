@@ -159,10 +159,10 @@ public class CarRegistrationFormController implements Initializable {
                     }
                     HashMap<String, List<String>> id = dao.selectData(queries.OBTENER_ID_CLIENTE_POR_CEDULA, cedula_tf.getText());
                     if(id.get("idCliente") == null){
-                        clientId = id.get("idCliente").get(0);
-                    }else{
                         HashMap<String, List<String>> client_id = dao.selectData(queries.AGREGAR_CLIENTE_POR_CEDULA, cedula_tf.getText());
                         clientId = client_id.get("LAST_INSERTED_ID()").get(0);
+                    }else{
+                        clientId = id.get("idCliente").get(0);
                     }
                 }catch (Exception e){}
             }
@@ -174,7 +174,7 @@ public class CarRegistrationFormController implements Initializable {
                         indexes[0] = Integer.parseInt(city_id.get("LAST_INSERT_ID()").get(0));
                     }
                     if (indexes[1] == -1) {
-                        HashMap<String, List<String>> city_id = dao.selectData(queries.AGREGAR_CIUDAD, modelo_cb.valueProperty().getValue(), indexes[0]);
+                        HashMap<String, List<String>> city_id = dao.selectData(queries.AGREGAR_MODELO, modelo_cb.valueProperty().getValue(), indexes[0]);
                         indexes[1] = Integer.parseInt(city_id.get("LAST_INSERT_ID()").get(0));
                     }
 
