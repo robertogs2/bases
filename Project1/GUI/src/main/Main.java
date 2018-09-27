@@ -3,6 +3,7 @@ package main;
 import DBConnection.MySQLAccess;
 import DBConnection.Queries;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -37,7 +38,7 @@ public class Main extends Application {
         dao.connectToDB();
 
         showMainPane();
-
+        //showAllMechanicsPane();
         ///Shows the main menu
         showMainMenu();
         //showMechanicPane();
@@ -75,6 +76,12 @@ public class Main extends Application {
         Pane pane = FXMLLoader.load(Main.class.getResource("/stages/menu/MainMenu.fxml"));
         mainLayout.setCenter(pane);
     }
+
+    public static void showAllMechanicsPane() throws IOException {
+        Main.primaryStage.setTitle("Mecánicos");
+        Pane pane = FXMLLoader.load(Main.class.getResource("/stages/tables/mechanic/MechanicVisualization.fxml"));
+        mainLayout.setCenter(pane);
+    }
     public static void showMechanicPane() throws IOException {
         Main.primaryStage.setTitle("Agregar mecánico");
         Pane pane = FXMLLoader.load(Main.class.getResource("/stages/userRegistration/mechanic/MechanicForm.fxml"));
@@ -96,7 +103,7 @@ public class Main extends Application {
         mainLayout.setCenter(previewPane);
     }
 
-    public static void showPreviewStage(List<String> attributes, List<String> values) throws IOException {
+    public static void showPreviewStage(List<String> attributes, List<String> values, ObservableList<String> urls) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/preview/preview.fxml"));
         AnchorPane anchorPane = fxmlLoader.load();
         Stage addInventoryStage = new Stage();
@@ -106,7 +113,7 @@ public class Main extends Application {
         Scene scene = new Scene(anchorPane);
         addInventoryStage.setScene(scene);
         previewController previewController = fxmlLoader.getController();
-        previewController.addAttributes(attributes,values);
+        previewController.addAttributes(attributes,values,urls);
         addInventoryStage.showAndWait();
     }
 
@@ -123,6 +130,19 @@ public class Main extends Application {
         previewController.setCedula(cedula);
         popUpStage.showAndWait();
         return previewController.getPersonId();
+    }
+
+    public static void showAddMechanicStage() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/userRegistration/mechanic/MechanicForm.fxml"));
+        BorderPane borderPane = fxmlLoader.load();
+        popUpStage = new Stage();
+        popUpStage.setTitle("Agregar Mecánico");
+        popUpStage.initModality(Modality.WINDOW_MODAL);
+        popUpStage.initOwner(primaryStage);
+        Scene scene = new Scene(borderPane);
+        popUpStage.setScene(scene);
+        RegistrationFormController previewController = fxmlLoader.getController();
+        popUpStage.showAndWait();
     }
 
     public static void showAddCar(String matricula, String cedula) throws IOException {

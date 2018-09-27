@@ -20,30 +20,34 @@ import static main.Main.queries;
 
 public class CarView extends VBox {
 
-    private String name;
-    private String description;
+    private String brand;
+    private String model;
+    private String plate;
+    private String price;
+    private String color;
     private int pk;
     private ImageView photo;
-    private ObservableList<Image> imageList;
+    private ObservableList<String> urlList;
     private Label lbName;
     private Label lbDescription;
-    private int imageCount = 0;
 
-    public CarView ( int pk, String name, String description, ObservableList<Image> imageList){
-        this.name = name;
-        this.description = description;
+    public CarView ( int pk, String brand, String model, String plate, String price, String color, ObservableList<String> imageList){
+        this.brand = brand;
+        this.model = model;
+        this.plate = plate;
+        this.price = price;
+        this.color = color;
         this.pk = pk;
-        this.imageList = imageList;
+        this.urlList = imageList;
         if(!imageList.isEmpty())
-            photo = new ImageView(imageList.get(0));
+            photo = new ImageView( new Image(imageList.get(0)));
         else photo = new ImageView();
-        photo = new ImageView();
         photo.setFitWidth(100);
         photo.setFitHeight(100);
-        lbName = new Label(name);
+        lbName = new Label(this.getName());
         lbName.setFont(Font.font("System",FontWeight.BOLD,14));
         lbDescription = new Label();
-        lbDescription.setText(description);
+        lbDescription.setText(this.getDescription());
         lbDescription.setWrapText(true);
         lbDescription.setTextAlignment(TextAlignment.JUSTIFY);
         lbDescription.setMaxWidth(200);
@@ -62,7 +66,7 @@ public class CarView extends VBox {
                 for (int i = 0; i < attributes.size(); ++i){
                     values.add(data.get(attributes.get(i)).get(0));
                 }
-                Main.showPreviewStage(attributes,values);
+                Main.showPreviewStage(attributes,values,this.urlList);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -72,29 +76,31 @@ public class CarView extends VBox {
     }
 
     public String getName() {
-        return name;
+        String rtn = brand + " " + model;
+        return rtn;
+
     }
 
-    public void setName(String name) {
-        this.name = name;
-        lbName.setText(name);
-    }
 
     public String getDescription() {
-        return description;
+        String rtn = "$ " + price + "\n" + "Matrícula: " + plate;
+        return rtn;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-        lbDescription.setText(description);
+    public String getBrand() {
+        return brand;
     }
 
-    public void shiftRightImage(){
-        photo = new ImageView(imageList.get((++imageCount)%imageList.size()));
+    public String getModel() {
+        return model;
     }
 
-    public void leftRightImage(){
-        photo = new ImageView(imageList.get((--imageCount)%imageList.size()));
+    public String getColor() {
+        return color;
+    }
+
+    public String getPrice() {
+        return price;
     }
 
     public int getPk() {

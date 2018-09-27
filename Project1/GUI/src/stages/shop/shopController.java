@@ -5,10 +5,10 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import main.Main;
@@ -28,6 +28,11 @@ public class shopController implements Initializable {
     //https://stackoverflow.com/questions/32940399/javafx-update-flowpane-after-list-changes
     @FXML FlowPane flowPane;
     @FXML BorderPane borderPane;
+    @FXML ChoiceBox<String> cbMarca;
+    @FXML ChoiceBox<String> cbModelo;
+    @FXML ChoiceBox<String> cbColor;
+    @FXML MenuBar menuBar;
+
 
 
     @Override
@@ -53,23 +58,47 @@ public class shopController implements Initializable {
                 String matricula = data.get("matricula").get(i);
                 String marca = data.get("marca").get(i);
                 String modelo = data.get("modelo").get(i);
+                String color = data.get("color").get(i);
 
-                ObservableList<Image> photos = FXCollections.observableArrayList();
+                HashMap<String, List<String>> dataPhoto = null;
+                try {
+                    dataPhoto = Main.dao.selectData(queries.OBTENER_FOTOS,Integer.valueOf(pk));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-                carAlbum.addCar( Integer.valueOf(pk),
-                        marca + " " + modelo,
-                        "$ " + precio + "\n" + "Matrícula: " + matricula,
-                        photos);
+                ObservableList<String> photos = FXCollections.observableArrayList();
+                if(!dataPhoto.keySet().isEmpty()){
+                    int m = dataPhoto.get("url").size();
+                    for (int j = 0; j < m; ++j) {
+                        String url = dataPhoto.get("url").get(j);
+                        photos.addAll(url);
+                    }
+                }
+
+
+                carAlbum.addCar( Integer.valueOf(pk), marca, modelo, matricula, precio, color, photos);
                 carAlbum.getCarList().addListener((ListChangeListener<CarView>) change -> refresh());
             }
         }
 
-        /*for (int i = 0; i < 100; i++){
-            String description =
-                    "Ah sí man, solo calidad este carro, acelera, frena, gira, hace de todo man, comprelo bro.";
+        cbMarca.getItems().addAll("");
+        cbMarca.getItems().addAll(carAlbum.getBrandModel().keySet());
+        cbMarca.getSelectionModel().selectedIndexProperty().addListener(observable -> {
+            int i = cbMarca.getSelectionModel().getSelectedIndex();
+            cbModelo.getItems().clear();
+            String marca = cbMarca.getItems().get(i);
+            cbModelo.getItems().addAll("");
+            cbModelo.getItems().addAll(carAlbum.getBrandModel().get(marca));
+            filter();
+        });
 
-            carAlbum.addCar("Carro " + i, description, i);
-        }*/
+        cbColor.getItems().addAll("");
+        cbColor.getItems().addAll(carAlbum.getColorList());
+        cbColor.getSelectionModel().selectedIndexProperty().addListener(observable -> filter());
+
+        cbModelo.getSelectionModel().selectedIndexProperty().addListener(observable -> filter());
+
         //carAlbum.sortByName();
         Menu sortMenu = new Menu("_Sort");
         MenuItem sortName = new MenuItem("_Name");
@@ -77,11 +106,31 @@ public class shopController implements Initializable {
             carAlbum.sortByName();
             refresh();
         });
-        sortMenu.getItems().addAll(sortName);
-        MenuBar menuBar = new MenuBar();
+        MenuItem sortPrice = new MenuItem("_Price");
+        sortPrice.setOnAction( event -> {
+            carAlbum.sortByPrice();
+            refresh();
+        });
+        sortMenu.getItems().addAll(sortName,sortPrice);
         menuBar.getMenus().addAll(sortMenu);
 
-        borderPane.setTop(menuBar);
+    }
+
+    private void filter(){
+        int i = cbMarca.getSelectionModel().getSelectedIndex();
+        int j = cbModelo.getSelectionModel().getSelectedIndex();
+        int k = cbColor.getSelectionModel().getSelectedIndex();
+        String marca;
+        String modelo;
+        String color;
+        if (i > 0) marca = cbMarca.getItems().get(i);
+        else marca ="";
+        if (j > 0) modelo = cbModelo.getItems().get(j);
+        else modelo = "";
+        if (k > 0) color = cbColor.getItems().get(k);
+        else color = "";
+        carAlbum.filter(marca, modelo, color);
+        refresh();
     }
 
     private void refresh(){

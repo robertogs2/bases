@@ -42,6 +42,7 @@ DROP PROCEDURE IF EXISTS ObtenerCochesPorConcesionario;
 DROP PROCEDURE IF EXISTS ObtenerCochesPorConcesionarioPorNombre;
 DROP PROCEDURE IF EXISTS ObtenerPaises;
 DROP PROCEDURE IF EXISTS ObtenerMecanicos;
+DROP PROCEDURE IF EXISTS ObtenerMecanicosConConcesionario;
 DROP PROCEDURE IF EXISTS ObtenerConcesionarios;
 DROP PROCEDURE IF EXISTS ObtenerProvinciasPorPais;
 DROP PROCEDURE IF EXISTS ObtenerCiudadPorProvincia;
@@ -344,6 +345,7 @@ CREATE PROCEDURE ObtenerInfoCarroPorConcesionario (IN eIdConcesionario INT) BEGI
         Mo.nombre AS "modelo",
 		Ma.nombre AS "marca",
         C.precio,
+        C.color,
         C.idCoche
 	FROM 
 		Coche AS C
@@ -368,11 +370,11 @@ END$$
 
 
 CREATE PROCEDURE ObtenerFotos (
-	IN eCocheId INT) BEGIN
+	IN eIdCoche INT) BEGIN
 	SELECT
-    CocheXFoto.url
-    FROM Coche AS C
-    INNER JOIN CocheXFoto ON C.idCoche = eIdCoche;
+    C.url
+    FROM CocheXFoto AS C
+    WHERE C.idCoche_fk = eIdCoche;
 END$$
 CREATE PROCEDURE ObtenerReparaciones (
 	IN eMatricula INT) BEGIN
@@ -466,8 +468,19 @@ CREATE PROCEDURE ObtenerConcesionarios() BEGIN
     ORDER BY C.nombre;
 END$$
 
-
 CREATE PROCEDURE ObtenerMecanicos() BEGIN
+
+	SELECT P.nombre AS "pnombre", P.apellidos, P.cedula, P.edad, P.telefono, 
+		P.extension, M.fechaContratacion AS "fecha", M.salario, C.nombre AS "cnombre", 
+		T.nombre AS "tnombre", P.idPersona, C.idConcesionario, T.idTaller, M.idMecanico 
+	FROM Persona AS P
+    INNER JOIN Mecanico AS M ON M.idPersona_fk = P.idPersona
+    INNER JOIN Concesionario AS C ON C.idConcesionario = M.idConcesionario_fk
+    INNER JOIN Taller AS T ON T.idTaller = M.idTaller_fk;
+    
+END$$
+
+CREATE PROCEDURE ObtenerMecanicosConConcesionario() BEGIN
 	SELECT 
 		C.idConcesionario, C.nombre, M.idMecanico
 	FROM Concesionario AS C
