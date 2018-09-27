@@ -411,8 +411,8 @@ END$$
 CREATE PROCEDURE ObtenerReparacionesMecanico(IN eIdMecanico INT) BEGIN
 	SELECT
     R.descripcion,
-    R.fechaHoraInicio,
-    R.fechaHoraFinal,
+    R.fechaHoraInicio AS "fechaI",
+    R.fechaHoraFinal AS "fechaF",
     C.matricula,
     RXM.horas AS "horas",
     R.idReparacion
