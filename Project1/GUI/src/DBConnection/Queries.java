@@ -17,7 +17,7 @@ public class Queries {
     public final String AGREGAR_FOTO = "{call AgregarFoto(?,?)}";                                              // args: idCarro, urlFoto
     public final String AGREGAR_TALLER = "{call AgregarTaller(?,?,?)}";                                         // args: nombre,idUbicacion,idConcesionario
     public final String AGREGAR_MECANICO = "{call AgregarMecanicoCompleto(?,?,?,?)}";                           // args: fechaContratacion,salario,cedula,idTaller
-    public final String AGREGAR_COMPRA = "{call AgregarCompraCompleto(?,?,?)}";                                 // args: fechaHora,idCiente,idCoche
+    public final String AGREGAR_COMPRA = "{call AgregarCompraCompletoCedula(?,?,?)}";                                 // args: fechaHora,idCiente,idCoche
     public final String AGREGAR_REPARACION = "{call AgregarReparacionCompleto(?,?,?,?)}";                       // args: fechaHoraInicio,fechaHoraFinal,Matricula,Descripcion
     public final String AGREGAR_REPARACION_X_MECANICO = "{call AgregarReparacionXMecanico(?,?,?)}";             // args: idReparacion,idMecanico,horas
     public final String OBTENER_MECANICOS_POR_REPARACION = "call ObtenerMecanicoPorReparacion(?)";              // args: idReparacion

@@ -42,22 +42,6 @@ public class shopController implements Initializable {
         vBox.prefHeightProperty().bind(primaryStage.heightProperty().subtract(60));
 
         carAlbum = new CarAlbum();
-        cbMarca.getItems().addAll("");
-        cbMarca.getItems().addAll(carAlbum.getBrandModel().keySet());
-        cbMarca.getSelectionModel().selectedIndexProperty().addListener(observable -> {
-            int i = cbMarca.getSelectionModel().getSelectedIndex();
-            cbModelo.getItems().clear();
-            String marca = cbMarca.getItems().get(i);
-            cbModelo.getItems().addAll("");
-            cbModelo.getItems().addAll(carAlbum.getBrandModel().get(marca));
-            filter();
-        });
-
-        cbColor.getItems().addAll("");
-        cbColor.getItems().addAll(carAlbum.getColorList());
-        cbColor.getSelectionModel().selectedIndexProperty().addListener(observable -> filter());
-
-        cbModelo.getSelectionModel().selectedIndexProperty().addListener(observable -> filter());
 
         //carAlbum.sortByName();
         Menu sortMenu = new Menu("_Sort");
@@ -74,6 +58,25 @@ public class shopController implements Initializable {
         sortMenu.getItems().addAll(sortName,sortPrice);
         menuBar.getMenus().addAll(sortMenu);
 
+    }
+
+    public void setChoiceBox(){
+        cbMarca.getItems().addAll("");
+        cbMarca.getItems().addAll(carAlbum.getBrandModel().keySet());
+        cbMarca.getSelectionModel().selectedIndexProperty().addListener(observable -> {
+            int i = cbMarca.getSelectionModel().getSelectedIndex();
+            cbModelo.getItems().clear();
+            String marca = cbMarca.getItems().get(i);
+            cbModelo.getItems().addAll("");
+            cbModelo.getItems().addAll(carAlbum.getBrandModel().get(marca));
+            filter();
+        });
+
+        cbColor.getItems().addAll("");
+        cbColor.getItems().addAll(carAlbum.getColorList());
+        cbColor.getSelectionModel().selectedIndexProperty().addListener(observable -> filter());
+
+        cbModelo.getSelectionModel().selectedIndexProperty().addListener(observable -> filter());
     }
 
     public void fillCars(int concesionario){
@@ -118,6 +121,7 @@ public class shopController implements Initializable {
                 carAlbum.getCarList().addListener((ListChangeListener<CarView>) change -> refresh());
             }
         }
+        setChoiceBox();
     }
 
     private void filter(){
