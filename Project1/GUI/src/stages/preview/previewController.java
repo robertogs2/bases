@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.text.DateFormat;
@@ -84,6 +85,8 @@ public class previewController implements Initializable {
             Date dateobj = new Date();
             System.out.println(df.format(dateobj) + "  " + tfCedula.getText() + "  " + this.pk);
             dao.pushData(queries.AGREGAR_COMPRA,df.format(dateobj),tfCedula.getText(),this.pk);
+            Stage stage = (Stage) btnComprar.getScene().getWindow();
+            stage.close();
         } else {
             showErrorMessage("Formato de cédula inválida");
         }

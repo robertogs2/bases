@@ -233,7 +233,7 @@ CREATE PROCEDURE AgregarCompraCompletoCedula (IN eFechaHora DATETIME, IN eCedula
     SET estado = "vendido"
     WHERE idCoche = eIdCoche;
     
-    CALL AgregarCompra(eFechaHora, vMonto, eIdCliente, vIdConcesionario, eIdCoche);
+    CALL AgregarCompra(eFechaHora, vMonto, vIdCliente, vIdConcesionario, eIdCoche);
 END$$
 
 CREATE PROCEDURE AgregarReparacion (IN eFechaHoraInicio DATETIME, 
@@ -353,7 +353,7 @@ CREATE PROCEDURE ObtenerInfoCarroPorConcesionario (IN eIdConcesionario INT) BEGI
 		Coche AS C
 	INNER JOIN Marca AS Ma ON Ma.idMarca = C.idMarca_fk
     INNER JOIN Modelo AS Mo ON Mo.idModelo = C.idModelo_fk
-    WHERE C.idConcesionario_fk = eIdConcesionario;
+    WHERE C.idConcesionario_fk = eIdConcesionario AND (C.estado = "nuevo" OR C.estado = "usado");
 END$$
 CREATE PROCEDURE ObtenerInfoCarroMatricula (IN eMatricula INT) BEGIN
 	-- Saca el id del carro reparado

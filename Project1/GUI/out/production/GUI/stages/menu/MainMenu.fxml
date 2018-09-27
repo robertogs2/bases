@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.menu.MainMenuController">
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.menu.MainMenuController">
    <top>
       <GridPane BorderPane.alignment="CENTER">
           <columnConstraints>
@@ -38,7 +38,7 @@
       </GridPane>
    </top>
    <center>
-      <GridPane BorderPane.alignment="CENTER_LEFT">
+      <GridPane hgap="10.0" BorderPane.alignment="CENTER_LEFT">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="10.0" prefWidth="142.0" />
@@ -61,6 +61,12 @@
                      <Insets />
                   </VBox.margin></Button>
                 <Button fx:id="vender_btn" minWidth="150" text="Vender Vehiculo" />
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
             </VBox>
              <VBox fx:id="taller_vBox" spacing="10" GridPane.columnIndex="2" GridPane.rowIndex="1">
                  <Label text="Taller">
@@ -72,6 +78,12 @@
                      <Insets />
                   </VBox.margin></Button>
                  <Button fx:id="mec_btn" minWidth="150" text="Mecanicos" />
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
              </VBox>
          </children>
       </GridPane>
