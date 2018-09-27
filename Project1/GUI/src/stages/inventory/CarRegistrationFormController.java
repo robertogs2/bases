@@ -138,6 +138,11 @@ public class CarRegistrationFormController implements Initializable {
                 }
             }
 
+            if(matricula_tf.getText().length() > 6){
+                showErrorMessage("La matricula no debe tener mas de 6 digitos");
+                flag = false;
+            }
+
             for(Node node: cb_box.getChildren()){
                 if(node instanceof ComboBox){
                     if(((ComboBox)node).valueProperty().getValue().equals("")){
@@ -271,10 +276,12 @@ public class CarRegistrationFormController implements Initializable {
 
     public void setMatricula(String matricula){
         matricula_tf.setText(matricula);
+        matricula_tf.editableProperty().setValue(false);
     }
 
     public void setCedula(String cedula){
         cedula_tf.setText(cedula);
+        cedula_tf.editableProperty().setValue(false);
     }
 
 }
