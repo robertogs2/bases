@@ -42,10 +42,44 @@ public class shopController implements Initializable {
         vBox.prefHeightProperty().bind(primaryStage.heightProperty().subtract(60));
 
         carAlbum = new CarAlbum();
+        cbMarca.getItems().addAll("");
+        cbMarca.getItems().addAll(carAlbum.getBrandModel().keySet());
+        cbMarca.getSelectionModel().selectedIndexProperty().addListener(observable -> {
+            int i = cbMarca.getSelectionModel().getSelectedIndex();
+            cbModelo.getItems().clear();
+            String marca = cbMarca.getItems().get(i);
+            cbModelo.getItems().addAll("");
+            cbModelo.getItems().addAll(carAlbum.getBrandModel().get(marca));
+            filter();
+        });
 
+        cbColor.getItems().addAll("");
+        cbColor.getItems().addAll(carAlbum.getColorList());
+        cbColor.getSelectionModel().selectedIndexProperty().addListener(observable -> filter());
+
+        cbModelo.getSelectionModel().selectedIndexProperty().addListener(observable -> filter());
+
+        //carAlbum.sortByName();
+        Menu sortMenu = new Menu("_Sort");
+        MenuItem sortName = new MenuItem("_Name");
+        sortName.setOnAction(e -> {
+            carAlbum.sortByName();
+            refresh();
+        });
+        MenuItem sortPrice = new MenuItem("_Price");
+        sortPrice.setOnAction( event -> {
+            carAlbum.sortByPrice();
+            refresh();
+        });
+        sortMenu.getItems().addAll(sortName,sortPrice);
+        menuBar.getMenus().addAll(sortMenu);
+
+    }
+
+    public void fillCars(int concesionario){
         HashMap<String, List<String>> data = null;
         try {
-             data = Main.dao.selectData(queries.ObTENER_INFO_CARRO_POR_CONCESIONARIO,1);
+            data = Main.dao.selectData(queries.ObTENER_INFO_CARRO_POR_CONCESIONARIO,concesionario);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,39 +115,6 @@ public class shopController implements Initializable {
                 carAlbum.getCarList().addListener((ListChangeListener<CarView>) change -> refresh());
             }
         }
-
-        cbMarca.getItems().addAll("");
-        cbMarca.getItems().addAll(carAlbum.getBrandModel().keySet());
-        cbMarca.getSelectionModel().selectedIndexProperty().addListener(observable -> {
-            int i = cbMarca.getSelectionModel().getSelectedIndex();
-            cbModelo.getItems().clear();
-            String marca = cbMarca.getItems().get(i);
-            cbModelo.getItems().addAll("");
-            cbModelo.getItems().addAll(carAlbum.getBrandModel().get(marca));
-            filter();
-        });
-
-        cbColor.getItems().addAll("");
-        cbColor.getItems().addAll(carAlbum.getColorList());
-        cbColor.getSelectionModel().selectedIndexProperty().addListener(observable -> filter());
-
-        cbModelo.getSelectionModel().selectedIndexProperty().addListener(observable -> filter());
-
-        //carAlbum.sortByName();
-        Menu sortMenu = new Menu("_Sort");
-        MenuItem sortName = new MenuItem("_Name");
-        sortName.setOnAction(e -> {
-            carAlbum.sortByName();
-            refresh();
-        });
-        MenuItem sortPrice = new MenuItem("_Price");
-        sortPrice.setOnAction( event -> {
-            carAlbum.sortByPrice();
-            refresh();
-        });
-        sortMenu.getItems().addAll(sortName,sortPrice);
-        menuBar.getMenus().addAll(sortMenu);
-
     }
 
     private void filter(){

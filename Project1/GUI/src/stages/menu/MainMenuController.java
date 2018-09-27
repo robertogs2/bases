@@ -3,13 +3,10 @@ package stages.menu;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import stages.userRegistration.client.RegistrationFormController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,8 +16,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static main.Main.*;
-import static main.Main.queries;
-import static stages.userRegistration.client.RegistrationFormController.past;
 
 public class MainMenuController implements Initializable {
 
@@ -32,6 +27,7 @@ public class MainMenuController implements Initializable {
     public static final int[] indexes = new int[2]; //index0 : concesionary, index1: carshop
     private static List<String> concessionary_indexes;
     private static List<String> carshop_indexes;
+    public static int concesionario = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -40,6 +36,8 @@ public class MainMenuController implements Initializable {
         //flowPane.prefHeightProperty().bind(primaryStage.heightProperty());
 
         clear_cb(concessionary_cb);
+        concessionary_cb.getSelectionModel().selectedItemProperty().addListener(
+                observable -> concesionario = concessionary_cb.getSelectionModel().getSelectedIndex()+1);
 
         initCB();
         initOptions();
@@ -89,7 +87,7 @@ public class MainMenuController implements Initializable {
 
         tienda_btn.setOnMouseClicked(event -> {
             try {
-                showShopPane();
+                showShopPane(concesionario);
             } catch (IOException e) {
                 e.printStackTrace();
             }

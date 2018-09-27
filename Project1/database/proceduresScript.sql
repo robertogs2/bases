@@ -331,6 +331,7 @@ CREATE PROCEDURE ObtenerInfoCarro (IN eIdCoche INT) BEGIN
 		C.matricula,
         Mo.nombre AS "modelo",
 		Ma.nombre AS "marca",
+        C.estado,
         C.color,
         C.kilometraje,
         C.precio
@@ -353,7 +354,7 @@ CREATE PROCEDURE ObtenerInfoCarroPorConcesionario (IN eIdConcesionario INT) BEGI
 		Coche AS C
 	INNER JOIN Marca AS Ma ON Ma.idMarca = C.idMarca_fk
     INNER JOIN Modelo AS Mo ON Mo.idModelo = C.idModelo_fk
-    WHERE C.idConcesionario_fk = eIdConcesionario AND (C.estado = "nuevo" OR C.estado = "usado");
+    WHERE C.idConcesionario_fk = eIdConcesionario AND (C.estado = "usado" OR C.estado = "nuevo");
 END$$
 CREATE PROCEDURE ObtenerInfoCarroMatricula (IN eMatricula INT) BEGIN
 	-- Saca el id del carro reparado
