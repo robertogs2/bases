@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import stages.inventory.CarRegistrationFormController;
 import stages.preview.previewController;
+import stages.tables.mechanic.reparations.SingleReparationController;
 import stages.userRegistration.client.RegistrationFormController;
 import stages.userRegistration.mechanic.MechanicFormController;
 
@@ -146,16 +147,17 @@ public class Main extends Application {
         popUpStage.showAndWait();
     }
 
-    public static void showReparationsByMechanicStage() throws IOException {
+    public static void showReparationsByMechanicStage(String mechanicId) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/tables/mechanic/reparations/SingleReparation.fxml"));
-        BorderPane borderPane = fxmlLoader.load();
+        AnchorPane anchorPane = fxmlLoader.load();
         popUpStage = new Stage();
         popUpStage.setTitle("Reparaciones del mecánico");
         popUpStage.initModality(Modality.WINDOW_MODAL);
         popUpStage.initOwner(primaryStage);
-        Scene scene = new Scene(borderPane);
+        Scene scene = new Scene(anchorPane);
         popUpStage.setScene(scene);
-        MechanicFormController previewController = fxmlLoader.getController();
+        SingleReparationController previewController = fxmlLoader.getController();
+        previewController.setId(mechanicId);
         popUpStage.showAndWait();
     }
 

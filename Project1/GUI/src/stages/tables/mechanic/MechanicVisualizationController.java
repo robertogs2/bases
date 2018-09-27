@@ -18,9 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static main.Main.queries;
-import static main.Main.showAddMechanicStage;
-import static main.Main.showMainMenu;
+import static main.Main.*;
 
 public class MechanicVisualizationController implements Initializable {
 
@@ -117,7 +115,12 @@ public class MechanicVisualizationController implements Initializable {
         tableView.setOnMouseClicked((MouseEvent event) -> {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2){
                 int selected = tableView.getSelectionModel().getSelectedIndex();
-                System.out.println("Ver reparaciones para " + selected);
+                try {
+                    showReparationsByMechanicStage(mechanicList.get(selected).getCedula());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Ver reparaciones para " + mechanicList.get(selected).getCedula());
             }
         });
     }
