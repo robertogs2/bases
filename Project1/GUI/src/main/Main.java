@@ -146,6 +146,19 @@ public class Main extends Application {
         popUpStage.showAndWait();
     }
 
+    public static void showReparationsByMechanicStage() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/tables/mechanic/reparations/SingleReparation.fxml"));
+        BorderPane borderPane = fxmlLoader.load();
+        popUpStage = new Stage();
+        popUpStage.setTitle("Reparaciones del mecánico");
+        popUpStage.initModality(Modality.WINDOW_MODAL);
+        popUpStage.initOwner(primaryStage);
+        Scene scene = new Scene(borderPane);
+        popUpStage.setScene(scene);
+        MechanicFormController previewController = fxmlLoader.getController();
+        popUpStage.showAndWait();
+    }
+
     public static void showAddCar(String matricula, String cedula) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/inventory/CarRegistrationForm.fxml"));
         BorderPane borderPane = fxmlLoader.load();
