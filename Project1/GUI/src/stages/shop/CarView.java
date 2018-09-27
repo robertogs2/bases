@@ -27,23 +27,21 @@ public class CarView extends VBox {
     private String color;
     private int pk;
     private ImageView photo;
-    private ObservableList<Image> imageList;
+    private ObservableList<String> urlList;
     private Label lbName;
     private Label lbDescription;
-    private int imageCount = 0;
 
-    public CarView ( int pk, String brand, String model, String plate, String price, String color, ObservableList<Image> imageList){
+    public CarView ( int pk, String brand, String model, String plate, String price, String color, ObservableList<String> imageList){
         this.brand = brand;
         this.model = model;
         this.plate = plate;
         this.price = price;
         this.color = color;
         this.pk = pk;
-        this.imageList = imageList;
+        this.urlList = imageList;
         if(!imageList.isEmpty())
-            photo = new ImageView(imageList.get(0));
+            photo = new ImageView( new Image(imageList.get(0)));
         else photo = new ImageView();
-        photo = new ImageView();
         photo.setFitWidth(100);
         photo.setFitHeight(100);
         lbName = new Label(this.getName());
@@ -68,7 +66,7 @@ public class CarView extends VBox {
                 for (int i = 0; i < attributes.size(); ++i){
                     values.add(data.get(attributes.get(i)).get(0));
                 }
-                Main.showPreviewStage(attributes,values);
+                Main.showPreviewStage(attributes,values,this.urlList);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -103,14 +101,6 @@ public class CarView extends VBox {
 
     public String getPrice() {
         return price;
-    }
-
-    public void shiftRightImage(){
-        photo = new ImageView(imageList.get((++imageCount)%imageList.size()));
-    }
-
-    public void leftRightImage(){
-        photo = new ImageView(imageList.get((--imageCount)%imageList.size()));
     }
 
     public int getPk() {

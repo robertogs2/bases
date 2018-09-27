@@ -3,6 +3,7 @@ package main;
 import DBConnection.MySQLAccess;
 import DBConnection.Queries;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -37,13 +38,13 @@ public class Main extends Application {
         dao.connectToDB();
 
         showMainPane();
-        showAllMechanicsPane();
+        //showAllMechanicsPane();
         ///Shows the main menu
-        //showMainMenu();
+        showMainMenu();
         //showMechanicPane();
         //showMainMenu();
         //showUserPane();
-        showShopPane();
+        //showShopPane();
         //showTables();
         //showReparationsForm();
     }
@@ -102,7 +103,7 @@ public class Main extends Application {
         mainLayout.setCenter(previewPane);
     }
 
-    public static void showPreviewStage(List<String> attributes, List<String> values) throws IOException {
+    public static void showPreviewStage(List<String> attributes, List<String> values, ObservableList<String> urls) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/preview/preview.fxml"));
         AnchorPane anchorPane = fxmlLoader.load();
         Stage addInventoryStage = new Stage();
@@ -112,7 +113,7 @@ public class Main extends Application {
         Scene scene = new Scene(anchorPane);
         addInventoryStage.setScene(scene);
         previewController previewController = fxmlLoader.getController();
-        previewController.addAttributes(attributes,values);
+        previewController.addAttributes(attributes,values,urls);
         addInventoryStage.showAndWait();
     }
 

@@ -8,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -18,12 +20,15 @@ import java.util.ResourceBundle;
 import static main.Main.primaryStage;
 
 public class previewController implements Initializable {
+    private int imageCount = 0;
 
     private ObservableList<carAttribute> carAttributes = FXCollections.observableArrayList();
+    private ObservableList<String> urlList = FXCollections.observableArrayList();
 
     @FXML TableView<carAttribute> tbvAttribute;
     @FXML TableColumn<carAttribute,String> tbcName;
     @FXML TableColumn<carAttribute,String> tbcValue;
+    @FXML ImageView photo;
     @FXML HBox hBox;
 
 
@@ -59,7 +64,17 @@ public class previewController implements Initializable {
         tbvAttribute.maxHeightProperty().bind(tbvAttribute.prefHeightProperty());
     }
 
-    public void addAttributes(List<String> attributes, List<String> values){
+    public void shiftRightImage(){
+        photo.setImage(new Image(urlList.get((++imageCount)% urlList.size())));
+    }
+
+    public void leftRightImage(){
+        photo.setImage(new Image(urlList.get((--imageCount)% urlList.size())));
+    }
+
+    public void addAttributes(List<String> attributes, List<String> values, ObservableList<String> urls){
+        urlList.addAll(urls);
+        photo.setImage(new Image(urls.get(imageCount)));
         for (int i = 0; i < attributes.size(); ++i){
             carAttribute carAttribute = new carAttribute(attributes.get(i), values.get(i));
             carAttributes.addAll(carAttribute);
