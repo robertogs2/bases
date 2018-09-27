@@ -49,8 +49,9 @@
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Button fx:id="send_bb" mnemonicParsing="false" text="Enviar formulario" />
-                                <Button fx:id="cancel_bb" mnemonicParsing="false" text="Cancelar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                                <Button fx:id="send_bb" mnemonicParsing="false" text="Enviar formulario" GridPane.columnIndex="0" GridPane.halignment="LEFT"/>
+                                <Button fx:id="addMechanic_bb" mnemonicParsing="false" text="Agregar Mecanico" GridPane.columnIndex="1" GridPane.halignment="CENTER"/>
+                                <Button fx:id="cancel_bb" mnemonicParsing="false" text="Cancelar" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                             </children>
                         </GridPane>
                     </children>
