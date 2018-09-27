@@ -113,7 +113,7 @@ public class MainMenuController implements Initializable {
 
         mec_btn.setOnMouseClicked(event -> {
             try {
-                showMechanicPane();
+                showAllMechanicsPane();
             } catch (IOException e) {
                 e.printStackTrace();
             }
