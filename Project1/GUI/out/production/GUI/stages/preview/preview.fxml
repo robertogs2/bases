@@ -18,7 +18,7 @@
         <content>
             <HBox fx:id="hBox" alignment="TOP_CENTER" prefHeight="389.0" prefWidth="584.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="30.0" text="&lt;">
+                  <Button mnemonicParsing="false" onMouseClicked="#leftRightImage" prefHeight="45.0" prefWidth="30.0" text="&lt;">
                      <HBox.margin>
                         <Insets top="120.0" />
                      </HBox.margin>
@@ -35,7 +35,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="255.0" fitWidth="403.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="photo" fitHeight="255.0" fitWidth="403.0" pickOnBounds="true" preserveRatio="true" />
                         <TableView fx:id="tbvAttribute" focusTraversable="false" VBox.vgrow="ALWAYS">
                           <columns>
                             <TableColumn fx:id="tbcName" editable="false" prefWidth="75.0" text="C1" />
@@ -47,7 +47,7 @@
                         </TableView>
                      </children>
                   </VBox>
-                  <Button layoutX="10.0" layoutY="80.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="30.0" text="&gt;">
+                  <Button layoutX="10.0" layoutY="80.0" mnemonicParsing="false" onMouseClicked="#shiftRightImage" prefHeight="45.0" prefWidth="30.0" text="&gt;">
                      <HBox.margin>
                         <Insets top="120.0" />
                      </HBox.margin>

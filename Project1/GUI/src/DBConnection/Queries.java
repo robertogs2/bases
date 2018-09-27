@@ -43,6 +43,7 @@ public class Queries {
     public final String OBTENER_PERSONAS = "{call ObtenerPersonas()}";
     public final String OBTENER_MECANICOS = "{call ObtenerMecanicos()}";
     public final String OBTENER_ID_PERSONA_POR_CEDULA = "{call ObtenerIdPersonaPorCedula(?)}";                  // args: cedula
+    public final String OBTENER_FOTOS = "{call ObtenerFotos(?)}";                                               // args: idCoche
 
     public final String ACTUALIZAR_FINALIZAR_REPARACION = "{call TerminarReparacion(?)}";                       // args: idReparacion
     public final String OBTENER_ULTIMO_ID = "{call ObtenerUltimoID()}";                       // args: NO-ARGS

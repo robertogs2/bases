@@ -9,7 +9,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import main.Main;
@@ -61,7 +60,20 @@ public class shopController implements Initializable {
                 String modelo = data.get("modelo").get(i);
                 String color = data.get("color").get(i);
 
-                ObservableList<Image> photos = FXCollections.observableArrayList();
+                HashMap<String, List<String>> dataPhoto = null;
+                try {
+                    dataPhoto = Main.dao.selectData(queries.OBTENER_FOTOS,Integer.valueOf(pk));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                ObservableList<String> photos = FXCollections.observableArrayList();
+
+                int m = dataPhoto.get("url").size();
+                for (int j = 0; j < m; ++j) {
+                    String url = dataPhoto.get("url").get(j);
+                    photos.addAll(url);
+                }
 
                 carAlbum.addCar( Integer.valueOf(pk), marca, modelo, matricula, precio, color, photos);
                 carAlbum.getCarList().addListener((ListChangeListener<CarView>) change -> refresh());

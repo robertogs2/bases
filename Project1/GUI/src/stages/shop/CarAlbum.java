@@ -6,7 +6,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ public class CarAlbum implements Observable {
         return carList;
     }
 
-    public void addCar(int pk, String brand, String model, String plate, String price, String color, ObservableList<Image> imageList) {
+    public void addCar(int pk, String brand, String model, String plate, String price, String color, ObservableList<String> imageList) {
         CarView car = new CarView(pk, brand, model, plate, price, color, imageList);
         carList.addAll(car);
         allCarList.addAll(car);

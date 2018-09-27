@@ -370,7 +370,7 @@ END$$
 
 
 CREATE PROCEDURE ObtenerFotos (
-	IN eCocheId INT) BEGIN
+	IN eIdCoche INT) BEGIN
 	SELECT
     CocheXFoto.url
     FROM CocheXFoto AS C
