@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import main.Main;
+import stages.menu.MainMenuController;
 import tools.ImageUploader;
 
 import java.awt.*;
@@ -190,7 +191,7 @@ public class CarRegistrationFormController implements Initializable {
 
                     //Generates new car
                     HashMap<String, List<String>> car_id = dao.selectData(queries.AGREGAR_CARRO,
-                            matricula_tf.getText(), indexes[1], color_tf.getText(), estado, kilometraje_tf.getText(), precio_tf.getText(), 1, clientId);
+                            matricula_tf.getText(), indexes[1], color_tf.getText(), estado, kilometraje_tf.getText(), precio_tf.getText(), MainMenuController.indexes[0], clientId);
                     int new_car_id = Integer.parseInt(car_id.get("LAST_INSERT_ID()").get(0));
 
                     p1.progressProperty().unbind();
