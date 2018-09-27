@@ -83,7 +83,7 @@ public class MainMenuController implements Initializable {
         String cssLayout = "-fx-border-color: black;\n" +
                 "-fx-border-insets: 5;\n" +
                 "-fx-border-width: 3;\n" +
-                "-fx-border-style: line;\n";
+                "-fx-border-style: solid;\n";
         tienda_vBox.setStyle(cssLayout);
         taller_vBox.setStyle(cssLayout);
 
