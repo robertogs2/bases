@@ -1,33 +1,46 @@
 package stages.tables.mechanic;
 
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import main.Main;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.SortedMap;
 
 import static main.Main.queries;
+import static main.Main.showAddMechanicStage;
+import static main.Main.showAddPersonStage;
 
 public class MechanicVisualizationController implements Initializable {
 
     private ObservableList<Mechanic> mechanicList;
 
     @FXML TableView<Mechanic> tableView;
+    @FXML Button return_bb, add_bb, repair_bb;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        createTable();
+        listenToTable();
+        listenToAdd();
+    }
+
+    private void createTable(){
         mechanicList = FXCollections.observableArrayList();
 
         //Crear columnas de la tabla
-
         TableColumn<Mechanic,String> tbcPNombre = new TableColumn<>("Nombre");
         tbcPNombre.setCellValueFactory(new PropertyValueFactory<>("pnombre"));
         TableColumn<Mechanic,String> tbcApellidos = new TableColumn<>("Apellidos");
@@ -41,13 +54,13 @@ public class MechanicVisualizationController implements Initializable {
         TableColumn<Mechanic,String> tbcExtension = new TableColumn<>("Extensión");
         tbcExtension.setCellValueFactory(new PropertyValueFactory<>("extension"));
         TableColumn<Mechanic,String> tbcFechaContratacion = new TableColumn<>("Fecha de Contratación");
-        tbcExtension.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        tbcFechaContratacion.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         TableColumn<Mechanic,String> tbcSalario = new TableColumn<>("Salario");
-        tbcExtension.setCellValueFactory(new PropertyValueFactory<>("salario"));
+        tbcSalario.setCellValueFactory(new PropertyValueFactory<>("salario"));
         TableColumn<Mechanic,String> tbcCNombre = new TableColumn<>("Concesionario");
-        tbcExtension.setCellValueFactory(new PropertyValueFactory<>("cnombre"));
+        tbcCNombre.setCellValueFactory(new PropertyValueFactory<>("cnombre"));
         TableColumn<Mechanic,String> tbcTNombre = new TableColumn<>("Taller");
-        tbcExtension.setCellValueFactory(new PropertyValueFactory<>("tnombre"));
+        tbcTNombre.setCellValueFactory(new PropertyValueFactory<>("tnombre"));
 
         tableView.getColumns().addAll(tbcCedula,tbcPNombre,tbcApellidos,
                 tbcEdad,tbcTelefono,tbcExtension, tbcFechaContratacion,
@@ -71,10 +84,32 @@ public class MechanicVisualizationController implements Initializable {
             String salario = data.get("salario").get(i);
             String tnombre = data.get("tnombre").get(i);
             String cnombre = data.get("cnombre").get(i);
+            System.out.println(cnombre);
             Mechanic mechanic = new Mechanic(cedula, pnombre, apellidos, edad, telefono,
-                    extension, fecha, salario, tnombre, cnombre);
+                    extension, fecha, salario, tnombre, cnombre,
+                    data.get("idPersona").get(i), data.get("idMecanico").get(i),
+                    data.get("idTaller").get(i), data.get("idConcesionario").get(i));
             mechanicList.addAll(mechanic);
         }
         tableView.setItems(mechanicList);
+    }
+
+    private void listenToAdd(){
+        add_bb.setOnMouseClicked(event -> {
+            try {
+                showAddMechanicStage();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void listenToTable(){
+        tableView.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2){
+                int selected = tableView.getSelectionModel().getSelectedIndex();
+                System.out.println("Ver reparaciones para " + selected);
+            }
+        });
     }
 }

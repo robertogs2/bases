@@ -42,7 +42,6 @@ public class TableVisualizationController implements Initializable {
 
         tableView.getColumns().addAll(tbcCedula,tbcNombre,tbcApellidos,tbcEdad,tbcTelefono,tbcExtension);
 
-
         HashMap<String, List<String>> data = null;
         try {
             data = Main.dao.selectData(queries.OBTENER_PERSONAS);

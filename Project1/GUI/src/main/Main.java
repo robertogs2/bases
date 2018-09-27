@@ -43,7 +43,7 @@ public class Main extends Application {
         //showMechanicPane();
         //showMainMenu();
         //showUserPane();
-        showShopPane();
+        //showShopPane();
         //showTables();
         //showReparationsForm();
     }
@@ -129,6 +129,19 @@ public class Main extends Application {
         previewController.setCedula(cedula);
         popUpStage.showAndWait();
         return previewController.getPersonId();
+    }
+
+    public static void showAddMechanicStage() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/userRegistration/mechanic/MechanicForm.fxml"));
+        BorderPane borderPane = fxmlLoader.load();
+        popUpStage = new Stage();
+        popUpStage.setTitle("Agregar Mecánico");
+        popUpStage.initModality(Modality.WINDOW_MODAL);
+        popUpStage.initOwner(primaryStage);
+        Scene scene = new Scene(borderPane);
+        popUpStage.setScene(scene);
+        //RegistrationFormController previewController = fxmlLoader.getController();
+        popUpStage.showAndWait();
     }
 
     public static void showAddCar(String matricula, String cedula) throws IOException {
