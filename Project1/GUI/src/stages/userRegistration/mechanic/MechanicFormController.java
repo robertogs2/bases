@@ -19,6 +19,7 @@ import java.util.*;
 
 import static main.Main.dao;
 import static main.Main.queries;
+import static main.Main.showAddPersonStage;
 
 public class MechanicFormController implements Initializable {
 
@@ -55,7 +56,8 @@ public class MechanicFormController implements Initializable {
                         dao.selectData(queries.AGREGAR_MECANICO, df.format(dateobj), salary, id, car_shop);
                     } else {
                         //RegistrationFormController.past == "mechanic"; Not needed at the end
-                        Main.showUserPane();
+                        showAddPersonStage(id);
+                        //Main.showUserPane();
                     }
                 }
                 catch (Exception e1) {
