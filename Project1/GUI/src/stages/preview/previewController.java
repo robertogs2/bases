@@ -69,7 +69,7 @@ public class previewController implements Initializable {
     }
 
     public void leftRightImage(){
-        photo.setImage(new Image(urlList.get((--imageCount)% urlList.size())));
+        photo.setImage(new Image(urlList.get(Math.abs((--imageCount))% urlList.size())));
     }
 
     public void addAttributes(List<String> attributes, List<String> values, ObservableList<String> urls){

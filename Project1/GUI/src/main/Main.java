@@ -141,7 +141,7 @@ public class Main extends Application {
         popUpStage.initOwner(primaryStage);
         Scene scene = new Scene(borderPane);
         popUpStage.setScene(scene);
-        //RegistrationFormController previewController = fxmlLoader.getController();
+        RegistrationFormController previewController = fxmlLoader.getController();
         popUpStage.showAndWait();
     }
 

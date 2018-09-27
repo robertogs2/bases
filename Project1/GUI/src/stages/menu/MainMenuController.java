@@ -39,6 +39,7 @@ public class MainMenuController implements Initializable {
         //flowPane.prefHeightProperty().bind(primaryStage.heightProperty());
 
         HashMap<String, List<String>> concesionary_list = new HashMap<>();
+        HashMap<String, List<String>> car_shop_list = new HashMap<>();
 
         clear_cb(concessionary_cb);
         try {
@@ -53,7 +54,19 @@ public class MainMenuController implements Initializable {
         //Sets all concesionaries for the list and sets the first one as the visible
         concessionary_cb.getItems().setAll(concesionaries);
         concessionary_cb.setValue(concesionaries.get(0));
-        indexes[0] = 0;
+        indexes[0] = 1;
+
+        try {
+            car_shop_list = dao.selectData(queries.OBTENER_TALLER_POR_CONCESIONARIO, indexes[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        carshop_indexes = car_shop_list.get("idTaller");
+        List<String> carshops = car_shop_list.get("nombre");
+        //Sets all concesionaries for the list and sets the first one as the visible
+        car_shop_cb.getItems().setAll(carshops);
+        car_shop_cb.setValue(carshops.get(0));
+        indexes[1] = 1;
 
         //Sets the list for the carshop options
         car_shop2_cb.getItems().add("Reparaciones");
@@ -119,20 +132,22 @@ public class MainMenuController implements Initializable {
     private void listenToCarshop2(){//Done
         car_shop2_cb.getSelectionModel().selectedIndexProperty().addListener((Observable o) -> {
             int selected = car_shop2_cb.getSelectionModel().getSelectedIndex();
-            if(selected == 0){ //If we selected to go to reparaciones
-                //Show Reparaiones
-                try {
+            try {
+                if(selected == 0){ //If we selected to go to reparaciones
+                    //Show Reparaiones
                     showReparationsForm();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                }
+                else if(selected == 1){
+                    showAllMechanicsPane();
+                    System.out.println("Entrar a ver los mecánicos");
+                }
+                else{
+                    System.out.println("No hacer nada");
+                    clear_cb(car_shop2_cb);
                 }
             }
-            else if(selected == 1){
-                System.out.println("Entrar a ver los mecánicos");
-            }
-            else{
-                System.out.println("No hacer nada");
-                clear_cb(car_shop2_cb);
+            catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }//Done

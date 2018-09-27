@@ -372,9 +372,9 @@ END$$
 CREATE PROCEDURE ObtenerFotos (
 	IN eIdCoche INT) BEGIN
 	SELECT
-    CocheXFoto.url
+    C.url
     FROM CocheXFoto AS C
-    INNER JOIN CocheXFoto ON C.idCoche = eIdCoche;
+    WHERE C.idCoche_fk = eIdCoche;
 END$$
 CREATE PROCEDURE ObtenerReparaciones (
 	IN eMatricula INT) BEGIN

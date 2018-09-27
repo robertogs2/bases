@@ -68,12 +68,14 @@ public class shopController implements Initializable {
                 }
 
                 ObservableList<String> photos = FXCollections.observableArrayList();
-
-                int m = dataPhoto.get("url").size();
-                for (int j = 0; j < m; ++j) {
-                    String url = dataPhoto.get("url").get(j);
-                    photos.addAll(url);
+                if(!dataPhoto.keySet().isEmpty()){
+                    int m = dataPhoto.get("url").size();
+                    for (int j = 0; j < m; ++j) {
+                        String url = dataPhoto.get("url").get(j);
+                        photos.addAll(url);
+                    }
                 }
+
 
                 carAlbum.addCar( Integer.valueOf(pk), marca, modelo, matricula, precio, color, photos);
                 carAlbum.getCarList().addListener((ListChangeListener<CarView>) change -> refresh());

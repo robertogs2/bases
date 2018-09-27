@@ -69,7 +69,7 @@ public class MechanicFormController implements Initializable {
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     Date dateobj = new Date();
                     dao.selectData(queries.AGREGAR_MECANICO, df.format(dateobj), salary, id, car_shop);
-                    Main.showString(past);
+                    //Main.showString(past);
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
