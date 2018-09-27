@@ -10,18 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GUI/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GUI/stages/shop/CarAlbum.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/stages/shop/CarAlbum.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GUI/stages/shop/shop.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/stages/shop/shop.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GUI/stages/shop/shopController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GUI/stages/shop/shopController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stages/preview/preview.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/preview/preview.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stages/menu/MainMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/menu/MainMenu.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stages/preview/previewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/preview/previewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stages/shop/CarAlbum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/shop/CarAlbum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stages/shop/CarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/shop/CarView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stages/shop/shop.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/shop/shop.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stages/shop/shopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stages/shop/shopController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../database/proceduresScript.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../database/proceduresScript.sql" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -169,8 +160,8 @@
       <file leaf-file-name="previewController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/stages/preview/previewController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
-              <caret line="105" column="12" selection-start-line="105" selection-start-column="12" selection-end-line="105" selection-end-column="12" />
+            <state relative-caret-position="208">
+              <caret line="88" column="26" lean-forward="true" selection-start-line="88" selection-start-column="26" selection-end-line="88" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -201,6 +192,15 @@
                 <element signature="method#addListener#0;class#CarAlbum#0" />
                 <element signature="method#removeListener#0;class#CarAlbum#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="shopController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/stages/shop/shopController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="366">
+              <caret line="70" column="50" lean-forward="true" selection-start-line="70" selection-start-column="50" selection-end-line="70" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -334,14 +334,7 @@
               <item name="GUI" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="stages" type="462c0819:PsiDirectoryNode" />
-              <item name="preview" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GUI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GUI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="stages" type="462c0819:PsiDirectoryNode" />
-              <item name="shop" type="462c0819:PsiDirectoryNode" />
+              <item name="menu" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="GUI" type="b2602c69:ProjectViewProjectNode" />
@@ -543,15 +536,16 @@
       <workItem from="1537953310459" duration="316000" />
       <workItem from="1537997866469" duration="19000" />
       <workItem from="1538019378806" duration="8395000" />
-      <workItem from="1538072178655" duration="4909000" />
+      <workItem from="1538072178655" duration="6269000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="123630000" />
+    <option name="totallyTimeSpent" value="124990000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="5" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -911,13 +905,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stages/shop/shopController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="147" lean-forward="true" selection-start-line="147" selection-end-line="147" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/DBConnection/Queries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
@@ -959,10 +946,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/stages/shop/shopController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="70" column="50" lean-forward="true" selection-start-line="70" selection-start-column="50" selection-end-line="70" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/stages/preview/previewController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="105" column="12" selection-start-line="105" selection-start-column="12" selection-end-line="105" selection-end-column="12" />
+        <state relative-caret-position="208">
+          <caret line="88" column="26" lean-forward="true" selection-start-line="88" selection-start-column="26" selection-end-line="88" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
