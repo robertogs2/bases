@@ -196,20 +196,32 @@ CREATE PROCEDURE AgregarCompra (IN eFechaHora DATETIME, IN eMonto INT, IN eIdCli
     VALUES(eIdCliente, eIdConcesionario, eIdCoche, eMonto, eFechaHora);
 END$$
 -- Infiere monto a partir de precio del carro, infiere concesionario a partir del carro
-CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eIdCliente INT, IN eIdCoche INT) BEGIN
+CREATE PROCEDURE AgregarCompraCompleto (IN eFechaHora DATETIME, IN eCedula INT, IN eIdCoche INT) BEGIN
 
     DECLARE vIdConcesionario INT;
     DECLARE vMonto INT;
+    DECLARE vIdCliente INT;
+    DECLARE vIdPersona INT;
     -- This takes the idCoche from the eIdCoche input and gives monto
 	SELECT precio, idConcesionario_fk into vMonto, vIdConcesionario FROM Coche
     WHERE idCoche = eIdCoche
     LIMIT 1;   
+    -- Infiere el id de la persona
+	SELECT idPersona into vIdPersona FROM Persona AS P
+    Where P.cedula = eCedula
+    LIMIT 1;
+    -- Con ese id saca el del cliente
+    SELECT idCliente  into vIdCliente FROM Cliente AS C
+    Where C.idPersona_fk = vIdPersona
+    LIMIT 1;
+    
+
     
     UPDATE Coche
     SET estado = "vendido"
     WHERE idCoche = eIdCoche;
     
-    CALL AgregarCompra(eFechaHora, vMonto, eIdCliente, vIdConcesionario, eIdCoche);
+    CALL AgregarCompra(eFechaHora, vMonto, vIdCliente, vIdConcesionario, eIdCoche);
 END$$
 
 -- Infiere monto a partir de precio del carro, infiere concesionario a partir del carro
@@ -331,6 +343,7 @@ CREATE PROCEDURE ObtenerInfoCarro (IN eIdCoche INT) BEGIN
 		C.matricula,
         Mo.nombre AS "modelo",
 		Ma.nombre AS "marca",
+        C.estado,
         C.color,
         C.kilometraje,
         C.precio
@@ -353,7 +366,7 @@ CREATE PROCEDURE ObtenerInfoCarroPorConcesionario (IN eIdConcesionario INT) BEGI
 		Coche AS C
 	INNER JOIN Marca AS Ma ON Ma.idMarca = C.idMarca_fk
     INNER JOIN Modelo AS Mo ON Mo.idModelo = C.idModelo_fk
-    WHERE C.idConcesionario_fk = eIdConcesionario AND (C.estado = "nuevo" OR C.estado = "usado");
+    WHERE C.idConcesionario_fk = eIdConcesionario AND (C.estado = "usado" OR C.estado = "nuevo");
 END$$
 CREATE PROCEDURE ObtenerInfoCarroMatricula (IN eMatricula INT) BEGIN
 	-- Saca el id del carro reparado

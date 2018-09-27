@@ -12,7 +12,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import stages.inventory.CarRegistrationFormController;
+import stages.menu.MainMenuController;
 import stages.preview.previewController;
+import stages.shop.shopController;
 import stages.tables.mechanic.reparations.SingleReparationController;
 import stages.userRegistration.client.RegistrationFormController;
 import stages.userRegistration.mechanic.MechanicFormController;
@@ -58,9 +60,12 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void showShopPane() throws IOException {
+    public static void showShopPane(int consecionario) throws IOException {
         Main.primaryStage.setTitle("Tienda");
-        Pane shopPane = FXMLLoader.load(Main.class.getResource("/stages/shop/shop.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/shop/shop.fxml"));
+        Pane shopPane = fxmlLoader.load();
+        shopController shopController = fxmlLoader.getController();
+        shopController.fillCars(consecionario);
         mainLayout.setCenter(shopPane);
     }
     public static void showCarRegistrationForm() throws IOException {
@@ -190,7 +195,7 @@ public class Main extends Application {
             showUserPane();
         }
         else if(toShow.compareTo("shop") == 0){
-            showShopPane();
+            showShopPane(MainMenuController.concesionario);
         }
         else if(toShow.compareTo("mechanic") == 0){
             showMechanicPane();

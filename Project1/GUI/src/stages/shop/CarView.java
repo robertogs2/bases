@@ -70,7 +70,6 @@ public class CarView extends VBox {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             event.consume();
         });
     }

@@ -42,46 +42,6 @@ public class shopController implements Initializable {
         vBox.prefHeightProperty().bind(primaryStage.heightProperty().subtract(60));
 
         carAlbum = new CarAlbum();
-
-        HashMap<String, List<String>> data = null;
-        try {
-             data = Main.dao.selectData(queries.ObTENER_INFO_CARRO_POR_CONCESIONARIO,1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (data != null){
-            int n = data.get("idCoche").size();
-            for (int i = 0; i < n; ++i){
-                String pk = data.get("idCoche").get(i);
-                String precio = data.get("precio").get(i);
-                String matricula = data.get("matricula").get(i);
-                String marca = data.get("marca").get(i);
-                String modelo = data.get("modelo").get(i);
-                String color = data.get("color").get(i);
-
-                HashMap<String, List<String>> dataPhoto = null;
-                try {
-                    dataPhoto = Main.dao.selectData(queries.OBTENER_FOTOS,Integer.valueOf(pk));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                ObservableList<String> photos = FXCollections.observableArrayList();
-                if(!dataPhoto.keySet().isEmpty()){
-                    int m = dataPhoto.get("url").size();
-                    for (int j = 0; j < m; ++j) {
-                        String url = dataPhoto.get("url").get(j);
-                        photos.addAll(url);
-                    }
-                }
-
-
-                carAlbum.addCar( Integer.valueOf(pk), marca, modelo, matricula, precio, color, photos);
-                carAlbum.getCarList().addListener((ListChangeListener<CarView>) change -> refresh());
-            }
-        }
-
         cbMarca.getItems().addAll("");
         cbMarca.getItems().addAll(carAlbum.getBrandModel().keySet());
         cbMarca.getSelectionModel().selectedIndexProperty().addListener(observable -> {
@@ -114,6 +74,50 @@ public class shopController implements Initializable {
         sortMenu.getItems().addAll(sortName,sortPrice);
         menuBar.getMenus().addAll(sortMenu);
 
+    }
+
+    public void fillCars(int concesionario){
+        HashMap<String, List<String>> data = null;
+        try {
+            data = Main.dao.selectData(queries.ObTENER_INFO_CARRO_POR_CONCESIONARIO,concesionario);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (data != null){
+            int n = data.get("idCoche").size();
+            for (int i = 0; i < n; ++i){
+                String pk = data.get("idCoche").get(i);
+                String precio = data.get("precio").get(i);
+                String matricula = data.get("matricula").get(i);
+                String marca = data.get("marca").get(i);
+                String modelo = data.get("modelo").get(i);
+                String color = data.get("color").get(i);
+
+                HashMap<String, List<String>> dataPhoto = null;
+                try {
+                    dataPhoto = Main.dao.selectData(queries.OBTENER_FOTOS,Integer.valueOf(pk));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                ObservableList<String> photos = FXCollections.observableArrayList();
+                if(!dataPhoto.keySet().isEmpty()){
+                    int m = dataPhoto.get("url").size();
+                    for (int j = 0; j < m; ++j) {
+                        String url = dataPhoto.get("url").get(j);
+                        photos.addAll(url);
+                    }
+                }
+                else{
+                    photos.addAll("https://dutcheauction.com/images/default-car.png");
+                }
+
+
+                carAlbum.addCar( Integer.valueOf(pk), marca, modelo, matricula, precio, color, photos);
+                carAlbum.getCarList().addListener((ListChangeListener<CarView>) change -> refresh());
+            }
+        }
     }
 
     private void filter(){
