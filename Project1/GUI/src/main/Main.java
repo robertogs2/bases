@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import stages.inventory.CarRegistrationFormController;
 import stages.preview.previewController;
 import stages.userRegistration.client.RegistrationFormController;
+import stages.userRegistration.mechanic.MechanicFormController;
 
 import java.io.IOException;
 import java.util.List;
@@ -141,7 +142,7 @@ public class Main extends Application {
         popUpStage.initOwner(primaryStage);
         Scene scene = new Scene(borderPane);
         popUpStage.setScene(scene);
-        RegistrationFormController previewController = fxmlLoader.getController();
+        MechanicFormController previewController = fxmlLoader.getController();
         popUpStage.showAndWait();
     }
 

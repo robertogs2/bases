@@ -173,7 +173,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Mecanico (
   idMecanico INT AUTO_INCREMENT NOT NULL UNIQUE,
-  idPersona_fk INT NOT NULL,
+  idPersona_fk INT NOT NULL UNIQUE,
   idConcesionario_fk INT NOT NULL,
   idTaller_fk INT NOT NULL,
   fechaContratacion DATE NOT NULL,

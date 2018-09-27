@@ -18,7 +18,7 @@ public class MySQLAccess {
     public MySQLAccess(){
         this.localhost = "localhost:3306";
         this.user = "root";
-        this.password = "2486";
+        this.password = "n4zgu1b14nc0";
     }
 
     public MySQLAccess(String localhost, String user, String password){
@@ -26,6 +26,7 @@ public class MySQLAccess {
         this.user = user;
         this.password = password;
     }
+
 
     public void connectToDB() throws Exception {
         try {
@@ -41,19 +42,26 @@ public class MySQLAccess {
         }
     }
 
-    public HashMap<String, List<String>> selectData(String query, Object... params) throws Exception{
+    public HashMap<String, List<String>> selectData(String query, Object... params) throws Exception {
         HashMap<String, List<String>> data = new HashMap<>();
         statement = connect.prepareCall(query);
         checkParams(params);
         resultSet = statement.executeQuery();
 
-        while(resultSet.next()) {
-            if(data.keySet().isEmpty()){
-                data = getResultSetData(resultSet);
-            }else{
-                data = mergeData(data, getResultSetData(resultSet));
+        try{
+            while(resultSet.next()) {
+                if(data.keySet().isEmpty()){
+                    data = getResultSetData(resultSet);
+                }else{
+                    data = mergeData(data, getResultSetData(resultSet));
+                }
             }
         }
+        catch(Exception e1){
+            System.out.println("Query terminado");
+            e1.printStackTrace();
+        }
+
 
         return data;
     }
