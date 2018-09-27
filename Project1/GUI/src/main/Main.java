@@ -37,7 +37,7 @@ public class Main extends Application {
         dao.connectToDB();
 
         showMainPane();
-
+        showAllMechanicsPane();
         ///Shows the main menu
         //showMainMenu();
         //showMechanicPane();
@@ -45,7 +45,8 @@ public class Main extends Application {
         //showUserPane();
         //showShopPane();
         //showTables();
-        showReparationsForm();
+        //showReparationsForm();
+
     }
 
     public void showMainPane() throws IOException {
@@ -73,6 +74,12 @@ public class Main extends Application {
     public static void showMainMenu() throws IOException {
         Main.primaryStage.setTitle("Menu principal");
         Pane pane = FXMLLoader.load(Main.class.getResource("/stages/menu/MainMenu.fxml"));
+        mainLayout.setCenter(pane);
+    }
+
+    public static void showAllMechanicsPane() throws IOException {
+        Main.primaryStage.setTitle("Mecánicos");
+        Pane pane = FXMLLoader.load(Main.class.getResource("/stages/tables/mechanic/MechanicVisualization.fxml"));
         mainLayout.setCenter(pane);
     }
     public static void showMechanicPane() throws IOException {
