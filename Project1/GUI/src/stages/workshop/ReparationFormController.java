@@ -25,13 +25,12 @@ public class ReparationFormController implements Initializable {
     @FXML TextField cedula_tf;
     @FXML ComboBox<String> matricula_cb, fecha_cb;
     @FXML TextArea descripcion_ta;
-    @FXML Button send_bb,cancel_bb;
+    @FXML Button send_bb,cancel_bb, addMechanic_bb;
     @FXML TableView mecanicos_tbl;
-    @FXML
-    TableColumn<Object, Object> mecanico_clm;
+    @FXML TableColumn<Object, Object> mecanico_clm;
     @FXML VBox vBox;
 
-    private final int[] indexes = new int[2]; //index0 : cedula, index1 : matricula
+    private final int[] indexes = new int[3]; //index0 : cedula, index1 : matricula, index2 : idReparacion
 
     private String mode;
 
@@ -62,6 +61,7 @@ public class ReparationFormController implements Initializable {
                         System.out.println(fecha_cb.valueProperty().getValue());
                         if(reparations.get("fechaHoraInicio") != null){
                             descripcion_ta.setText(reparations.get("descripcion").get(0));
+                            indexes[2] = Integer.valueOf(reparations.get("idReparacion").get(0));
                         }
                     }catch (Exception e){
                         e.printStackTrace();
@@ -71,22 +71,19 @@ public class ReparationFormController implements Initializable {
         });
     }
 
-    private void updateReparation(){
-
-
-    }
-
     private void listenToMode(){
         switch (this.mode){
             case("VIEW"):
                 send_bb.setText("Agregar Reparacion");
                 descripcion_ta.editableProperty().setValue(false);
                 if(!vBox.getChildren().contains(mecanicos_tbl))vBox.getChildren().add(mecanicos_tbl);
+                addMechanic_bb.visibleProperty().setValue(true);
                 break;
             case("ADD"):
                 send_bb.setText("Enviar Formulario");
                 descripcion_ta.editableProperty().setValue(true);
                 vBox.getChildren().remove(mecanicos_tbl);
+                addMechanic_bb.visibleProperty().setValue(false);
                 break;
         }
     }
@@ -200,6 +197,26 @@ public class ReparationFormController implements Initializable {
     private void listenToCancel(){
         cancel_bb.setOnMouseClicked(e -> {
             exitForm();
+        });
+    }
+
+    private void listenToAddMechanic(){
+        addMechanic_bb.setOnMouseClicked(event -> {
+            if(indexes[2] != -1){
+                TextInputDialog dialog = new TextInputDialog("");
+                dialog.setTitle("Agregar Mecanico");
+                dialog.setContentText("Por favor, ingrese la cedula de mecanico:");
+
+                Optional<String> result = dialog.showAndWait();
+
+                result.ifPresent(id ->{
+                    if(id.matches("\\d+")){
+                        //Map<String,List<String>> mecanico =
+                    }
+                });
+            }else{
+                showErrorMessage("Debe seleccionar una reparacion para agragar un mecanico.");
+            }
         });
     }
 
