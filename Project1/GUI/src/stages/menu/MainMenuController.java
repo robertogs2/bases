@@ -152,13 +152,18 @@ public class MainMenuController implements Initializable {
         });
     }//Done
 
+
     private void updateCarshop(int concesionary_index){
         try {
             car_shop_cb.getItems().clear();
             HashMap<String, List<String>> carshop_list = dao.selectData(queries.OBTENER_TALLER_POR_CONCESIONARIO, concesionary_index);
             carshop_indexes = carshop_list.get("idTaller"); //Stores in the list the ids from the carshops
+
             if(carshop_list.size() > 0) {
-                car_shop_cb.getItems().setAll(carshop_list.get("nombre"));
+                List<String> carshops = carshop_list.get("nombre");
+                car_shop_cb.getItems().setAll(carshops);
+                car_shop_cb.setValue(carshops.get(0));
+                indexes[1] = 1;
             }
         } catch (Exception e) {
             e.printStackTrace();

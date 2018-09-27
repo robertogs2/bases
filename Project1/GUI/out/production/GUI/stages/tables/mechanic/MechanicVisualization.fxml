@@ -14,7 +14,6 @@
                <children>
                   <Button fx:id="return_bb" mnemonicParsing="false" text="Retornar" />
                   <Button fx:id="add_bb" alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Agregar Mecánico" />
-                  <Button fx:id="repair_bb" alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Ver reparaciones" />
                </children>
             </HBox>
          </top>

@@ -17,24 +17,24 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.SortedMap;
 
 import static main.Main.queries;
 import static main.Main.showAddMechanicStage;
-import static main.Main.showAddPersonStage;
+import static main.Main.showMainMenu;
 
 public class MechanicVisualizationController implements Initializable {
 
     private ObservableList<Mechanic> mechanicList;
 
     @FXML TableView<Mechanic> tableView;
-    @FXML Button return_bb, add_bb, repair_bb;
+    @FXML Button return_bb, add_bb;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         createTable();
         listenToTable();
         listenToAdd();
+        listenToReturn();
     }
 
     private void createTable(){
@@ -84,7 +84,6 @@ public class MechanicVisualizationController implements Initializable {
             String salario = data.get("salario").get(i);
             String tnombre = data.get("tnombre").get(i);
             String cnombre = data.get("cnombre").get(i);
-            System.out.println(cnombre);
             Mechanic mechanic = new Mechanic(cedula, pnombre, apellidos, edad, telefono,
                     extension, fecha, salario, tnombre, cnombre,
                     data.get("idPersona").get(i), data.get("idMecanico").get(i),
@@ -98,6 +97,16 @@ public class MechanicVisualizationController implements Initializable {
         add_bb.setOnMouseClicked(event -> {
             try {
                 showAddMechanicStage();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void listenToReturn(){
+        return_bb.setOnMouseClicked(event -> {
+            try {
+                showMainMenu();
             } catch (IOException e) {
                 e.printStackTrace();
             }

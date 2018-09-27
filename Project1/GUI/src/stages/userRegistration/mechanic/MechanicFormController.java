@@ -17,9 +17,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static main.Main.dao;
-import static main.Main.queries;
-import static main.Main.showAddPersonStage;
+import static main.Main.*;
+import static main.Main.popUpStage;
 
 public class MechanicFormController implements Initializable {
 
@@ -37,16 +36,44 @@ public class MechanicFormController implements Initializable {
         int car_shop = MainMenuController.indexes[1];
 
         listenToSend(car_shop, concesionary);
-
+        listenToCancel();
     }
 
     private void listenToSend(int car_shop, int concesionary) {
         send_bb.setOnMouseClicked (e -> {
-            if(RegistrationFormController.showConfirmation("¿Continuar?", "Agregar mecánico") == 1) {
+            boolean ready = true;
+            if(id_tf.getText().length() <= 0){
+                ready = false;
+                RegistrationFormController.showErrorMessage("Por favor inserte una cédula");
+            }
+            else if(salary_tf.getText().length() <= 0){
+                ready = false;
+                RegistrationFormController.showErrorMessage("Por favor inserte un salario");
+            }
+            if(ready){
+                try {
+                    Integer.parseInt(id_tf.getText());
+                }
+                catch(Exception e1){
+                    RegistrationFormController.showErrorMessage("Por favor inserte un número en la cédula");
+                    ready = false;
+                }
+            }
+
+            if(ready){
+                try {
+                    Integer.parseInt(salary_tf.getText());
+                }
+                catch(Exception e1){
+                    RegistrationFormController.showErrorMessage("Por favor inserte un número en el salario");
+                    ready = false;
+                }
+            }
+            if(ready && RegistrationFormController.showConfirmation("¿Continuar?", "Agregar mecánico") == 1) {
 
                 String id = id_tf.getText();
                 String salary = salary_tf.getText();
-                boolean avaliable;
+                boolean avaliable, add_mechanic = false;
 
                 try {
                     avaliable = dao.selectData(queries.OBTENER_ID_PERSONA_POR_CEDULA, id).get("idPersona") == null;
@@ -54,28 +81,64 @@ public class MechanicFormController implements Initializable {
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                         Date dateobj = new Date();
                         dao.selectData(queries.AGREGAR_MECANICO, df.format(dateobj), salary, id, car_shop);
-                    } else {
-                        //RegistrationFormController.past == "mechanic"; Not needed at the end
-                        showAddPersonStage(id);
-                        //Main.showUserPane();
+                    } else {//We need to add the person
+                        int new_id = showAddPersonStage(id);
+                        if(new_id != -1){
+                            add_mechanic = true;
+                        }
                     }
                 }
                 catch (Exception e1) {
-                    e1.printStackTrace();
+                    int errorCode = ((SQLException)e1).getErrorCode();
+                    if(errorCode == 1062){
+                        RegistrationFormController.showErrorMessage("Ya esta persona está registrada como mecánico");
+                        exitForm();
+                    }
+                    else{
+                        e1.printStackTrace();
+                    }
                 }
 
-                try {
-                    //RegistrationFormController.showInformation("Se ha agregado un nuevo mecánico", "Agregar mecánico");
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                    Date dateobj = new Date();
-                    dao.selectData(queries.AGREGAR_MECANICO, df.format(dateobj), salary, id, car_shop);
-                    //Main.showString(past);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
+                if(add_mechanic){
+                    try {
+                        //RegistrationFormController.showInformation("Se ha agregado un nuevo mecánico", "Agregar mecánico");
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        Date dateobj = new Date();
+                        dao.selectData(queries.AGREGAR_MECANICO, df.format(dateobj), salary, id, car_shop);
+                        exitForm();
+                    } catch (Exception e1) {
+                        int errorCode = ((SQLException)e1).getErrorCode();
+                        if(errorCode == 1062){
+                            RegistrationFormController.showErrorMessage("Ya esta persona está registrada como mecánico");
+                            exitForm();
+                        }
+                        else{
+                            e1.printStackTrace();
+                        }
+                    }
                 }
+
             }
 
         });
+    }
+
+    private void listenToCancel(){
+        cancel_bb.setOnMouseClicked (e -> {
+            exitForm();
+        });
+    }
+
+    private void exitForm(){
+        if(popUpStage!=null){
+            popUpStage.close();
+        }else {
+            try {
+                Main.showMainMenu();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
 }

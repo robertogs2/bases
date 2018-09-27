@@ -189,7 +189,7 @@ public class RegistrationFormController implements Initializable {
                     showErrorMessage("Por favor ingrese los apellidos");
                 }
                 else if(id.length() <= 0){//There is not an id
-                    showErrorMessage("Por favor ingrese su cédula");
+                    showErrorMessage("Por favor ingrese una cédula");
                 }
                 else if(age.length() <= 0){//There is not an age
                     showErrorMessage("Por favor ingrese su edad");
@@ -216,72 +216,101 @@ public class RegistrationFormController implements Initializable {
                     showErrorMessage("Por favor una descripción de su dirección");
                 }
                 else{
-                    //Checks if we need to add another country or whatever
-                    try {
-                        if(indexes[0] == -1){
-                            ubicacion = addFromCountry(country, province, city, zipCode, locationDescription);
-                            //Add from country
+                    boolean ready = true;
+                    try{
+                        int x = Integer.parseInt(age);
+                        if(x < 18){
+                            showErrorMessage("Debe ser mayor de 18 años para registrarse");
+                            ready = false;
                         }
-                        else if(indexes[1] == -1){
-                            //Add from province
-                            ubicacion = addFromProvince(indexes[0], province, city, zipCode, locationDescription);
-                        }
-                        else if(indexes[2] == -1){
-                            //Add from city
-                            ubicacion = addFromCity(indexes[1], city, zipCode, locationDescription);
-                        }
-                        else if(indexes[3] == -1){
-                            ubicacion = addFromDirection(indexes[2], zipCode, locationDescription);
-                            //Add from direction
-                        }
-                        else{
-                            //Add pure
-                            ubicacion = addLocation(indexes[3], locationDescription);
-                        }
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
                     }
-                    //Generates new person
-                    HashMap<String, List<String>> person_id = null;
-                    int new_person_id = -1;
-                    boolean avaliable = true;
-                    try {
-                        System.out.println(ubicacion);
-                        person_id = dao.selectData(queries.AGREGAR_PERSONA,
-                                id, name, last_name, age, phone, extension, ubicacion);
-                        new_person_id = Integer.parseInt(person_id.get("LAST_INSERT_ID()").get(0));
-                    } catch (Exception e1) {
-                        System.out.println("La cedula esta repetida");
-                        e1.printStackTrace();
-                        avaliable = false;
+                    catch (Exception e1){
+                        showErrorMessage("Su edad debe ser un número");
+                        ready = false;
+                    }
+                    if(ready){
+                        try{
+                            Integer.parseInt(id);
+                        }
+                        catch (Exception e1){
+                            showErrorMessage("Su cédula debe ser un número");
+                            ready = false;
+                        }
+                    }
+                    if(ready){
+                        try{
+                            Integer.parseInt(phone);
+                        }
+                        catch (Exception e1){
+                            showErrorMessage("Su teléfono debe ser un número");
+                            ready = false;
+                        }
+                    }
+                    if(ready){
+                        try{
+                            Integer.parseInt(extension);
+                        }
+                        catch (Exception e1){
+                            showErrorMessage("Su extensión debe ser un número");
+                            ready = false;
+                        }
                     }
 
-                    //Generates new client with the person id, could be done with the table id
-                /*HashMap<String, List<String>> client_id = null;
-                if(avaliable){
-                    try {
-                        client_id = dao.selectData(queries.AGREGAR_CLIENTE_POR_CEDULA, id);
-                        new_client_id = Integer.parseInt(client_id.get("LAST_INSERTED_ID()").get(0));
-                    } catch (Exception e1) {
-                        System.out.println("La persona no existe");
-                        e1.printStackTrace();
-                    }
-                }
-                else{
-                    //La persona ya está registrada
-                }*/
 
-                    indexes[4] = new_person_id;
-                    try {
-                        showInformation("Se ha agregado una nueva persona", "Agregar persona");
-                        if(past == null){
-                            popUpStage.close();
-                            return;
+                    if(ready){
+                        //Checks if we need to add another country or whatever
+                        try {
+                            if(indexes[0] == -1){
+                                ubicacion = addFromCountry(country, province, city, zipCode, locationDescription);
+                                //Add from country
+                            }
+                            else if(indexes[1] == -1){
+                                //Add from province
+                                ubicacion = addFromProvince(indexes[0], province, city, zipCode, locationDescription);
+                            }
+                            else if(indexes[2] == -1){
+                                //Add from city
+                                ubicacion = addFromCity(indexes[1], city, zipCode, locationDescription);
+                            }
+                            else if(indexes[3] == -1){
+                                ubicacion = addFromDirection(indexes[2], zipCode, locationDescription);
+                                //Add from direction
+                            }
+                            else{
+                                //Add pure
+                                ubicacion = addLocation(indexes[3], locationDescription);
+                            }
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
                         }
-                        showString(past);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
+                        //Generates new person
+                        HashMap<String, List<String>> person_id = null;
+                        int new_person_id = -1;
+                        boolean avaliable = true;
+                        try {
+                            System.out.println(ubicacion);
+                            person_id = dao.selectData(queries.AGREGAR_PERSONA,
+                                    id, name, last_name, age, phone, extension, ubicacion);
+                            new_person_id = Integer.parseInt(person_id.get("LAST_INSERT_ID()").get(0));
+                        } catch (Exception e1) {
+                            System.out.println("La cedula esta repetida");
+                            e1.printStackTrace();
+                            avaliable = false;
+                        }
+
+                        indexes[4] = new_person_id;
+                        try {
+                            showInformation("Se ha agregado una nueva persona", "Agregar persona");
+                            if(past == null){
+                                popUpStage.close();
+                                return;
+                            }
+                            showString(past);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
                     }
+
                 }
             }
 
