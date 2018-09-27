@@ -20,8 +20,11 @@ import static main.Main.queries;
 
 public class CarView extends VBox {
 
-    private String name;
-    private String description;
+    private String brand;
+    private String model;
+    private String plate;
+    private String price;
+    private String color;
     private int pk;
     private ImageView photo;
     private ObservableList<Image> imageList;
@@ -29,9 +32,12 @@ public class CarView extends VBox {
     private Label lbDescription;
     private int imageCount = 0;
 
-    public CarView ( int pk, String name, String description, ObservableList<Image> imageList){
-        this.name = name;
-        this.description = description;
+    public CarView ( int pk, String brand, String model, String plate, String price, String color, ObservableList<Image> imageList){
+        this.brand = brand;
+        this.model = model;
+        this.plate = plate;
+        this.price = price;
+        this.color = color;
         this.pk = pk;
         this.imageList = imageList;
         if(!imageList.isEmpty())
@@ -40,10 +46,10 @@ public class CarView extends VBox {
         photo = new ImageView();
         photo.setFitWidth(100);
         photo.setFitHeight(100);
-        lbName = new Label(name);
+        lbName = new Label(this.getName());
         lbName.setFont(Font.font("System",FontWeight.BOLD,14));
         lbDescription = new Label();
-        lbDescription.setText(description);
+        lbDescription.setText(this.getDescription());
         lbDescription.setWrapText(true);
         lbDescription.setTextAlignment(TextAlignment.JUSTIFY);
         lbDescription.setMaxWidth(200);
@@ -72,21 +78,31 @@ public class CarView extends VBox {
     }
 
     public String getName() {
-        return name;
+        String rtn = brand + " " + model;
+        return rtn;
+
     }
 
-    public void setName(String name) {
-        this.name = name;
-        lbName.setText(name);
-    }
 
     public String getDescription() {
-        return description;
+        String rtn = "$ " + price + "\n" + "Matrícula: " + plate;
+        return rtn;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-        lbDescription.setText(description);
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public String getPrice() {
+        return price;
     }
 
     public void shiftRightImage(){
