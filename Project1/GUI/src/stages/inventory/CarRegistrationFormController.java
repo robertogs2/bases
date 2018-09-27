@@ -148,7 +148,7 @@ public class CarRegistrationFormController implements Initializable {
             }
             String clientId = "NUll INT";
             if(cedula_tf.getText().length() > 0 && !cedula_tf.getText().matches("\\d+")){
-                showErrorMessage("La ceula debe ser un numero, o nula en caso de ser un concecionario.");
+                showErrorMessage("La cedula debe ser un numero, o nula en caso de ser un concecionario.");
                 flag = false;
             }else if(cedula_tf.getText().length() > 0){
                 try {
@@ -216,7 +216,7 @@ public class CarRegistrationFormController implements Initializable {
                 iv.setFitWidth(100);
                 img_hb.getChildren().add(0, iv);
             }catch (Exception e){
-                showErrorMessage("No se puede mostrar la image.");
+                showErrorMessage("No se puede mostrar la imagen.");
             }
         });
         upload_img_bb.setOnMouseClicked(event -> {
