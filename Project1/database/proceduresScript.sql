@@ -392,7 +392,7 @@ CREATE PROCEDURE ObtenerReparacionesFecha (
     R.fechaHoraFinal
     FROM Reparacion AS R
     INNER JOIN Coche ON R.idCoche_fk = Coche.idCoche
-    WHERE Coche.matricula = eMatricula && R.fechaHoraInicio > eFechaInicio;
+    WHERE Coche.matricula = eMatricula && R.fechaHoraInicio = eFechaInicio;
 END$$
 
 CREATE PROCEDURE ObtenerReparacionesPorCoche () BEGIN
