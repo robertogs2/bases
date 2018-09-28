@@ -58,7 +58,7 @@ public class CompraVisualizationController implements Initializable {
             String persona = nombre + " " + apellidos;
             String precio = data.get("precio").get(i);
             String estado = data.get("estado").get(i);
-            String fecha = data.get("fecha").get(i);
+            String fecha = data.get("fechaHora").get(i);
 
             Compra compra = new Compra(marca,modelo,persona,precio,estado,fecha);
             compraList.addAll(compra);

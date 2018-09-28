@@ -17,9 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static main.Main.primaryStage;
-import static main.Main.queries;
-import static main.Main.showMainMenu;
+import static main.Main.*;
 
 public class shopController implements Initializable {
 
@@ -156,6 +154,10 @@ public class shopController implements Initializable {
             flowPane.getChildren()
                     .add(carAlbum.getCarList().get(i));
         }
+    }
+
+    public void showVentas() throws IOException {
+        showCompras();
     }
 
     public void retornar() throws IOException {

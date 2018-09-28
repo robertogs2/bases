@@ -112,6 +112,11 @@ public class Main extends Application {
         mainLayout.setCenter(previewPane);
     }
 
+    public static void showCompras() throws IOException {
+        AnchorPane previewPane = FXMLLoader.load(Main.class.getResource("/stages/tables/compra/CompraVisualization.fxml"));
+        mainLayout.setCenter(previewPane);
+    }
+
     public static void showPreviewStage(int pk, List<String> attributes, List<String> values, ObservableList<String> urls) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/stages/preview/preview.fxml"));
         AnchorPane anchorPane = fxmlLoader.load();

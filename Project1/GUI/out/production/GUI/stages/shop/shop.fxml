@@ -50,6 +50,11 @@
                         <Label fx:id="usados_lbl" text="Autos Usados: " />
                      </children>
                   </VBox>
+                  <VBox alignment="BOTTOM_LEFT">
+                     <children>
+                        <Button mnemonicParsing="false" onMouseClicked="#showVentas" text="Ventas" />
+                     </children>
+                  </VBox>
                </children>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
