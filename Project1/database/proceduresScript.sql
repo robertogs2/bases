@@ -353,7 +353,8 @@ CREATE PROCEDURE ObtenerInfoCarroPorConcesionario (IN eIdConcesionario INT) BEGI
 		Ma.nombre AS "marca",
         C.precio,
         C.color,
-        C.idCoche
+        C.idCoche,
+        C.estado
 	FROM 
 		Coche AS C
 	INNER JOIN Marca AS Ma ON Ma.idMarca = C.idMarca_fk

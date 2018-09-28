@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static main.Main.popUpStage;
+import static main.Main.popUpStages;
 import static main.Main.queries;
 import static main.Main.showMainMenu;
 
@@ -92,8 +92,10 @@ public class SingleReparationController  implements Initializable {
     }
 
     private void exitForm(){
-        if(popUpStage!=null){
-            popUpStage.close();
+        int stagesSizes = popUpStages.size();
+        if(stagesSizes > 0){
+            popUpStages.get(stagesSizes - 1).close();
+            popUpStages.remove(stagesSizes - 1);
         }else {
             try {
                 Main.showMainMenu();
