@@ -8,6 +8,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.Main;
+import stages.menu.MainMenuController;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -44,7 +45,7 @@ public class CompraVisualizationController implements Initializable {
 
         HashMap<String, List<String>> data = null;
         try {
-            data = Main.dao.selectData(queries.OBTENER_PERSONAS);
+            data = Main.dao.selectData(queries.OBTENER_VENTAS_POR_CONCESIONARIO,MainMenuController.concesionario);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,7 +53,9 @@ public class CompraVisualizationController implements Initializable {
         for (int i = 0; i < n; ++i) {
             String marca = data.get("marca").get(i);
             String modelo = data.get("modelo").get(i);
-            String persona = data.get("persona").get(i);
+            String nombre = data.get("nombre").get(i);
+            String apellidos = data.get("apellidos").get(i);
+            String persona = nombre + " " + apellidos;
             String precio = data.get("precio").get(i);
             String estado = data.get("estado").get(i);
             String fecha = data.get("fecha").get(i);
