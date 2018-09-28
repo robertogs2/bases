@@ -34,6 +34,7 @@ public class shopController implements Initializable {
     @FXML VBox vBox;
     @FXML Button btnReturn;
     @FXML MenuBar menuBar;
+    @FXML Label nuevos_lbl, usados_lbl;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -89,6 +90,8 @@ public class shopController implements Initializable {
 
         if (data != null){
             int n = data.get("idCoche").size();
+            int nuevos = 0;
+            int usados  = 0;
             for (int i = 0; i < n; ++i){
                 String pk = data.get("idCoche").get(i);
                 String precio = data.get("precio").get(i);
@@ -96,6 +99,10 @@ public class shopController implements Initializable {
                 String marca = data.get("marca").get(i);
                 String modelo = data.get("modelo").get(i);
                 String color = data.get("color").get(i);
+
+                if(data.get("estado").get(i).equals("nuevo"))++nuevos;
+                if(data.get("estado").get(i).equals("usado"))++usados;
+
 
                 HashMap<String, List<String>> dataPhoto = null;
                 try {
@@ -116,10 +123,11 @@ public class shopController implements Initializable {
                     photos.addAll("https://dutcheauction.com/images/default-car.png");
                 }
 
-
                 carAlbum.addCar( Integer.valueOf(pk), marca, modelo, matricula, precio, color, photos);
                 carAlbum.getCarList().addListener((ListChangeListener<CarView>) change -> refresh());
             }
+            nuevos_lbl.setText("Autos nuevos: "+nuevos);
+            usados_lbl.setText("Autos usados: "+usados);
         }
         setChoiceBox();
     }
