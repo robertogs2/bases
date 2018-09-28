@@ -74,7 +74,7 @@ public class CarRegistrationFormController implements Initializable {
         try {
             brand_list = dao.selectData(queries.OBTENER_MARCAS_REGISTRADAS);
         } catch (Exception e) {
-            e.printStackTrace();
+            showErrorMessage(e.getMessage());
         }
         Arrays.fill(indexes, -1);
         brand_indexes = brand_list.get("idMarca");
@@ -115,7 +115,7 @@ public class CarRegistrationFormController implements Initializable {
                 modelo_cb.getItems().setAll(province_list.get("nombre"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            showErrorMessage(e.getMessage());
         }
     }
 
@@ -172,7 +172,9 @@ public class CarRegistrationFormController implements Initializable {
                     }else{
                         clientId = id.get("idCliente").get(0);
                     }
-                }catch (Exception e){}
+                }catch (Exception e){
+                    showErrorMessage(e.getMessage());
+                }
             }
 
             if(flag) {
@@ -201,7 +203,7 @@ public class CarRegistrationFormController implements Initializable {
                             String imgUrl = imageUploader.uploadImage(String.valueOf(new_car_id) + "-" +  imgFiles.indexOf(file), file);
                             dao.pushData(queries.AGREGAR_FOTO,new_car_id,imgUrl);
                         }catch (Exception e){
-                            e.printStackTrace();
+                            showErrorMessage(e.getMessage());
                         }
                     }
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -268,7 +270,7 @@ public class CarRegistrationFormController implements Initializable {
             try {
                 Main.showMainMenu();
             } catch (IOException e1) {
-                e1.printStackTrace();
+                showErrorMessage(e1.getMessage());
             }
         }
     }

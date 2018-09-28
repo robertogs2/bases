@@ -191,6 +191,7 @@ public class ReparationFormController implements Initializable {
                         dao.pushData(queries.AGREGAR_REPARACION, df.format(dateobj), "NULL DATE", matricula_cb.valueProperty().getValue(), descripcion_ta.getText());
                         this.mode = "VIEW";
                         listenToMode();
+                        updateMatricula();
                     } catch (Exception e) {
                         showErrorMessage(e.getMessage());
                         //e.printStackTrace();
@@ -306,7 +307,7 @@ public class ReparationFormController implements Initializable {
                     }
                 });
             }else{
-                showErrorMessage("Debe seleccionar una reparacion para agragar un mecanico.");
+                showErrorMessage("Debe seleccionar una reparacion para agregar un mecanico.");
             }
         });
     }
@@ -315,7 +316,7 @@ public class ReparationFormController implements Initializable {
         try {
             Main.showMainMenu();
         } catch (IOException e1) {
-            e1.printStackTrace();
+            showErrorMessage(e1.getMessage());
         }
     }
 
