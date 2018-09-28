@@ -103,7 +103,6 @@ public class shopController implements Initializable {
                 if(data.get("estado").get(i).equals("nuevo"))++nuevos;
                 if(data.get("estado").get(i).equals("usado"))++usados;
 
-
                 HashMap<String, List<String>> dataPhoto = null;
                 try {
                     dataPhoto = Main.dao.selectData(queries.OBTENER_FOTOS,Integer.valueOf(pk));

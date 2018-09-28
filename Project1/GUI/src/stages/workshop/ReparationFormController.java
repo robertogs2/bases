@@ -315,7 +315,7 @@ public class ReparationFormController implements Initializable {
         try {
             Main.showMainMenu();
         } catch (IOException e1) {
-            e1.printStackTrace();
+            showErrorMessage(e1.getMessage());
         }
     }
 
