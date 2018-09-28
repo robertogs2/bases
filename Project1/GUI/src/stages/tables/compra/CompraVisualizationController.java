@@ -4,27 +4,32 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.Main;
 import stages.menu.MainMenuController;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import static main.Main.queries;
+import static main.Main.showMainMenu;
+import static main.Main.showShopPane;
 
 public class CompraVisualizationController implements Initializable {
 
     private ObservableList<Compra> compraList;
 
     @FXML TableView<Compra> tableView;
-
+    @FXML Button return_btn;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        listenToReturn();
         compraList = FXCollections.observableArrayList();
 
         //Crear columnas de la tabla
@@ -64,5 +69,15 @@ public class CompraVisualizationController implements Initializable {
             compraList.addAll(compra);
         }
         tableView.setItems(compraList);
+    }
+
+    private void listenToReturn(){
+        return_btn.setOnMouseClicked(event -> {
+            try {
+                showShopPane(MainMenuController.indexes[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

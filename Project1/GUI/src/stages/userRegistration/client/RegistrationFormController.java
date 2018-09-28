@@ -255,6 +255,15 @@ public class RegistrationFormController implements Initializable {
                             ready = false;
                         }
                     }
+                    if(ready){
+                        try{
+                            Integer.parseInt(zipCode);
+                        }
+                        catch (Exception e1){
+                            showErrorMessage("El codigo postal debe ser un número");
+                            ready = false;
+                        }
+                    }
 
 
                     if(ready){

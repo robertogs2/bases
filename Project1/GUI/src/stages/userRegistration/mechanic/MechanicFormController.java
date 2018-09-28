@@ -104,7 +104,7 @@ public class MechanicFormController implements Initializable {
                         //RegistrationFormController.showInformation("Se ha agregado un nuevo mecánico", "Agregar mecánico");
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                         Date dateobj = new Date();
-                        dao.selectData(queries.AGREGAR_MECANICO, df.format(dateobj), salary, id, car_shop);
+                        dao.pushData(queries.AGREGAR_MECANICO, df.format(dateobj), salary, id, car_shop);
                         exitForm();
                     } catch (Exception e1) {
                         int errorCode = ((SQLException)e1).getErrorCode();

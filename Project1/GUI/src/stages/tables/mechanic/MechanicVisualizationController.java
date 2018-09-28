@@ -37,7 +37,8 @@ public class MechanicVisualizationController implements Initializable {
 
     private void createTable(){
         mechanicList = FXCollections.observableArrayList();
-
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
         //Crear columnas de la tabla
         TableColumn<Mechanic,String> tbcPNombre = new TableColumn<>("Nombre");
         tbcPNombre.setCellValueFactory(new PropertyValueFactory<>("pnombre"));
@@ -88,6 +89,7 @@ public class MechanicVisualizationController implements Initializable {
                     data.get("idTaller").get(i), data.get("idConcesionario").get(i));
             mechanicList.addAll(mechanic);
         }
+        tableView.getItems().clear();
         tableView.setItems(mechanicList);
     }
 
@@ -95,6 +97,7 @@ public class MechanicVisualizationController implements Initializable {
         add_bb.setOnMouseClicked(event -> {
             try {
                 showAddMechanicStage();
+                createTable();
             } catch (IOException e) {
                 e.printStackTrace();
             }
