@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static main.Main.*;
-import static main.Main.popUpStage;
+import static main.Main.popUpStages;
 
 public class MechanicFormController implements Initializable {
 
@@ -130,8 +130,10 @@ public class MechanicFormController implements Initializable {
     }
 
     private void exitForm(){
-        if(popUpStage!=null){
-            popUpStage.close();
+        int stagesSizes = popUpStages.size();
+        if(stagesSizes > 0){
+            popUpStages.get(stagesSizes - 1).close();
+            popUpStages.remove(stagesSizes - 1);
         }else {
             try {
                 Main.showMainMenu();

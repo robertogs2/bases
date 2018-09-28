@@ -30,7 +30,7 @@ import static main.Main.primaryStage;
 import static main.Main.queries;
 import static main.Main.dao;
 import static main.Main.showAddPersonStage;
-import static main.Main.popUpStage;
+import static main.Main.popUpStages;
 
 public class CarRegistrationFormController implements Initializable {
 
@@ -260,8 +260,10 @@ public class CarRegistrationFormController implements Initializable {
     }
 
     private void exitForm(){
-        if(popUpStage!=null){
-            popUpStage.close();
+        int stagesSizes = popUpStages.size();
+        if(stagesSizes > 0){
+            popUpStages.get(stagesSizes - 1).close();
+            popUpStages.remove(stagesSizes - 1);
         }else {
             try {
                 Main.showMainMenu();
