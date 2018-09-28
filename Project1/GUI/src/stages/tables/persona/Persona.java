@@ -1,4 +1,4 @@
-package stages.tables;
+package stages.tables.persona;
 
 import javafx.beans.property.SimpleStringProperty;
 
