@@ -302,7 +302,7 @@ public class RegistrationFormController implements Initializable {
                         try {
                             showInformation("Se ha agregado una nueva persona", "Agregar persona");
                             if(past == null){
-                                popUpStage.close();
+                                exitForm();
                                 return;
                             }
                             showString(past);
@@ -319,11 +319,7 @@ public class RegistrationFormController implements Initializable {
 
     private void listenToCancel(){
         cancel_bb.setOnMouseClicked(e -> {
-            try {
-                Main.showString(past);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            exitForm();
         });
     }
 
@@ -398,6 +394,20 @@ public class RegistrationFormController implements Initializable {
     public void setCedula(String cedula){
         id_tf.editableProperty().setValue(false);
         id_tf.setText(cedula);
+    }
+
+    private void exitForm(){
+        int stagesSizes = popUpStages.size();
+        if(stagesSizes > 0){
+            popUpStages.get(stagesSizes - 1).close();
+            popUpStages.remove(stagesSizes - 1);
+        }else {
+            try {
+                Main.showMainMenu();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
     public static int getPersonId(){
