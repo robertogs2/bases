@@ -620,8 +620,8 @@ CREATE PROCEDURE ObtenerComprasPorConcecionario(IN eIdConcesionario INT) BEGIN
 	SELECT  
 		P.nombre,
         P.apellidos,
-        Ma.nombre AS 'Marca',
-        Mo.nombre AS 'Modelo',
+        Ma.nombre AS 'marca',
+        Mo.nombre AS 'modelo',
         C.precio,
         C.estado,
         Co.fechaHora
