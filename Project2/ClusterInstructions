@@ -1,0 +1,13 @@
+-Instalar Windows Server 2016 en las 3 máquinas virtuales de VMWare, seleccionar instalar OS luego, y darle settings > iniciar desde CD/DVD y seleccionar ISO (VM)
+-Ponerles de nombre clusterdc, node1, node2 (VM)
+	-AL instalar el clusterdc ponerle Bridged connection
+	-Al instalar los nodos 1 y 2, escoger en network-adapter Bridge y agregar otro nuevo con host-only (sino cambiar luego a pata) (VM)
+-Poner passwords para los usuarios (OS)
+-Quitar el Firewall en las tres máquinas (OS)
+
+-Cambiar el nombre para cada una de las 3 máquinas en el OS (OS)
+	-Click derecho This PC > Propiedades
+	-Click en cambiar configuración > Cambiar...
+	-Colocar nombre y reiniciar
+
+-
