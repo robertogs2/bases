@@ -30,8 +30,14 @@ Crear storage virtual**************************************(clusterdc)
 	-Verificar que Virtual Disk Status y Target Status estén en Not Connected
 
 Iniciar iSCSI ******************************************(node1 y node2)
-	-Abrir disk management para observar 
+	-Abrir disk management para observar que no hay disk1 y disk2
 	-Server Manager > Dashboard > Tools > iSCSI Initiator > Yes
 	-Poner en target el ip publico de (pref clusterdc) osea (192.168.1.110) > Ok
 	-Conectar a ambos discos seleccionando y dando connect > Done
 	-Volumne and Devices > AutoConfigure
+	-Hacerlo para ambos nodos
+
+	-Abrir disk management en node1
+	-RC en disk1 y disk2 > online
+	-RC initialize ambos (MBR) > Ok
+	-RC disk1 > New simple volume
