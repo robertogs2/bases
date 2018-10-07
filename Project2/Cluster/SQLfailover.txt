@@ -1,6 +1,6 @@
 Agregar servidores a Server Manager...
 
-Instalar features ***************************************** (node1 y node2)
+Instalar features ***************************************** (node1 y node2) {
 	-Server Manager > Manage > Add Roles and Features > Next
 	-Role-bases or feature based... > Next
 	-Seleccionar el servidor (clusterdc) > instalar .NET Framework 3.5, 4.5, Failover Clustering Multipath > Next
@@ -29,7 +29,7 @@ Crear storage virtual**************************************(clusterdc)
 	-Agregar otro disco llamada VD02 con los pasos anteriores
 	-Verificar que Virtual Disk Status y Target Status estén en Not Connected
 
-Iniciar iSCSI ******************************************(node1 y node2)
+Iniciar/Descubrir iSCSI Targets Disks y conectar en nodos *********(node1 y node2)
 	-Abrir disk management para observar que no hay disk1 y disk2
 	-Server Manager > Dashboard > Tools > iSCSI Initiator > Yes
 	-Poner en target el ip publico de (pref clusterdc) osea (192.168.1.110) > Ok
@@ -40,4 +40,14 @@ Iniciar iSCSI ******************************************(node1 y node2)
 	-Abrir disk management en node1
 	-RC en disk1 y disk2 > online
 	-RC initialize ambos (MBR) > Ok
-	-RC disk1 > New simple volume
+
+	-RC disk1 > New simple volume > Next
+	-Assign the following drive letter: Q > Next
+	-NTFS, Default, Quick Format, Volumne label (pref Quorum-Disk) > Next > Finish
+	-RC disk2 > New simple volumne > Next
+	-Drive letter D > Next
+	-Volume label: SQL-Disk > Next > Finish
+
+	-En node2
+		-disk management y online ambos discos
+		-cambiar letras a Q y D
