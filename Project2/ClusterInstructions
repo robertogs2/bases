@@ -1,4 +1,4 @@
-Preparando máquinas ************************************
+Preparando máquinas ************************************ 
 	-Instalar Windows Server 2016 en las 3 máquinas virtuales de VMWare, seleccionar instalar OS luego, y darle settings > iniciar desde CD/DVD y seleccionar ISO (VM)
 	-Ponerles de nombre clusterdc, node1, node2 (VM)
 		-AL instalar el clusterdc ponerle Bridged connection
@@ -62,4 +62,50 @@ Crear cluster admin ********************************** (clusterdc)
 	-RC (pref cluadm)
 	-Locations > (pref metamanager.local) > OK
 	-Domain Admins > Check Names > Ok > Ok
+
+Agregar los nodos al dominio ************************* (node1 y node2)
+
+	-RC This PC > Change Settings > Change
+	-Seleccionar domain y poner el domain (pref metamanager.local)
+	-Poner usuario y contraseña (pref cluadm, pref 2486abc!) > Ok
+
+	//Se produce error
+
+	-Poner el ip publico estático a node1
+		-Entrar a Panel de Control > Network and Sharing Center > Manage networks
+		-RC sobre Local Area Connection(el primero), Properties
+		-Escoger IPv4 > Properties
+		-Escribir el ip para node1(pref 192.168.1.111)//ipnode1
+		-Escribir submask como (255.255.255.0)
+		-Escribir el default gateway como el router address (192.168.1.1)
+		-Escribir en DNS el ip del clusterdc(192.168.1.110), dejar alternate en blanco
+		-Ok
+
+	-Poner el ip publico estático a node2
+		-Entrar a Panel de Control > Network and Sharing Center > Manage networks
+		-RC sobre Local Area Connection(el primero), Properties
+		-Escoger IPv4 > Properties
+		-Escribir el ip para node2(pref 192.168.1.112)//ipnode2
+		-Escribir submask como (255.255.255.0)
+		-Escribir el default gateway como el router address (192.168.1.1)
+		-Escribir en DNS el ip del clusterdc(192.168.1.110), dejar alternate en blanco
+		-Ok
+
+	-Poner el ip privado estático a node2
+		-Entrar a Panel de Control > Network and Sharing Center > Manage networks
+		-RC sobre Local Area Connection(el segundo), Properties
+		-Escoger IPv4 > Properties
+		-Escribir el ip para node2(pref 192.168.2.12)//ipnode2 private
+		-Escribir submask como (255.255.255.0)
+		-Ok
+
+	//Hacer lo mismo con el node1 ip: (pref 192.186.2.11)
+
+Probar las conexiones****************************** (clusterdc, node1, node2)
+
+	//En todos correr
+	-Correr en cmd
+	-ping node1ip (pref 192.168.1.111)
+	-ping node2ip (pref 192.168.1.112)
+	-ping clusterdc (pref 192.168.1.110)
 
