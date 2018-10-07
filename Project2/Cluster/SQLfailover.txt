@@ -1,0 +1,14 @@
+Agregar servidores a Server Manager...
+
+Instalar features ***************************************** (node1 y node2)
+	-Server Manager > Manage > Add Roles and Features > Next
+	-Role-bases or feature based... > Next
+	-Seleccionar el servidor (clusterdc) > instalar .NET Framework 3.5, 4.5, Failover Clustering Multipath > Next
+	-(Necesita seleccionar disco de .NET ) > Instalar
+
+
+Crear storage virtual(clusterdc)
+	-File and Storage Services > iSCSI > Add Roles and Features Wizard
+	-Click en el servidor > Next > Next > Install 
+	-Esperar a que termine la instalación > Close
+	
