@@ -4,11 +4,34 @@ Instalar features ***************************************** (node1 y node2)
 	-Server Manager > Manage > Add Roles and Features > Next
 	-Role-bases or feature based... > Next
 	-Seleccionar el servidor (clusterdc) > instalar .NET Framework 3.5, 4.5, Failover Clustering Multipath > Next
-	-(Necesita seleccionar disco de .NET ) > Instalar
+	-(Necesita seleccionar disco de .NET svx ) > Instalar
 
 
-Crear storage virtual(clusterdc)
+Crear storage virtual**************************************(clusterdc)
 	-File and Storage Services > iSCSI > Add Roles and Features Wizard
 	-Click en el servidor > Next > Next > Install 
 	-Esperar a que termine la instalación > Close
-	
+	-Agregar el virtual disk
+		-En iSCSI darle refresh > start the New iSCSI Virtual Disk Wizard
+		-Seleccionar el location del volumen correspondiente con el servidor > Next
+		-Ponerle nombre (pref VD01 {virtual disk 01}) > Next
+		-Ponerle un tamaño(pref 10GB) y dynamically expanding > Next
+		-New iSCSI Target > Next
+		-Ponerle nombre al target (pref VD01-Target)
+		-Seleccionar servidores que acceden al disk
+			-Add...
+			-Click en browse para agregar ambos nodos
+			-Advanced > Find Now
+			-Seleccionar node1 > OK > OK
+			-Seleccionar node2 > OK > OK
+		-Darle Next
+		-Dejar en blanco (Si no se requiere autenticación) > Next > Create
+	-Agregar otro disco llamada VD02 con los pasos anteriores
+	-Verificar que Virtual Disk Status y Target Status estén en Not Connected
+
+Iniciar iSCSI ******************************************(node1 y node2)
+	-Abrir disk management para observar 
+	-Server Manager > Dashboard > Tools > iSCSI Initiator > Yes
+	-Poner en target el ip publico de (pref clusterdc) osea (192.168.1.110) > Ok
+	-Conectar a ambos discos seleccionando y dando connect > Done
+	-Volumne and Devices > AutoConfigure
