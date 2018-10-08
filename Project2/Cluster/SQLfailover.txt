@@ -46,8 +46,50 @@ Iniciar/Descubrir iSCSI Targets Disks y conectar en nodos *********(node1 y node
 	-NTFS, Default, Quick Format, Volumne label (pref Quorum-Disk) > Next > Finish
 	-RC disk2 > New simple volumne > Next
 	-Drive letter D > Next
-	-Volume label: SQL-Disk > Next > Finish
+	-Volume label (SQL-Disk) > Next > Finish
 
 	-En node2
 		-disk management y online ambos discos
 		-cambiar letras a Q y D
+
+Crear el cluster******************************(node1 y clusterdc)
+	-Ver LAN y Heartbeat ips
+	-En node1
+		-Server Manager > Dashboard > Tools > Failover Cluster Manager
+		-Click en validate Configuration > Next
+		-Agregar ambos nodos
+			-Browse > Advanced > Find Now
+			-Seleccionar Nodo > Ok
+		-Next > Seleccionar lo que quiera (pref todo) > Next > Next
+		-View report
+		-Check create cluster with validated nodes > Next
+		-Poner Cluster Name (pref WIN-SQL-CLUSTER)
+		-Poner el ip del cluster(pref 192.168.1.113) > Next
+		-Add all eligible storage to the cluster > Next
+		-Finish
+
+		-Chequear todo en Failover Cluster Manager
+		->Nombre del cluster > Storage > Disks
+		-Cambiar nombre de disco (Quorum-Disk) y (SQL-Disk)
+		-Networks cambiar de nombre Cluster Only por Heartbeat y Cluster and Client por LAN (Allow clients debe estar chequeado)
+
+	-En clusterdc
+		-Server Manager > Dashboard > Tools > Active Directory Users and Computers
+		-(Domain metamanager.local) > (INDIA ??????) > Servers, aqui deben mostrarse los nodos y el cluster con descipcion
+
+		-Opcional por el puntero del DNS:
+			-Server Manager > Dashboard > Tools > DNS
+			-Forward Lookup Zones > (Domain metamanager.local) > RC (pref WIN-SQL-CLUSTER) > Properties
+			-Check en update associated pointer PTR
+			-Refresh reverse lookup zones
+		-Probar mandando ping a todo mundo
+
+Instalar SQL Server en el cluster *******************(node1 y node2) {tener cuidado porque hay que instalar el chorro de services}
+	-Montar la imagen de SQL Server / Meter el ejecutable
+	-Installation > New SQL Server failover cluster installation
+	-Si todo pasa > Ok > Evaluation > Accept Terms > Next
+	-Esperar a ver si tira warnins (talvez importan) > Next > SQL Server Feature Installation > Next
+	-Seleccionar Features, Database Engine Services y Management Tools > Next
+	-Si pasa > Next
+	-Ponerle un nombre (pref SQL-CLUSTER01) y Default instance > Next > Next
+	-Tira warnings de windows failover clustering
