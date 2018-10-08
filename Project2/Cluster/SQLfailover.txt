@@ -207,7 +207,7 @@ Crear el cluster******************************(node1 y clusterdc)
 
 	-Se puede cambiar el disco por un file shared[part6B minute 6 - 8], y para acceder a otra maquina en el dominio se pone en exe: \\clusterdc\c$Windows
 
-Instalar SQL Server en el cluster *******************(node1 y node2) {tener cuidado porque hay que instalar el chorro de services}
+Instalar SQL Server en el cluster *******************(node1) {tener cuidado porque hay que instalar el chorro de services, aunque no se recomienda hacerlo ya}
 	-En node1, meter la llave con SQL Server y extraer los archivos
 	-Montar la imagen de SQL Server / Meter el ejecutable
 
@@ -227,19 +227,56 @@ Instalar SQL Server en el cluster *******************(node1 y node2) {tener cuid
 	-Installation > New SQL Server failover cluster installation
 	-Si todo pasa > Ok > Evaluation > Accept Terms > Next
 	-Esperar a ver si tira warnins (talvez importan) > Next > SQL Server Feature Installation > Next
-	-Seleccionar Features, Database Engine Services y Management Tools > Next
+	-Seleccionar Features, Database Engine Services y Management Tools (with complete) > Next
 	-Si pasa > Next
-	-Ponerle un nombre (pref SQL-CLUSTER01) y Default instance > Next > Next
+	-Ponerle un nombre (pref DEVSQLCLU) y Default instance > Next > Next
 	-Tira warnings de windows failover clustering > Next
-	-Se muestran los discos, escoger SQL-disk > Next
-	-Poner el ipv4 (pref 192.168.1.115) y marcar la casilla > Next
+	-Se muestran los discos, escoger (pref logs-disk y data-disk) > Next
+	-Poner el ipv4 (pref 192.168.1.115) y marcar la casilla (desmcarcar dhcp), en subnet mask (255.255.255.0)> Next
+	-User sid > Next > 
+	-Use the same account for all SQL Server services
 	-Poner cuenta y contraseña > Next > Windows Authetication Mode, Add Current User
-	-Verificar que todo se vaya a hacer en (SQL-disk) drive > Next
-	-Next > Next > Next > Close
+	-Verificar que todo se vaya a hacer en (data-disk) drive desde data directories> Next
+	-Next chequear SQL Server Replication> Install > Next > Close
 
-	-Verificar en los roles de Server Manager > Dashboard > Tools > Failover Cluster Manager
+	-Verificar en los roles de Server Manager > Dashboard > Tools > Failover Cluster Management
+	-RC (SQL Server) > Refresh
 	-RC (SQL Server) > Properties
-	-Seleccionar ambos nodos del cluster y cambiar prioridad a alto
+	-A la derecha Show Dependency Report
 
-Instalar SQL Server Management Studio
-Video Part8 minuto 2:45
+
+	-Entrar a Failover Cluster Management > Click sobre Services and Applications > RC SQL Server 
+	-Seleccionar ambos nodos del cluster y cambiar prioridad a alto //Esto no lo hizo el indio 2
+
+	-Abrir Microsoft SQL Server Manager Studio
+	-Poner el nombre del servidor y conectarse
+	-Probar hacer ping a el sql-cluster (devsqlclu)
+
+Instalar SQL Server en otro nodo ******************************* (node2 y node1)
+	-Ejecutar el instalador > Installation
+	-Add node to a SQL failover cluster
+	-Specify a free edition: Enterprise > Next > Accept terms > Next
+	-Install
+	-Escoger instancia de SQL Server (solo hay una) > Next
+	-Poner passwords en agent, y databse engine> Next > Next > Next y esperar que agregue el nodo
+
+	-Abrir Failover Cluster Management en node1 > refresh SQL Server > RC SQL Server > Properties > Advanced Policies para ver ambos nodos
+	//Puede que haya que poner node1 como owner de SQL y node2 como owner de dtc
+
+	//Aun en node1
+	-Abrir SSMS
+	-Connectar al servidor
+	-Darle New Query y correr select SERVERPROPERTY ('computernamephysicalnetbios')
+	-Failover Cluster Management > RC SQL Server (MSSQLSERVER) > Move to node2 > Ok > Esperar a que refresque (spamear refresh)
+	-Ejecutar query de nuevo para ver como cambia a node2
+	-En fcm > Storage deben de estar los discos de SQL Server corriendo sobre node2, igual que winclusterdtc
+	//Asi se hace failover manualmente, click derecho mover al otro nodo...
+
+Hacer los nodos active-active ******************************(node1 y node2)
+
+
+	-En node2 abrir SQL Server Configuration Manager > SQL Server Services
+	-Ver que todos los servicios esten corriendo
+
+	-En node1 hacer lo mismo y ver que estan caidos
+	-Hacer failover de node2 a node1 el SQL Server y ver como ahora si corren
