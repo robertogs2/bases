@@ -21,6 +21,7 @@ Crear el dominio ************************************ (clusterdc)
 		-Escribir el default gateway como el router address (192.168.1.1)
 		-Escribir en DNS (127.0.0.1), dejar alternate en blanco
 		-Ok
+	//Esta parte hay que cambiarla, windows server 2016 ya lo tiene menos feo
 	-Correr en execute(Windows + R) >dcpromo
 		-Next > Next > Create a new domain in a new forest > Next 
 		-Ponerle un nombre al dominio (pref metamanager.local) > Next
