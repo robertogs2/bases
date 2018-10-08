@@ -22,8 +22,8 @@ Crear storage virtual**************************************(clusterdc)
 			-Add...
 			-Click en browse para agregar ambos nodos
 			-Advanced > Find Now
-			-Seleccionar node1 > OK > OK
-			-Seleccionar node2 > OK > OK
+			-Seleccionar node1 > OK > OK > OK
+			-Seleccionar node2 > OK > OK > OK
 		-Darle Next
 		-Dejar en blanco (Si no se requiere autenticación) > Next > Create
 	-Agregar otro disco llamada VD02 con los pasos anteriores
@@ -32,9 +32,9 @@ Crear storage virtual**************************************(clusterdc)
 Iniciar/Descubrir iSCSI Targets Disks y conectar en nodos *********(node1 y node2)
 	-Abrir disk management para observar que no hay disk1 y disk2
 	-Server Manager > Dashboard > Tools > iSCSI Initiator > Yes
-	-Poner en target el ip publico de (pref clusterdc) osea (192.168.1.110) > Ok
-	-Conectar a ambos discos seleccionando y dando connect > Done
-	-Volumne and Devices > AutoConfigure
+	-Poner en target el ip publico de (pref clusterdc) osea (192.168.1.110) > quick connect
+	-Conectar a ambos discos seleccionando y dando  connect > Done
+	-Volume and Devices > AutoConfigure
 	-Hacerlo para ambos nodos
 
 	-Abrir disk management en node1
@@ -75,9 +75,9 @@ Crear el cluster******************************(node1 y clusterdc)
 
 	-En clusterdc
 		-Server Manager > Dashboard > Tools > Active Directory Users and Computers
-		-(Domain metamanager.local) > (INDIA ??????) > Servers, aqui deben mostrarse los nodos y el cluster con descipcion
+		-(Domain metamanager.local) > (INDIA ?????? = Computers) > Servers, aqui deben mostrarse los nodos y el cluster con descipcion
 
-		-Opcional por el puntero del DNS:
+		-Puntero del DNS para (WIN-SQL-CLUSTER):
 			-Server Manager > Dashboard > Tools > DNS
 			-Forward Lookup Zones > (Domain metamanager.local) > RC (pref WIN-SQL-CLUSTER) > Properties
 			-Check en update associated pointer PTR

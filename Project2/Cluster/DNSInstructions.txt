@@ -21,7 +21,7 @@ Crear el dominio ************************************ (clusterdc)
 		-Escribir el default gateway como el router address (192.168.1.1)
 		-Escribir en DNS (127.0.0.1), dejar alternate en blanco
 		-Ok
-	//Esta parte hay que cambiarla, windows server 2016 ya lo tiene menos feo
+	//Esta parte hay que cambiarla, windows server 2016 ya lo tiene menos feo, basicamente es darle a start al servidor instalar active directory y darle next next next hasta new forest
 	-Correr en execute(Windows + R) >dcpromo
 		-Next > Next > Create a new domain in a new forest > Next 
 		-Ponerle un nombre al dominio (pref metamanager.local) > Next
@@ -31,7 +31,7 @@ Crear el dominio ************************************ (clusterdc)
 		-Finish > Restart
 
 Create the Zone ************************************ (clusterdc)
-	-Abrir DNS Manager
+	-Abrir DNS Manager desde Tools
 	-Abrir CLUSTERDC > RC Reverse Lookup Zones > New Zone > Next
 	-Escoger Primary Zone > Next
 	-Escoger To all domain services in this domain > Next
@@ -60,7 +60,7 @@ Crear cluster admin ********************************** (clusterdc)
 	-Poner contraseña (pref 2486abc!) //B
 	-Seleccionar solamente password never expires > Next > Finish
 
-	-RC (pref cluadm)
+	-(pref metamanager.local) > Users > RC (pref cluadm) > Add to group
 	-Locations > (pref metamanager.local) > OK
 	-Domain Admins > Check Names > Ok > Ok
 
@@ -73,7 +73,7 @@ Agregar los nodos al dominio ************************* (node1 y node2)
 	//Se produce error
 
 	-Poner el ip publico estático a node1
-		-Entrar a Panel de Control > Network and Sharing Center > Manage networks
+		-Entrar a Panel de Control > Network and Sharing Center > Change Adapter Settings
 		-RC sobre Local Area Connection(el primero), Properties
 		-Escoger IPv4 > Properties
 		-Escribir el ip para node1(pref 192.168.1.111)//ipnode1
