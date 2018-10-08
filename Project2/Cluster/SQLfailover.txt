@@ -92,4 +92,16 @@ Instalar SQL Server en el cluster *******************(node1 y node2) {tener cuid
 	-Seleccionar Features, Database Engine Services y Management Tools > Next
 	-Si pasa > Next
 	-Ponerle un nombre (pref SQL-CLUSTER01) y Default instance > Next > Next
-	-Tira warnings de windows failover clustering
+	-Tira warnings de windows failover clustering > Next
+	-Se muestran los discos, escoger SQL-disk > Next
+	-Poner el ipv4 (pref 192.168.1.115) y marcar la casilla > Next
+	-Poner cuenta y contraseña > Next > Windows Authetication Mode, Add Current User
+	-Verificar que todo se vaya a hacer en (SQL-disk) drive > Next
+	-Next > Next > Next > Close
+
+	-Verificar en los roles de Server Manager > Dashboard > Tools > Failover Cluster Manager
+	-RC (SQL Server) > Properties
+	-Seleccionar ambos nodos del cluster y cambiar prioridad a alto
+
+Instalar SQL Server Management Studio
+Video Part8 minuto 2:45
