@@ -272,11 +272,46 @@ Instalar SQL Server en otro nodo ******************************* (node2 y node1)
 	-En fcm > Storage deben de estar los discos de SQL Server corriendo sobre node2, igual que winclusterdtc
 	//Asi se hace failover manualmente, click derecho mover al otro nodo...
 
-Hacer los nodos active-active ******************************(node1 y node2)
+	-Probar cluster Active-Pasive
+
+		-En node2 abrir SQL Server Configuration Manager > SQL Server Services
+		-Ver que todos los servicios esten corriendo
+
+		-En node1 hacer lo mismo y ver que estan caidos
+		-Hacer failover de node2 a node1 el SQL Server y ver como ahora si corren
+
+Instalar Service Pack ***************** (nodo1 y nodo2)
+
+	-Desactivar nodo2
+		-Ir a node1 > fcm > Services and Applications > RC SQL Server
+		-Advaced policies > uncheck node2 > Apply > ok
+	-Parar SQL browser de nodo2
+		-Ir a node2 >  SQL Server Configuration Manager > SQL Server Instances
+		-RC SQL Server Browser > Stop
+	-Instalar sp2 a node2
+		-Insertar el sp2 archive //Donde sea que estes
+		-Correr el paquete y esperar > Accept Terms > Next, chequear que nada ya este instalado > Next
+		-Darle Next > Update > Next > Close
+	-Reactivar nodo2
+		-FCM > cluster name > Services and Applications > SQL Server
+		-RC Server Name > Properties > Advanced Policies
+		-Seleccionar node2 > Apply > Ok
+	-Mover cluster de node1 a node2
+		-RC SQL Server > Move this service or application to another node > Move to node node2
+		-Move to the other node... y esperar a que se ponga online
+	-Desactivar node1
+		-RC Server Name > Properties > Advanced Policies
+		-Deseleccionar node1
+	-Instalar sp2 a node1
+		-Insertar el sp2 archive //Donde sea que estes
+		-Correr el paquete y esperar > Accept Terms > Next, chequear que nada ya este instalado > Next
+		-Darle Next > Update > Next > Close
+	-Reactivar node1
+		-RC Server Name > Properties > Advanced Policies
+		-Seleccionar ambos nodos
 
 
-	-En node2 abrir SQL Server Configuration Manager > SQL Server Services
-	-Ver que todos los servicios esten corriendo
-
-	-En node1 hacer lo mismo y ver que estan caidos
-	-Hacer failover de node2 a node1 el SQL Server y ver como ahora si corren
+	-En node1 mientras se instala/update el sp
+		-Sacar el RTM number
+			-Abrir SSMS > Conectar al Servidor
+			-
