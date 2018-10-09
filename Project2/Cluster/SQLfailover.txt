@@ -229,13 +229,13 @@ Instalar SQL Server en el cluster *******************(node1) {tener cuidado porq
 	-Esperar a ver si tira warnins (talvez importan) > Next > SQL Server Feature Installation > Next
 	-Seleccionar Features, Database Engine Services y Management Tools (with complete) > Next
 	-Si pasa > Next
-	-Ponerle un nombre (pref DEVSQLCLU) y Default instance > Next > Next
+	-Ponerle un nombre (pref DEVSQLCLU) y Default instance > Next > Next //Aqui se podria cambiar a tener otro nombre la instancia, para no usar default y hacer active/active
 	-Tira warnings de windows failover clustering > Next
 	-Se muestran los discos, escoger (pref logs-disk y data-disk) > Next
 	-Poner el ipv4 (pref 192.168.1.115) y marcar la casilla (desmcarcar dhcp), en subnet mask (255.255.255.0)> Next
 	-User sid > Next > 
 	-Use the same account for all SQL Server services
-	-Poner cuenta y contraseña > Next > Windows Authetication Mode, Add Current User
+	-Poner cuenta (pref metamanager\cluadm) y contraseña > Next > Windows Authetication Mode, Add Current User
 	-Verificar que todo se vaya a hacer en (data-disk) drive desde data directories> Next
 	-Next chequear SQL Server Replication> Install > Next > Close
 
@@ -280,7 +280,7 @@ Instalar SQL Server en otro nodo ******************************* (node2 y node1)
 		-En node1 hacer lo mismo y ver que estan caidos
 		-Hacer failover de node2 a node1 el SQL Server y ver como ahora si corren
 
-Instalar Service Pack ***************** (nodo1 y nodo2)
+Instalar Service Pack ***************** (nodo1 y nodo2) (Video 11A)
 
 	-Desactivar nodo2
 		-Ir a node1 > fcm > Services and Applications > RC SQL Server
@@ -309,9 +309,63 @@ Instalar Service Pack ***************** (nodo1 y nodo2)
 	-Reactivar node1
 		-RC Server Name > Properties > Advanced Policies
 		-Seleccionar ambos nodos
+	-Mover cluster de node2 a node1
+		-RC SQL Server > Move this service or application to another node > Move to node node1
+		-Move to the other node... y esperar a que se ponga online
+
+	-Probar que siga funcionando en ambos nodos, empezando en node1
+		-Probar en cualquier nodo
+			-Abrir SMSS > Conectar al SQL Server (pref DEVSQLCLU)
+			-Darle a New Query
+			-Correr {select serverproperty('computernamephysicalnetbios')} y ver que ponga node1
+			-Correr {select serverpropery('productversion'), serverproperty('productlevel'), serverproperty('edition')}
+		-Mover cluster de node1 a node2
+			-RC SQL Server > Move this service or application to another node > Move to node node2
+			-Move to the other node... y esperar a que se ponga online
+		-Probar en cualquier nodo
+			-Abrir SMSS si no se ha abierto, y correr los quieries:
+			-Correr {select serverproperty('computernamephysicalnetbios')} y ver que ponga node2
+			-Correr {select serverpropery('productversion'), serverproperty('productlevel'), serverproperty('edition')}
+
+Cambiar a Active-Active**************************************(ambos nodos)
+	-Instalar de nuevo otro SQL cluster en node1
+		-Insertar el instalador de SQL Server y ejecutarlo
+		-Seleccionar Installation > New SQL Server failover cluster installation > Ok
+		-Si todo parece estar bien darle Next > Next
+		-Aceptar los terminos y darle Next
+		-Seleccionar de Instance Features: Database Engine Services (completo) y darle Next
+		-Verificar en Failover Cluster Manager que haya algun discom disponible en SQL Server
+		-Poner de nombre (pref DEVSQLCLU1)
+		-No se puede poner Default instance porque ya hay una corriendo, seleccionar Named Instace y poner (pref SQLINST1) y darle Next
+		-Darle Next > Seleccionar (Cluster Disk 3 o el disco que haya disponible para tal fin)
+		-Poner el ip para el SQL Cluster Active/Active (pref 192.168.1.118) y darle Next > Next
+		-Use the same account for all the SQL Server instances y poner en Account Name (metamanager\cluadm) y password
+		-Darle Next > Add Current User > Next > Next > Install
+		-Cuando termine darle Next > Close
+	-Verificar el owner en node1
+		-Ir a Failover Cluster Management > wincluster(pref WIN-SQL-CLUSTER) > Services and Applications
+		-Right Click sobre Server Name > Properties > Advanced Policies
+	-Agregar el nodo2 al nuevo SQL Server Cluster
+		-En nodo2, ejecutar instalador
+		-Seleccionar Installation > Add node to a SQL Server failover cluster
+		-Esperar y darle Install
+		-Tira warnings y darle Next > Specify a free edition : Enterprise Evaluation > Next
+		-Aceptar los terminos y darle Next
+		-Agregar a (pref SQLINST1) > Next
+		-Poner los passwords > Next > Next > Next > Install
+		-Esperar y darle Next > Close
+	-Revisar el SQL Cluster 
+		-Ir a Failover Cluster Management > wincluster
+		-Right Click (pref SQLINST1) > Refresh
+		-Right Click en Server Name > Properties > Advanced Policies 
+		-Ver que los dos nodos esten conectados
+	-Observar la conexion active/active
+		-Ver que la primer instancia tenga a owner node2 y la otra a node1
+		-Mover cluster instance 1 de node2 a node1
+		-RC (pref SQL Server o MSSQLSERVER) > Move this service or application to another node > Move to node node1
+		-Move to the other node... y esperar a que se ponga online
 
 
-	-En node1 mientras se instala/update el sp
-		-Sacar el RTM number
-			-Abrir SSMS > Conectar al Servidor
-			-
+
+
+
