@@ -93,15 +93,7 @@ Crear cluster/domain admin ********************************** (clusterdc)
 		-Escribir Domain Admins y darle Check Names > Ok > Ok
 
 Agregar los nodos al dominio ************************* (node1 y node2)
-
-	-RC This PC > Change Settings > Change
-	-Seleccionar domain y poner el domain (pref metamanager.local)
-	-Poner usuario y contraseña (pref cluadm, pref 2486abc!) > Ok
-
-	//Se produce error
-
-	
-	-Poner el ip a node1
+	-Poner ips estáticos a node1 y cambiarles de nombre
 		-Server Manager > Local Server y click sobre el ip
 		-IP público
 			-Right Click sobre el primero (Local Area Connection 1 o Ethernet0) > Properties
@@ -110,14 +102,17 @@ Agregar los nodos al dominio ************************* (node1 y node2)
 			-Escribir submask como 255.255.255.0
 			-Escribir el default gateway como el router address ($ipgateway 192.168.1.1)
 			-Escribir en DNS el ip del clusterdc ($ipclusterdc 192.168.1.110), dejar alternate en blanco
-			-Ok
+			-Ok > Close
 		-IP Privado
 			-Right Click sobre el primero (Local Area Connection 2 o Ethernet1) > Properties
 			-Escoger IPv4 > Properties
 			-Escribir el ip privado para nodo 1 ($ipnode1priv 192.168.2.11)
 			-Escribir submask como 255.255.255.0
-			-Ok
-	-Poner el ip a node2
+			-Ok > Close
+		-Nombres
+			-Right Click el primero > Rename y poner LAN
+			-Right Click el segundo > Rename y poner Heartbeat
+	-Poner ips estáticos a node2 y cambiarles de nombre
 		-Server Manager > Local Server y click sobre el ip
 		-IP público
 			-Right Click sobre el primero (Local Area Connection 1 o Ethernet0) > Properties
@@ -126,39 +121,51 @@ Agregar los nodos al dominio ************************* (node1 y node2)
 			-Escribir submask como 255.255.255.0
 			-Escribir el default gateway como el router address ($ipgateway 192.168.1.1)
 			-Escribir en DNS el ip del clusterdc ($ipclusterdc 192.168.1.110), dejar alternate en blanco
-			-Ok
+			-Ok > Close
 		-IP Privado
 			-Right Click sobre el primero (Local Area Connection 2 o Ethernet1) > Properties
 			-Escoger IPv4 > Properties
 			-Escribir el ip privado para nodo 2 ($ipnode2priv 192.168.2.12)
 			-Escribir submask como 255.255.255.0
-			-Ok
+			-Ok > Close
+		-Nombres
+			-Right Click el primero > Rename y poner LAN
+			-Right Click el segundo > Rename y poner Heartbeat
+	-Agregar nodos al dominio
+		-Right click This PC > Change Settings > Change
+		-Seleccionar domain y poner el nombre domain ($namedomain tecbases.local)
+		-Poner el logon de usuario ($nameadmin cluadm) y la contraseña del mismo ($passadmin 2486abc!) > Ok
 	-Probar conexiones
 		-Correr en cmd
 			-ping node1ip (pref 192.168.1.111)
 			-ping node2ip (pref 192.168.1.112)
 			-ping clusterdc (pref 192.168.1.110)
 
-Agregar servidores a Server Manager...
-
 Instalar features ***************************************** (node1 y node2) {
-	-Server Manager > Manage > Add Roles and Features > Next
-	-Role-bases or feature based... > Next
-	-Seleccionar el servidor (clusterdc) > instalar .NET Framework 3.5, 4.5, Failover Clustering Multipath > Next
-	-(Necesita seleccionar disco de .NET svx ) > Instalar
-
+	-Para ambos nodos
+		-Server Manager > Manage > Add Roles and Features > Next
+		-Role-bases or feature based... > Next
+		-Seleccionar el servidor (nombre completo del nodo) > instalar .NET Framework 3.5, .NET Framework 4.5, Failover Clustering, Multipath > Next
+		-Agregar path pra .NET 3.5
+			-Specify an alternate source path
+			-Poner D:\sources\sxs, con D el drive donde esté el ISO de Windows Server 2016
+			-Ok
+		-Install
+		-Esperar instalación y darle Close
+		-Reiniciar
 
 Crear storage virtual**************************************(clusterdc)
-	-File and Storage Services > iSCSI > Add Roles and Features Wizard
-	-Click en el servidor > Next > Next > Install 
-	-Esperar a que termine la instalación > Close
-	-Agregar el virtual disk
+	-Habilitar iSCSI 
+		-Server Manager > File and Storage Services > iSCSI > Add Roles and Features Wizard
+		-Next > Next > Install 
+		-Esperar a que termine la instalación > Close
+	-Agregar un virtual disk
 		-En iSCSI darle refresh > start the New iSCSI Virtual Disk Wizard
 		-Seleccionar el location del volumen correspondiente con el servidor > Next
-		-Ponerle nombre (pref VD01 {virtual disk 01}) > Next
-		-Ponerle un tamaño(pref 10GB) y dynamically expanding > Next
+		-Ponerle nombre ($namevd VDn) > Next
+		-Ponerle un tamaño y dynamically expanding > Next
 		-New iSCSI Target > Next
-		-Ponerle nombre al target (pref VD01-Target)
+		-Ponerle nombre al target ($namevdtarget ($namevd VDn)-Target )
 		-Seleccionar servidores que acceden al disk
 			-Add...
 			-Click en browse para agregar ambos nodos
@@ -167,16 +174,18 @@ Crear storage virtual**************************************(clusterdc)
 			-Seleccionar node2 > OK > OK > OK
 		-Darle Next
 		-Dejar en blanco (Si no se requiere autenticación) > Next > Create
-	-Agregar otro disco llamada VD02 con los pasos anteriores //Va a haber que agregar otros 2, 1 mas grande que los otros 3 
+	-Agregar otro discos //El creado es de data 2gb, faltan quorum 1gb, logs 1gb, y msdtc 1gb sin contar services
 	-Verificar que Virtual Disk Status y Target Status estén en Not Connected
 
 Iniciar/Descubrir iSCSI Targets Disks y conectar en nodos *********(node1 y node2)
-	-Abrir disk management para observar que no hay disk1 y disk2
-	-Server Manager > Dashboard > Tools > iSCSI Initiator > Yes
-	-Poner en target el ip publico de (pref clusterdc) osea (192.168.1.110) > quick connect
-	-Conectar a ambos discos seleccionando y dando  connect > Done
-	-Volume and Devices > AutoConfigure
-	-Hacerlo para ambos nodos
+	-Abrir disk management en ambos nodos
+		-Observar que no hay disk1 y disk2
+		-Cambiar el drive del ISO de Windows Server 2016 a Z
+	-Para ambos nodos, agregar discos a disk management
+		-Server Manager > Dashboard > Tools > iSCSI Initiator > Yes
+		-Poner en target el ip publico de ($ipclusterdc) > quick connect
+		-Conectar a ambos discos seleccionando y dando  connect > Done
+		-Volume and Devices > AutoConfigure
 
 	-Abrir disk management en node1
 	-RC en disk1 y disk2 > online
