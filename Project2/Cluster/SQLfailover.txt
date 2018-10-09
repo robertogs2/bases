@@ -165,7 +165,7 @@ Crear storage virtual**************************************(clusterdc)
 		-Ponerle nombre ($namevd VDn) > Next
 		-Ponerle un tamaño y dynamically expanding > Next
 		-New iSCSI Target > Next
-		-Ponerle nombre al target ($namevdtarget ($namevd VDn)-Target )
+		-Ponerle nombre al target ($namevdtarget VDn-Target )
 		-Seleccionar servidores que acceden al disk
 			-Add...
 			-Click en browse para agregar ambos nodos
@@ -183,51 +183,48 @@ Iniciar/Descubrir iSCSI Targets Disks y conectar en nodos *********(node1 y node
 		-Cambiar el drive del ISO de Windows Server 2016 a Z
 	-Para ambos nodos, agregar discos a disk management
 		-Server Manager > Dashboard > Tools > iSCSI Initiator > Yes
-		-Poner en target el ip publico de ($ipclusterdc) > quick connect
-		-Conectar a ambos discos seleccionando y dando  connect > Done
-		-Volume and Devices > AutoConfigure
+		-Poner en target el ip publico de ($ipclusterdc 192.168.1.110) > Quick Connect...
+		-Para cada disco
+			-Conectar a los discos seleccionando y dando Connect > Done
+		-Volume and Devices > AutoConfigure > Ok
+	-En nodo 1
+		-Cambiar drive letter y nombres
+			-Abrir Disk Management
+			-Para cada disco
+				-Right Click > Online
+				-Right Click > Initialize (MBR) > Ok
+				-Right Click > New simple volume > Next
+				-Asignar una letra 
+				-NTFS, Default, Quick Format, Volume label > Next > Finish //En volume label data 2gb, quorum, logs, y msdtc
+	-En nodo 2
+		-Abrir Disk Management
+		-Para cada disco, cambiarle las letras iguales a las del nodo 1
+			-Right Click > Change Drive Letter and Paths > Change...
+		-Ponerlos online
 
-	-Abrir disk management en node1
-	-RC en disk1 y disk2 > online
-	-RC initialize ambos (MBR) > Ok //los 4
-
-	-RC disk1 > New simple volume > Next
-	-Assign the following drive letter: Q > Next
-	-NTFS, Default, Quick Format, Volumne label (pref Quorum-Disk) > Next > Finish
-	-RC disk2 > New simple volumne > Next
-	-Drive letter D > Next
-	-Volume label (SQL-Disk) > Next > Finish//ponerle data
-	//ponerle msdtc y logs a los otros
-
-	-En node2
-		-disk management y online ambos discos
-		-cambiar letras a Q y D
-
-Crear el cluster******************************(node1 y clusterdc)
+Crear el cluster de windows******************************(node1 y clusterdc)
 	-Ver LAN y Heartbeat ips
 	-En node1
-		-Server Manager > Dashboard > Tools > Failover Cluster Manager
-		-Click en validate Configuration > Next
-		-Agregar ambos nodos
-			-Browse > Advanced > Find Now
-			-Seleccionar Nodo > Ok
-		-Next > Seleccionar lo que quiera (pref todo) > Next > Next
-		-View report
-		-Check create cluster with validated nodes > Next
-		-Poner Cluster Name (pref WIN-SQL-CLUSTER)
-		-Poner el ip del cluster(pref 192.168.1.113) > Next
-		-Add all eligible storage to the cluster > Next
-		-Finish
-
+		-Crear el cluster
+			-Server Manager > Dashboard > Tools > Failover Cluster Manager
+			-Click en validate Configuration > Next
+			-Agregar ambos nodos
+				-Browse > Advanced > Find Now
+				-Colocar credenciales de usuario ($nameadmin cluadm) y password ($passadmin 2486abc!) > Ok o Enter
+				-Seleccionar Nodo > Ok
+			-Next > Seleccionar lo que quiera (mejor run all) > Next > Next
+			-View report si se desea
+			-Check create cluster with validated nodes > Next
+			-Poner Cluster Name ($namewincluster winclusterbases)
+			-Poner ip al wincluster ($ipwinclusterbases 192.168.1.113) > Next
+			-Add all eligible storage to the cluster > Next
+			-Finish
 		-Chequear todo en Failover Cluster Manager
-		->Nombre del cluster > Storage > Disks
-		-Cambiar nombre de disco (Quorum-Disk) y (SQL-Disk) //ponerle data al de sql y cambiarle de nombre tambien a los otros dos por msdtc y logs
-		-Networks cambiar de nombre Cluster Only por Heartbeat y Cluster and Client por LAN (Allow clients debe estar chequeado)
-
+			->Nombre del cluster > Storage > Disks
+			-Cambiar nombre de discos con sus correspondientes
 	-En clusterdc
 		-Server Manager > Dashboard > Tools > Active Directory Users and Computers
 		-(Domain metamanager.local) > (INDIA ?????? = Computers) > Servers, aqui deben mostrarse los nodos y el cluster con descipcion
-
 		-En networks deben mostarse ips privados por separado a los publicos
 		-En Storage, cada disco debe tener la letra asignada como se requiere, sino:
 			-RC Cluster > More options > Configure Cluster Quorum Settings > Next > Node and Disk Majority > Next
@@ -240,9 +237,10 @@ Crear el cluster******************************(node1 y clusterdc)
 			-Refresh reverse lookup zones
 		-Probar mandando ping a todo mundo 
 
-	-Se puede cambiar el disco por un file shared[part6B minute 6 - 8], y para acceder a otra maquina en el dominio se pone en exe: \\clusterdc\c$Windows
+	-Se puede cambiar el disco por un file shared[part6B minute 6 - 8]
+	-Para acceder a otra maquina en el dominio se pone en exe: \\clusterdc\c$Windows
 
-Instalar SQL Server en el cluster *******************(node1) {tener cuidado porque hay que instalar el chorro de services, aunque no se recomienda hacerlo ya}
+Instalar SQL Server en el cluster *******************(node1) {tener cuidado porque hay que instalar el chorro de services, aunque no se recomienda hacerlo ya, mejor guardar snapshot y hacerlo ya}
 	-En node1, meter la llave con SQL Server y extraer los archivos
 	-Montar la imagen de SQL Server / Meter el ejecutable
 
