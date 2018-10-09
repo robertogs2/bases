@@ -1,3 +1,118 @@
+Preparando máquinas ************************************ 
+	-Instalar Windows Server 2016 en las 3 máquinas virtuales de VMWare, seleccionar instalar OS luego, y darle settings > iniciar desde CD/DVD y seleccionar ISO (VM)
+	-Ponerles de nombre clusterdc, node1, node2 (VM)
+		-AL instalar el clusterdc ponerle Bridged connection
+		-Al instalar los nodos 1 y 2, escoger en network-adapter Bridge y agregar otro nuevo con host-only (sino cambiar luego a pata) (VM)
+	-Poner passwords para los usuarios (pref 2486abc!)(OS) //A
+	-Quitar el Firewall en las tres máquinas (OS)
+	-Quitar UAC (User Account Control Settings) hasta el nivel más bajo
+	-Cambiar el nombre para cada una de las 3 máquinas en el OS (OS)
+		-Click derecho This PC > Propiedades
+		-Click en cambiar configuración > Cambiar...
+		-Colocar nombre y reiniciar
+
+Crear el dominio ************************************ (clusterdc)
+	-Poner el ip estático a clusterdc
+		-Entrar a Panel de Control > Network and Sharing Center > Manage networks
+		-Click derecho sobre Local Area Connection, Properties
+		-Escoger IPv4 > Properties
+		-Escribir el ip para clusterdc(pref 192.168.1.110)//ipclusterdc
+		-Escribir submask como (255.255.255.0)
+		-Escribir el default gateway como el router address (192.168.1.1)
+		-Escribir en DNS (127.0.0.1), dejar alternate en blanco
+		-Ok
+	//Esta parte hay que cambiarla, windows server 2016 ya lo tiene menos feo, basicamente es darle a start al servidor instalar active directory y darle next next next hasta new forest
+	-Correr en execute(Windows + R) >dcpromo
+		-Next > Next > Create a new domain in a new forest > Next 
+		-Ponerle un nombre al dominio (pref metamanager.local) > Next
+		-Seleccionar el forest functional level (pref 2016) > Next
+		-Seleccionar DNS server > Next > yes > Next
+		-Poner una contraseña (pref 2486abc!) > Next //B
+		-Finish > Restart
+
+Create the Zone ************************************ (clusterdc)
+	-Abrir DNS Manager desde Tools
+	-Abrir CLUSTERDC > RC Reverse Lookup Zones > New Zone > Next
+	-Escoger Primary Zone > Next
+	-Escoger To all domain services in this domain > Next
+	-Escoger Ipv4 > Next
+	-Poner en Network ID: 192.168.1. (dejar libre el último) > Next
+	-Allow only secure... (default) > Next > Finish
+
+	-Host para node1
+		-Abrir CLUSTERDC > Forward Lookup Zones
+		-RC (pref metamanager.local) > New Host (A or AAAA)...
+		-Name (node1) y IP address del nodo 1 (pref 192.168.1.111) //ipnodo1
+		-Seleccionar Create associated pointer (PTR) record > Add Host > Done
+	-Host para node2
+		-Abrir CLUSTERDC > Forward Lookup Zones
+		-RC (pref metamanager.local) > New Host (A or AAAA)...
+		-Name (node2) y IP address del nodo 1 (pref 192.168.1.112) //ipnodo2
+		-Seleccionar Create associated pointer (PTR) record > Add Host > Done}
+
+	-Ver en metamanager.local si se agregaron, al igual que en Reverse Lookup Zones > 1.168.192.in...
+
+Crear cluster admin ********************************** (clusterdc)
+	-Abrir Active Directory Users and Computers
+	-Abrir metamanager.local
+	-RC Users > New > User
+	-Ponerle nombre (pref cluadm) e igual en User logon name (pref cluadm) > Next
+	-Poner contraseña (pref 2486abc!) //B
+	-Seleccionar solamente password never expires > Next > Finish
+
+	-(pref metamanager.local) > Users > RC (pref cluadm) > Add to group
+	-Locations > (pref metamanager.local) > OK
+	-Domain Admins > Check Names > Ok > Ok
+
+Agregar los nodos al dominio ************************* (node1 y node2)
+
+	-RC This PC > Change Settings > Change
+	-Seleccionar domain y poner el domain (pref metamanager.local)
+	-Poner usuario y contraseña (pref cluadm, pref 2486abc!) > Ok
+
+	//Se produce error
+
+	-Poner el ip publico estático a node1
+		-Entrar a Panel de Control > Network and Sharing Center > Change Adapter Settings
+		-RC sobre Local Area Connection(el primero), Properties
+		-Escoger IPv4 > Properties
+		-Escribir el ip para node1(pref 192.168.1.111)//ipnode1
+		-Escribir submask como (255.255.255.0)
+		-Escribir el default gateway como el router address (192.168.1.1)
+		-Escribir en DNS el ip del clusterdc(192.168.1.110), dejar alternate en blanco
+		-Ok
+
+	-Poner el ip publico estático a node2
+		-Entrar a Panel de Control > Network and Sharing Center > Manage networks
+		-RC sobre Local Area Connection(el primero), Properties
+		-Escoger IPv4 > Properties
+		-Escribir el ip para node2(pref 192.168.1.112)//ipnode2
+		-Escribir submask como (255.255.255.0)
+		-Escribir el default gateway como el router address (192.168.1.1)
+		-Escribir en DNS el ip del clusterdc(192.168.1.110), dejar alternate en blanco
+		-Ok
+
+	-Poner el ip privado estático a node2
+		-Entrar a Panel de Control > Network and Sharing Center > Manage networks
+		-RC sobre Local Area Connection(el segundo), Properties
+		-Escoger IPv4 > Properties
+		-Escribir el ip para node2(pref 192.168.2.12)//ipnode2 private
+		-Escribir submask como (255.255.255.0)
+		-Ok
+
+	//Hacer lo mismo con el node1 ip: (pref 192.186.2.11)
+
+Probar las conexiones****************************** (clusterdc, node1, node2)
+
+	//En todos correr
+	-Correr en cmd
+	-ping node1ip (pref 192.168.1.111)
+	-ping node2ip (pref 192.168.1.112)
+	-ping clusterdc (pref 192.168.1.110)
+
+
+
+
 Agregar servidores a Server Manager...
 
 Instalar features ***************************************** (node1 y node2) {
@@ -26,7 +141,7 @@ Crear storage virtual**************************************(clusterdc)
 			-Seleccionar node2 > OK > OK > OK
 		-Darle Next
 		-Dejar en blanco (Si no se requiere autenticación) > Next > Create
-	-Agregar otro disco llamada VD02 con los pasos anteriores
+	-Agregar otro disco llamada VD02 con los pasos anteriores //Va a haber que agregar otros 2, 1 mas grande que los otros 3 
 	-Verificar que Virtual Disk Status y Target Status estén en Not Connected
 
 Iniciar/Descubrir iSCSI Targets Disks y conectar en nodos *********(node1 y node2)
@@ -39,14 +154,15 @@ Iniciar/Descubrir iSCSI Targets Disks y conectar en nodos *********(node1 y node
 
 	-Abrir disk management en node1
 	-RC en disk1 y disk2 > online
-	-RC initialize ambos (MBR) > Ok
+	-RC initialize ambos (MBR) > Ok //los 4
 
 	-RC disk1 > New simple volume > Next
 	-Assign the following drive letter: Q > Next
 	-NTFS, Default, Quick Format, Volumne label (pref Quorum-Disk) > Next > Finish
 	-RC disk2 > New simple volumne > Next
 	-Drive letter D > Next
-	-Volume label (SQL-Disk) > Next > Finish
+	-Volume label (SQL-Disk) > Next > Finish//ponerle data
+	//ponerle msdtc y logs a los otros
 
 	-En node2
 		-disk management y online ambos discos
@@ -70,38 +186,186 @@ Crear el cluster******************************(node1 y clusterdc)
 
 		-Chequear todo en Failover Cluster Manager
 		->Nombre del cluster > Storage > Disks
-		-Cambiar nombre de disco (Quorum-Disk) y (SQL-Disk)
+		-Cambiar nombre de disco (Quorum-Disk) y (SQL-Disk) //ponerle data al de sql y cambiarle de nombre tambien a los otros dos por msdtc y logs
 		-Networks cambiar de nombre Cluster Only por Heartbeat y Cluster and Client por LAN (Allow clients debe estar chequeado)
 
 	-En clusterdc
 		-Server Manager > Dashboard > Tools > Active Directory Users and Computers
 		-(Domain metamanager.local) > (INDIA ?????? = Computers) > Servers, aqui deben mostrarse los nodos y el cluster con descipcion
 
+		-En networks deben mostarse ips privados por separado a los publicos
+		-En Storage, cada disco debe tener la letra asignada como se requiere, sino:
+			-RC Cluster > More options > Configure Cluster Quorum Settings > Next > Node and Disk Majority > Next
+			-Escoger el disco Q > Next > Next > Finish
+
 		-Puntero del DNS para (WIN-SQL-CLUSTER):
 			-Server Manager > Dashboard > Tools > DNS
 			-Forward Lookup Zones > (Domain metamanager.local) > RC (pref WIN-SQL-CLUSTER) > Properties
 			-Check en update associated pointer PTR
 			-Refresh reverse lookup zones
-		-Probar mandando ping a todo mundo
+		-Probar mandando ping a todo mundo 
 
-Instalar SQL Server en el cluster *******************(node1 y node2) {tener cuidado porque hay que instalar el chorro de services}
+	-Se puede cambiar el disco por un file shared[part6B minute 6 - 8], y para acceder a otra maquina en el dominio se pone en exe: \\clusterdc\c$Windows
+
+Instalar SQL Server en el cluster *******************(node1) {tener cuidado porque hay que instalar el chorro de services, aunque no se recomienda hacerlo ya}
+	-En node1, meter la llave con SQL Server y extraer los archivos
 	-Montar la imagen de SQL Server / Meter el ejecutable
+
+	-Crear application server en ambos nodes
+		-Server Manager > Add roles and features > Next > Application server > Ok > Next > Check incoming and outgoing > Next
+		-Install > Close
+
+	-Agregar MSDTC service
+		-Server Manager > Failover clustering manager
+		-(pref WIN-SQL-CLUSTER) > RC Services and Applications > Configure Service > Next
+		-Seleccionar DTC (Distributed Transaction Coordinator) > Next
+		-Poner nombre (pref WIN-SQL-CLUSTERDtc) y en el ip poner (pref 192.168.1.114) > Next
+		-Escoger el disco dedicado a MSDTC (pref msdtc-disk) > Next > Next > Finish
+
+
+	-Correr setup de SQL Server
 	-Installation > New SQL Server failover cluster installation
 	-Si todo pasa > Ok > Evaluation > Accept Terms > Next
 	-Esperar a ver si tira warnins (talvez importan) > Next > SQL Server Feature Installation > Next
-	-Seleccionar Features, Database Engine Services y Management Tools > Next
+	-Seleccionar Features, Database Engine Services y Management Tools (with complete) > Next
 	-Si pasa > Next
-	-Ponerle un nombre (pref SQL-CLUSTER01) y Default instance > Next > Next
+	-Ponerle un nombre (pref DEVSQLCLU) y Default instance > Next > Next //Aqui se podria cambiar a tener otro nombre la instancia, para no usar default y hacer active/active
 	-Tira warnings de windows failover clustering > Next
-	-Se muestran los discos, escoger SQL-disk > Next
-	-Poner el ipv4 (pref 192.168.1.115) y marcar la casilla > Next
-	-Poner cuenta y contraseña > Next > Windows Authetication Mode, Add Current User
-	-Verificar que todo se vaya a hacer en (SQL-disk) drive > Next
-	-Next > Next > Next > Close
+	-Se muestran los discos, escoger (pref logs-disk y data-disk) > Next
+	-Poner el ipv4 (pref 192.168.1.115) y marcar la casilla (desmcarcar dhcp), en subnet mask (255.255.255.0)> Next
+	-User sid > Next > 
+	-Use the same account for all SQL Server services
+	-Poner cuenta (pref metamanager\cluadm) y contraseña > Next > Windows Authetication Mode, Add Current User
+	-Verificar que todo se vaya a hacer en (data-disk) drive desde data directories> Next
+	-Next chequear SQL Server Replication> Install > Next > Close
 
-	-Verificar en los roles de Server Manager > Dashboard > Tools > Failover Cluster Manager
+	-Verificar en los roles de Server Manager > Dashboard > Tools > Failover Cluster Management
+	-RC (SQL Server) > Refresh
 	-RC (SQL Server) > Properties
-	-Seleccionar ambos nodos del cluster y cambiar prioridad a alto
+	-A la derecha Show Dependency Report
 
-Instalar SQL Server Management Studio
-Video Part8 minuto 2:45
+
+	-Entrar a Failover Cluster Management > Click sobre Services and Applications > RC SQL Server 
+	-Seleccionar ambos nodos del cluster y cambiar prioridad a alto //Esto no lo hizo el indio 2
+
+	-Abrir Microsoft SQL Server Manager Studio
+	-Poner el nombre del servidor y conectarse
+	-Probar hacer ping a el sql-cluster (devsqlclu)
+
+Instalar SQL Server en otro nodo ******************************* (node2 y node1)
+	-Ejecutar el instalador > Installation
+	-Add node to a SQL failover cluster
+	-Specify a free edition: Enterprise > Next > Accept terms > Next
+	-Install
+	-Escoger instancia de SQL Server (solo hay una) > Next
+	-Poner passwords en agent, y databse engine> Next > Next > Next y esperar que agregue el nodo
+
+	-Abrir Failover Cluster Management en node1 > refresh SQL Server > RC SQL Server > Properties > Advanced Policies para ver ambos nodos
+	//Puede que haya que poner node1 como owner de SQL y node2 como owner de dtc
+
+	//Aun en node1
+	-Abrir SSMS
+	-Connectar al servidor
+	-Darle New Query y correr select SERVERPROPERTY ('computernamephysicalnetbios')
+	-Failover Cluster Management > RC SQL Server (MSSQLSERVER) > Move to node2 > Ok > Esperar a que refresque (spamear refresh)
+	-Ejecutar query de nuevo para ver como cambia a node2
+	-En fcm > Storage deben de estar los discos de SQL Server corriendo sobre node2, igual que winclusterdtc
+	//Asi se hace failover manualmente, click derecho mover al otro nodo...
+
+	-Probar cluster Active-Pasive
+
+		-En node2 abrir SQL Server Configuration Manager > SQL Server Services
+		-Ver que todos los servicios esten corriendo
+
+		-En node1 hacer lo mismo y ver que estan caidos
+		-Hacer failover de node2 a node1 el SQL Server y ver como ahora si corren
+
+Instalar Service Pack ***************** (nodo1 y nodo2) (Video 11A)
+
+	-Desactivar nodo2
+		-Ir a node1 > fcm > Services and Applications > RC SQL Server
+		-Advaced policies > uncheck node2 > Apply > ok
+	-Parar SQL browser de nodo2
+		-Ir a node2 >  SQL Server Configuration Manager > SQL Server Instances
+		-RC SQL Server Browser > Stop
+	-Instalar sp2 a node2
+		-Insertar el sp2 archive //Donde sea que estes
+		-Correr el paquete y esperar > Accept Terms > Next, chequear que nada ya este instalado > Next
+		-Darle Next > Update > Next > Close
+	-Reactivar nodo2
+		-FCM > cluster name > Services and Applications > SQL Server
+		-RC Server Name > Properties > Advanced Policies
+		-Seleccionar node2 > Apply > Ok
+	-Mover cluster de node1 a node2
+		-RC SQL Server > Move this service or application to another node > Move to node node2
+		-Move to the other node... y esperar a que se ponga online
+	-Desactivar node1
+		-RC Server Name > Properties > Advanced Policies
+		-Deseleccionar node1
+	-Instalar sp2 a node1
+		-Insertar el sp2 archive //Donde sea que estes
+		-Correr el paquete y esperar > Accept Terms > Next, chequear que nada ya este instalado > Next
+		-Darle Next > Update > Next > Close
+	-Reactivar node1
+		-RC Server Name > Properties > Advanced Policies
+		-Seleccionar ambos nodos
+	-Mover cluster de node2 a node1
+		-RC SQL Server > Move this service or application to another node > Move to node node1
+		-Move to the other node... y esperar a que se ponga online
+
+	-Probar que siga funcionando en ambos nodos, empezando en node1
+		-Probar en cualquier nodo
+			-Abrir SMSS > Conectar al SQL Server (pref DEVSQLCLU)
+			-Darle a New Query
+			-Correr {select serverproperty('computernamephysicalnetbios')} y ver que ponga node1
+			-Correr {select serverpropery('productversion'), serverproperty('productlevel'), serverproperty('edition')}
+		-Mover cluster de node1 a node2
+			-RC SQL Server > Move this service or application to another node > Move to node node2
+			-Move to the other node... y esperar a que se ponga online
+		-Probar en cualquier nodo
+			-Abrir SMSS si no se ha abierto, y correr los quieries:
+			-Correr {select serverproperty('computernamephysicalnetbios')} y ver que ponga node2
+			-Correr {select serverpropery('productversion'), serverproperty('productlevel'), serverproperty('edition')}
+
+Cambiar a Active-Active**************************************(ambos nodos)
+	-Instalar de nuevo otro SQL cluster en node1
+		-Insertar el instalador de SQL Server y ejecutarlo
+		-Seleccionar Installation > New SQL Server failover cluster installation > Ok
+		-Si todo parece estar bien darle Next > Next
+		-Aceptar los terminos y darle Next
+		-Seleccionar de Instance Features: Database Engine Services (completo) y darle Next
+		-Verificar en Failover Cluster Manager que haya algun discom disponible en SQL Server
+		-Poner de nombre (pref DEVSQLCLU1)
+		-No se puede poner Default instance porque ya hay una corriendo, seleccionar Named Instace y poner (pref SQLINST1) y darle Next
+		-Darle Next > Seleccionar (Cluster Disk 3 o el disco que haya disponible para tal fin)
+		-Poner el ip para el SQL Cluster Active/Active (pref 192.168.1.118) y darle Next > Next
+		-Use the same account for all the SQL Server instances y poner en Account Name (metamanager\cluadm) y password
+		-Darle Next > Add Current User > Next > Next > Install
+		-Cuando termine darle Next > Close
+	-Verificar el owner en node1
+		-Ir a Failover Cluster Management > wincluster(pref WIN-SQL-CLUSTER) > Services and Applications
+		-Right Click sobre Server Name > Properties > Advanced Policies
+	-Agregar el nodo2 al nuevo SQL Server Cluster
+		-En nodo2, ejecutar instalador
+		-Seleccionar Installation > Add node to a SQL Server failover cluster
+		-Esperar y darle Install
+		-Tira warnings y darle Next > Specify a free edition : Enterprise Evaluation > Next
+		-Aceptar los terminos y darle Next
+		-Agregar a (pref SQLINST1) > Next
+		-Poner los passwords > Next > Next > Next > Install
+		-Esperar y darle Next > Close
+	-Revisar el SQL Cluster 
+		-Ir a Failover Cluster Management > wincluster
+		-Right Click (pref SQLINST1) > Refresh
+		-Right Click en Server Name > Properties > Advanced Policies 
+		-Ver que los dos nodos esten conectados
+	-Observar la conexion active/active
+		-Ver que la primer instancia tenga a owner node2 y la otra a node1
+		-Mover cluster instance 1 de node2 a node1
+		-RC (pref SQL Server o MSSQLSERVER) > Move this service or application to another node > Move to node node1
+		-Move to the other node... y esperar a que se ponga online
+
+
+
+
+
