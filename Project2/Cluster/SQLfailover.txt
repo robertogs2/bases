@@ -1,4 +1,4 @@
-Preparando máquinas ************************************ 
+1. Preparar máquinas ************************************ 
 	-Iniciar las 3 máquinas virtuales
 		-New Virtual Machine
 		-Seleccionar instalar OS luego
@@ -30,7 +30,7 @@ Preparando máquinas ************************************
 		-Click en cambiar configuración > Cambiar...
 		-Colocar nombre y reiniciar
 
-Crear el dominio ************************************ (clusterdc)
+2. Crear el dominio ************************************ (clusterdc)
 	-Poner el ip estático a clusterdc
 		-Entrar a Panel de Control > Network and Sharing Center > Manage networks o Server Manager > Adaptador 1(Ethernet0 o Local Area Connection 1)
 		-Click derecho sobre el Adaptador 1(Ethernet0 o Local Area Connection 1) > Properties
@@ -55,7 +55,7 @@ Crear el dominio ************************************ (clusterdc)
 		-Verificar el NetBIOS domain name ($namedomainbios TECBASES) > Next
 		-Darle Next > Next > Install
 
-Create the zone ************************************ (clusterdc)
+3. Create the zone ************************************ (clusterdc)
 	-Crear zone
 		-Server Manager > Tools > DNS
 		-CLUSTERDC > Right Click Reverse Lookup Zones > New Zone > Next
@@ -79,7 +79,7 @@ Create the zone ************************************ (clusterdc)
 			-Seleccionar Create associated pointer (PTR) record > Add Host > Done
 		-Ver en metamanager.local si se agregaron, al igual que los punteros en Reverse Lookup Zones > 1.168.192.in...
 
-Crear cluster/domain admin ********************************** (clusterdc)
+4. Crear cluster/domain admin ********************************** (clusterdc)
 	-Crear nuevo admin
 		-Server Manager > Tools > Active Directory Users and Computers
 		-Abrir ($namedomain tecbases.local)
@@ -92,7 +92,7 @@ Crear cluster/domain admin ********************************** (clusterdc)
 		-Locations > ($namedomain tecbases.local) > OK
 		-Escribir Domain Admins y darle Check Names > Ok > Ok
 
-Agregar los nodos al dominio ************************* (node1 y node2)
+5. Agregar los nodos al dominio ************************* (node1 y node2)
 	-Poner ips estáticos a node1 y cambiarles de nombre
 		-Server Manager > Local Server y click sobre el ip
 		-IP público
@@ -141,7 +141,7 @@ Agregar los nodos al dominio ************************* (node1 y node2)
 			-ping ($ipnode1 192.168.1.111)
 			-ping ($ipnode2 192.168.1.112)
 
-Instalar features de failover ***************************************** (node1 y node2) {
+6. Instalar features de failover ***************************************** (node1 y node2) {
 	-Para ambos nodos
 		-Server Manager > Manage > Add Roles and Features > Next
 		-Role-bases or feature based... > Next
@@ -154,7 +154,7 @@ Instalar features de failover ***************************************** (node1 y
 		-Esperar instalación y darle Close
 		-Reiniciar
 
-Crear storage virtual**************************************(clusterdc)
+7. Crear storage virtual**************************************(clusterdc)
 	-Habilitar iSCSI 
 		-Server Manager > File and Storage Services > iSCSI > Add Roles and Features Wizard
 		-Next > Next > Install 
@@ -177,7 +177,7 @@ Crear storage virtual**************************************(clusterdc)
 	-Agregar otro discos //El creado es de data 2gb, faltan quorum 1gb, logs 1gb, y msdtc 1gb sin contar services
 	-Verificar que Virtual Disk Status y Target Status estén en Not Connected
 
-Iniciar/Descubrir iSCSI Targets Disks y conectar en nodos *********(node1 y node2)
+8. Iniciar/Descubrir iSCSI Targets Disks y conectar en nodos *********(node1 y node2)
 	-Abrir disk management en ambos nodos
 		-Observar que no hay disk1 y disk2
 		-Cambiar el drive del ISO de Windows Server 2016 a Z
@@ -202,7 +202,7 @@ Iniciar/Descubrir iSCSI Targets Disks y conectar en nodos *********(node1 y node
 			-Right Click > Change Drive Letter and Paths > Change...
 		-Ponerlos online
 ..sc..
-Crear el cluster de windows******************************(node1 y clusterdc)
+9. Crear el cluster de windows******************************(node1 y clusterdc)
 	-Ver LAN y Heartbeat ips
 	-En node1
 		-Crear el cluster
@@ -235,9 +235,9 @@ Crear el cluster de windows******************************(node1 y clusterdc)
 			-Refresh reverse lookup zones
 		-Probar mandando ping a todo mundo 
 	-Se puede cambiar el disco por un file shared[part6B minute 6 - 8]
-	-Para acceder a otra maquina en el dominio se pone en exe: \\clusterdc\c$Windows
+	-Para acceder a otra maquina en el dominio se pone en exe: \\nombre\c$
 ..sc..
-Preinstal SQLl ************************************(node1 y node2)
+10. Preinstal SQL Server ************************************(node1 y node2)
 	//Esto parece estar deprecated gg
 	-Crear application server en ambos nodes
 		-Server Manager > Add roles and features > Next > Application server > Ok > Next > Check incoming and outgoing > Next
@@ -250,69 +250,77 @@ Preinstal SQLl ************************************(node1 y node2)
 		-Poner nombre ($namewinclusterdtc WINCLUBDTC) y en el ip poner ($ipwinclusterbases 192.168.1.114) > Next
 		-Escoger el disco dedicado a MSDTC > Next > Next > Finish
 
-Instalar SQL Server en el cluster *******************(node1) {tener cuidado porque hay que instalar el chorro de services, aunque no se recomienda hacerlo ya, mejor guardar snapshot y hacerlo ya}
-	-Ingresar al nodo con ($nameadmin cluadm)
+11. Instalar SQL Server en el cluster *******************(node1) {tener cuidado porque hay que instalar el chorro de services, aunque no se recomienda hacerlo ya, mejor guardar snapshot y hacerlo ya}
+	-Ingresar al nodo con ($nameadmin cluadm) y el pass ($passasmin 2486abc!)
 	-En node1, meter la llave con SQL Server y extraer los archivos
+		-Darle VM > Removable Devices > escoger la llave > Connect...
 	-Montar la imagen de SQL Server / Meter el ejecutable
 	-Correr setup de SQL Server
-	-Installation > New SQL Server failover cluster installation
-	-Si todo pasa > Ok > Evaluation > Accept Terms > Next
-	-Esperar a ver si tira warnings (talvez importan) > Next > SQL Server Feature Installation > Next
-	-Seleccionar Features, Database Engine Services y Management Tools (with complete) > Next
-	-Si pasa > Next
-	-Ponerle un nombre ($namesqlcluster DEVSQLCLU) y Default instance > Next > Next //Aqui se podria cambiar a tener otro nombre la instancia, para no usar default y hacer active/active
-	-Tira warnings de windows failover clustering > Next
-	-Se muestran los discos, escoger designados para logs y data > Next
-	-Poner el ipv4 ($ipsqlcluster 192.168.1.115) marcando la casilla, desmcarcar dhcp, en subnet mask poner 255.255.255.0 > Next
-	-User sid > Next 
-	-Use the same account for all SQL Server services
-	-Poner cuenta ($namedomain tecbases\$nameadmin cluadm) y contraseña ($pass admin 2486abc!) > Next > Windows Authetication Mode, Add Current User
-	-Verificar que todo se vaya a hacer en (data-disk) drive desde data directories> Next
-	-Next chequear SQL Server Replication> Install > Next > Close
-
-	-Verificar en los roles de Server Manager > Dashboard > Tools > Failover Cluster Management
-	-RC (SQL Server) > Refresh
-	-RC (SQL Server) > Properties
-	-A la derecha Show Dependency Report
-
-
-	-Entrar a Failover Cluster Management > Click sobre Services and Applications > RC SQL Server 
-	-Seleccionar ambos nodos del cluster y cambiar prioridad a alto //Esto no lo hizo el indio 2
-
-	-Abrir Microsoft SQL Server Manager Studio
-	-Poner el nombre del servidor y conectarse
-	-Probar hacer ping a el sql-cluster (devsqlclu)
-
-Instalar SQL Server en otro nodo ******************************* (node2 y node1)
-	-Ejecutar el instalador > Installation
-	-Add node to a SQL failover cluster
-	-Specify a free edition: Enterprise > Next > Accept terms > Next
-	-Install
-	-Escoger instancia de SQL Server (solo hay una) > Next
-	-Poner passwords en agent, y databse engine> Next > Next > Next y esperar que agregue el nodo
-
-	-Abrir Failover Cluster Management en node1 > refresh SQL Server > RC SQL Server > Properties > Advanced Policies para ver ambos nodos
-	//Puede que haya que poner node1 como owner de SQL y node2 como owner de dtc
-
-	//Aun en node1
-	-Abrir SSMS
-	-Connectar al servidor
-	-Darle New Query y correr select SERVERPROPERTY ('computernamephysicalnetbios')
-	-Failover Cluster Management > RC SQL Server (MSSQLSERVER) > Move to node2 > Ok > Esperar a que refresque (spamear refresh)
-	-Ejecutar query de nuevo para ver como cambia a node2
-	-En fcm > Storage deben de estar los discos de SQL Server corriendo sobre node2, igual que winclusterdtc
-	//Asi se hace failover manualmente, click derecho mover al otro nodo...
-
+	-Wizard de SQL Server
+		-Installation > New SQL Server failover cluster installation
+		-Si todo pasa > Ok > Evaluation > Accept Terms > Next
+		-Esperar a ver si tira warnings (talvez importan) > Next > SQL Server Feature Installation > Next
+		-Seleccionar Features, Database Engine Services y Management Tools (with complete) > Next
+		-Si pasa > Next
+		-Ponerle un nombre ($namesqlcluster DEVSQLCLU) y Default instance > Next > Next //Aqui se podria cambiar a tener otro nombre la instancia, para no usar default y hacer active/active
+		-Tira warnings de windows failover clustering > Next
+		-Se muestran los discos, escoger designados para logs y data > Next
+		-Poner el ipv4 ($ipsqlcluster 192.168.1.115) marcando la casilla, desmcarcar dhcp, en subnet mask poner 255.255.255.0 > Next
+		-User sid > Next 
+			//En algún momento de aquí hay que hacer un paso de Analysis Services, creo que era poner usuario
+		-Escribir la cuenta que se necesite 
+		-Poner cuenta ($namedomainbios TECBASES)\($nameadmin cluadm) y contraseña ($pass admin 2486abc!) > Next
+		-Seleccionar Windows Authetication Mode y Add Current User, debe de agregar ($namedomainbios TECBASES)\($nameadmin cluadm)
+		-Verificar que todo se vaya a hacer en el disco para data desde data directories > Next
+		-Next chequear los services que se requieran > Install > Next > Close
+	-Verificar en Server Manager > Dashboard > Tools > Failover Cluster Management
+		-Click sobre el cluster ($namewincluster winclusterbases)
+		-Verificar roles, tienen que estar msdtc y sqlserver
+		-Right Click SQL Server > Refresh
+		-Right Click SQL Server > Properties, para ver los nodos
+		-A la derecha darle a More Actions > Show Dependency Report
+		-Right Click SQL Server > Properties
+		-Seleccionar ambos nodos del cluster y cambiar prioridad a alto //Esto no lo hizo el indio 2
+	-Probar con SSMS
+		-Instalar SSMS
+			-Meter el archivo y ejecutar, se puede usar desde el network
+		-Abrir Microsoft SQL Server Manager Studio
+		-Poner el nombre del servidor ($namesqlcluster DEVSQLCLU) y conectarse con usuario ($nameadmin cluadm) y el pass ($passasmin 2486abc!)
+		-Probar hacer ping a el sqlcluster ($namesqlcluster DEVSQLCLU) : ping devsqlclu
+	-Instalar Reporting Services
+		-Darle Next...
+		-Correr Report Server Configuration Manager
+..sc..
+11. Instalar SQL Server en otro nodo ******************************* (node2 y node1)
+	-En node2
+		-Ejecutar el instalador de SQL Server > Installation
+			-Add node to a SQL failover cluster
+			-Specify a free edition: Enterprise > Next > Accept terms > Next
+			-Install
+			-Escoger instancia de SQL Server (solo hay una) > Next
+			-Poner passwords en agent, y databse engine> Next > Next > Next y esperar que agregue el nodo
+		-Instalar SSMS
+			-Meter el archivo y ejecutar, se puede usar desde el network
+	-En node1
+		-Abrir Failover Cluster Management > Refresh SQL Server > Right Click SQL Server > Properties > Advanced Policies
+		-Ver que estén ambos nodos
+			//Puede que haya que poner node1 como owner de SQL y node2 como owner de dtc
+		-Probar con SSMS
+			-Abrir Microsoft SQL Server Manager Studio
+			-Poner el nombre del servidor ($namesqlcluster DEVSQLCLU) y conectarse con usuario ($nameadmin cluadm) y el pass ($passadmin 2486abc!)
+			-Probar hacer ping a el sqlcluster ($namesqlcluster DEVSQLCLU) : ping devsqlclu
+			-Darle New Query y correr select SERVERPROPERTY ('computernamephysicalnetbios'), tiene que tirar NODE1
+			-Failover Cluster Management > Right Click SQL Server (MSSQLSERVER) > Move to select node > node2 > Ok > Esperar a que refresque (spamear refresh)
+			-Ejecutar query de nuevo para ver como cambia a NODE2
+			-En Failover Cluster Manager > Storage deben de estar los discos de SQL Server corriendo sobre node2, igual que winclusterdtc
+				//Asi se hace failover manualmente, click derecho mover al otro nodo...
 	-Probar cluster Active-Pasive
-
 		-En node2 abrir SQL Server Configuration Manager > SQL Server Services
 		-Ver que todos los servicios esten corriendo
-
 		-En node1 hacer lo mismo y ver que estan caidos
 		-Hacer failover de node2 a node1 el SQL Server y ver como ahora si corren
 
-Instalar Service Pack ***************** (nodo1 y nodo2) (Video 11A)
-
+12. Instalar Service Pack ***************** (nodo1 y nodo2) (Video 11A)
 	-Desactivar nodo2
 		-Ir a node1 > fcm > Services and Applications > RC SQL Server
 		-Advaced policies > uncheck node2 > Apply > ok
@@ -358,7 +366,7 @@ Instalar Service Pack ***************** (nodo1 y nodo2) (Video 11A)
 			-Correr {select serverproperty('computernamephysicalnetbios')} y ver que ponga node2
 			-Correr {select serverpropery('productversion'), serverproperty('productlevel'), serverproperty('edition')}
 
-Cambiar a Active-Active**************************************(ambos nodos)
+13. Cambiar a Active-Active**************************************(ambos nodos)
 	-Instalar de nuevo otro SQL cluster en node1
 		-Insertar el instalador de SQL Server y ejecutarlo
 		-Seleccionar Installation > New SQL Server failover cluster installation > Ok
