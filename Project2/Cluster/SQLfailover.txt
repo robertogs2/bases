@@ -201,7 +201,7 @@ Iniciar/Descubrir iSCSI Targets Disks y conectar en nodos *********(node1 y node
 		-Para cada disco, cambiarle las letras iguales a las del nodo 1
 			-Right Click > Change Drive Letter and Paths > Change...
 		-Ponerlos online
-
+..sc..
 Crear el cluster de windows******************************(node1 y clusterdc)
 	-Ver LAN y Heartbeat ips
 	-En node1
@@ -228,7 +228,7 @@ Crear el cluster de windows******************************(node1 y clusterdc)
 		-En Server Manager > Dashboard > Tools > ($namewincluster winclusterbases) > Storage, cada disco debe tener la letra asignada como se requiere, sino:
 			-RC Cluster > More options > Configure Cluster Quorum Settings > Next > Node and Disk Majority > Next
 			-Escoger el disco Q > Next > Next > Finish
-		-Puntero del DNS para ($namewincluster winclusterbases):
+		-Puntero del DNS para ($namewincluster winclusterbases)
 			-Server Manager > Dashboard > Tools > DNS
 			-Forward Lookup Zones > ($namedomain tecbases.local) > Right Click ($namewincluster winclusterbases) > Properties (uncheck y check para darle apply)
 			-Check en update associated pointer PTR
@@ -236,36 +236,37 @@ Crear el cluster de windows******************************(node1 y clusterdc)
 		-Probar mandando ping a todo mundo 
 	-Se puede cambiar el disco por un file shared[part6B minute 6 - 8]
 	-Para acceder a otra maquina en el dominio se pone en exe: \\clusterdc\c$Windows
-
-Instalar SQL Server en el cluster *******************(node1) {tener cuidado porque hay que instalar el chorro de services, aunque no se recomienda hacerlo ya, mejor guardar snapshot y hacerlo ya}
-	-En node1, meter la llave con SQL Server y extraer los archivos
-	-Montar la imagen de SQL Server / Meter el ejecutable
-
+..sc..
+Preinstal SQLl ************************************(node1 y node2)
+	//Esto parece estar deprecated gg
 	-Crear application server en ambos nodes
 		-Server Manager > Add roles and features > Next > Application server > Ok > Next > Check incoming and outgoing > Next
 		-Install > Close
 
 	-Agregar MSDTC service
-		-Server Manager > Failover clustering manager
-		-(pref WIN-SQL-CLUSTER) > RC Services and Applications > Configure Service > Next
+		-Server Manager > Tools Failover clustering manager
+		-($namewincluster winclusterbases) > Roles > Configure Role > Next
 		-Seleccionar DTC (Distributed Transaction Coordinator) > Next
-		-Poner nombre (pref WIN-SQL-CLUSTERDtc) y en el ip poner (pref 192.168.1.114) > Next
-		-Escoger el disco dedicado a MSDTC (pref msdtc-disk) > Next > Next > Finish
+		-Poner nombre ($namewinclusterdtc WINCLUBDTC) y en el ip poner ($ipwinclusterbases 192.168.1.114) > Next
+		-Escoger el disco dedicado a MSDTC > Next > Next > Finish
 
-
+Instalar SQL Server en el cluster *******************(node1) {tener cuidado porque hay que instalar el chorro de services, aunque no se recomienda hacerlo ya, mejor guardar snapshot y hacerlo ya}
+	-Ingresar al nodo con ($nameadmin cluadm)
+	-En node1, meter la llave con SQL Server y extraer los archivos
+	-Montar la imagen de SQL Server / Meter el ejecutable
 	-Correr setup de SQL Server
 	-Installation > New SQL Server failover cluster installation
 	-Si todo pasa > Ok > Evaluation > Accept Terms > Next
-	-Esperar a ver si tira warnins (talvez importan) > Next > SQL Server Feature Installation > Next
+	-Esperar a ver si tira warnings (talvez importan) > Next > SQL Server Feature Installation > Next
 	-Seleccionar Features, Database Engine Services y Management Tools (with complete) > Next
 	-Si pasa > Next
-	-Ponerle un nombre (pref DEVSQLCLU) y Default instance > Next > Next //Aqui se podria cambiar a tener otro nombre la instancia, para no usar default y hacer active/active
+	-Ponerle un nombre ($namesqlcluster DEVSQLCLU) y Default instance > Next > Next //Aqui se podria cambiar a tener otro nombre la instancia, para no usar default y hacer active/active
 	-Tira warnings de windows failover clustering > Next
-	-Se muestran los discos, escoger (pref logs-disk y data-disk) > Next
-	-Poner el ipv4 (pref 192.168.1.115) y marcar la casilla (desmcarcar dhcp), en subnet mask (255.255.255.0)> Next
-	-User sid > Next > 
+	-Se muestran los discos, escoger designados para logs y data > Next
+	-Poner el ipv4 ($ipsqlcluster 192.168.1.115) marcando la casilla, desmcarcar dhcp, en subnet mask poner 255.255.255.0 > Next
+	-User sid > Next 
 	-Use the same account for all SQL Server services
-	-Poner cuenta (pref metamanager\cluadm) y contraseña > Next > Windows Authetication Mode, Add Current User
+	-Poner cuenta ($namedomain tecbases\$nameadmin cluadm) y contraseña ($pass admin 2486abc!) > Next > Windows Authetication Mode, Add Current User
 	-Verificar que todo se vaya a hacer en (data-disk) drive desde data directories> Next
 	-Next chequear SQL Server Replication> Install > Next > Close
 
