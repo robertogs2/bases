@@ -137,11 +137,11 @@ Agregar los nodos al dominio ************************* (node1 y node2)
 		-Poner el logon de usuario ($nameadmin cluadm) y la contraseña del mismo ($passadmin 2486abc!) > Ok
 	-Probar conexiones
 		-Correr en cmd
-			-ping node1ip (pref 192.168.1.111)
-			-ping node2ip (pref 192.168.1.112)
-			-ping clusterdc (pref 192.168.1.110)
+			-ping ($ipclusterdc 192.168.1.110)
+			-ping ($ipnode1 192.168.1.111)
+			-ping ($ipnode2 192.168.1.112)
 
-Instalar features ***************************************** (node1 y node2) {
+Instalar features de failover ***************************************** (node1 y node2) {
 	-Para ambos nodos
 		-Server Manager > Manage > Add Roles and Features > Next
 		-Role-bases or feature based... > Next
@@ -220,23 +220,20 @@ Crear el cluster de windows******************************(node1 y clusterdc)
 			-Add all eligible storage to the cluster > Next
 			-Finish
 		-Chequear todo en Failover Cluster Manager
-			->Nombre del cluster > Storage > Disks
+			-Nombre del cluster ($namewincluster winclusterbases) > Storage > Disks
 			-Cambiar nombre de discos con sus correspondientes
 	-En clusterdc
 		-Server Manager > Dashboard > Tools > Active Directory Users and Computers
-		-(Domain metamanager.local) > (INDIA ?????? = Computers) > Servers, aqui deben mostrarse los nodos y el cluster con descipcion
-		-En networks deben mostarse ips privados por separado a los publicos
-		-En Storage, cada disco debe tener la letra asignada como se requiere, sino:
+		-($namedomain tecbases.local) > Computers > Servers, aqui deben mostrarse los nodos y el cluster con descripcion
+		-En Server Manager > Dashboard > Tools > ($namewincluster winclusterbases) > Storage, cada disco debe tener la letra asignada como se requiere, sino:
 			-RC Cluster > More options > Configure Cluster Quorum Settings > Next > Node and Disk Majority > Next
 			-Escoger el disco Q > Next > Next > Finish
-
-		-Puntero del DNS para (WIN-SQL-CLUSTER):
+		-Puntero del DNS para ($namewincluster winclusterbases):
 			-Server Manager > Dashboard > Tools > DNS
-			-Forward Lookup Zones > (Domain metamanager.local) > RC (pref WIN-SQL-CLUSTER) > Properties
+			-Forward Lookup Zones > ($namedomain tecbases.local) > Right Click ($namewincluster winclusterbases) > Properties (uncheck y check para darle apply)
 			-Check en update associated pointer PTR
 			-Refresh reverse lookup zones
 		-Probar mandando ping a todo mundo 
-
 	-Se puede cambiar el disco por un file shared[part6B minute 6 - 8]
 	-Para acceder a otra maquina en el dominio se pone en exe: \\clusterdc\c$Windows
 
