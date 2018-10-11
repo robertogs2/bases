@@ -406,5 +406,11 @@
 
 
 
+Para agregar un nuevo usuario es entrar SSMS 
+Security > Right Click Logins > New Login, y meterlo
 
+//Yo agregue uno con testadm y 2486abc!
+//Tambien hay que cambiar la config del server a both windows auth only y server only, yo lo hice en mi cluster
 
+//Para integration services https://docs.microsoft.com/es-es/sql/integration-services/service/integration-services-service-ssis-service?view=sql-server-2017
+//https://docs.microsoft.com/es-es/sql/integration-services/service/integration-services-ssis-in-a-cluster?view=sql-server-2017
