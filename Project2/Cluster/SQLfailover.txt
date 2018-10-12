@@ -417,3 +417,5 @@ http://www.sqlservercentral.com/articles/Integration+Services+(SSIS)/147486/ Seg
 https://docs.microsoft.com/en-us/sql/integration-services/service/integration-services-service-ssis-service?view=sql-server-2017#connect-to-a-remote-ssis-server para agregar el usuario a pata
 
 Mejor entrar desde la compu remota al dominio poniendo el dns, y abrir el ejecutable con la cuenta del admin, si no quiere conectarse, debe ser que el modo bridged de vmware no detecta la tarjeta de red de la pc host, cambiar a fuerza bruta
+
+Para replication: https://docs.microsoft.com/en-us/sql/relational-databases/replication/tutorial-replicating-data-with-mobile-clients?view=sql-server-2017
