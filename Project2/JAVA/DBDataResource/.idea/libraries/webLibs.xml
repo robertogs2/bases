@@ -1,0 +1,25 @@
+<component name="libraryTable">
+  <library name="webLibs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/animal-sniffer-annotations-1.14.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/byte-buddy-1.7.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-codec-1.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-exec-1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/error_prone_annotations-2.0.18.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/gson-2.8.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/guava-23.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpclient-4.5.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpcore-4.4.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/j2objc-annotations-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jsr305-1.3.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/phantomjsdriver-1.4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/selenium-api-3.8.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/selenium-remote-driver-3.8.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/libs/jsr305-1.3.9.jar!/" />
+    </SOURCES>
+  </library>
+</component>

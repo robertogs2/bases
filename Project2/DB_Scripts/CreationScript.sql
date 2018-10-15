@@ -1,30 +1,28 @@
-
-
-
-
+IF OBJECT_ID('dbo.Visit', 'U') IS NOT NULL DROP TABLE dbo.Visit; -- Drop Visit table in case it already exists
+IF OBJECT_ID('dbo.AccommodationXExcursion', 'U') IS NOT NULL DROP TABLE dbo.AccommodationXExcursion; -- Drop AccommodationXExcursion table in case it already exists
+IF OBJECT_ID('dbo.Excursion', 'U') IS NOT NULL DROP TABLE dbo.Excursion; -- Drop Excursion table in case it already exists
+IF OBJECT_ID('dbo.SecurityGuard', 'U') IS NOT NULL DROP TABLE dbo.SecurityGuard; -- Drop SecurityGuard table in case it already exists
+IF OBJECT_ID('dbo.Vehicle', 'U') IS NOT NULL DROP TABLE dbo.Vehicle; -- Drop Vehicle table in case it already exists
+IF OBJECT_ID('dbo.ResearchProjectXResearcher', 'U') IS NOT NULL DROP TABLE dbo.ResearchProjectXResearcher; -- Drop ResearchProjectXResearcher table in case it already exists
+IF OBJECT_ID('dbo.Researcher', 'U') IS NOT NULL DROP TABLE dbo.Researcher; -- Drop Researcher table in case it already exists
+IF OBJECT_ID('dbo.ResearchProject', 'U') IS NOT NULL DROP TABLE dbo.ResearchProject; -- Drop ResearchProject table in case it already exists
+IF OBJECT_ID('dbo.Receptionist', 'U') IS NOT NULL DROP TABLE dbo.Receptionist; -- Drop Receptionist table in case it already exists
+IF OBJECT_ID('dbo.Conservationist', 'U') IS NOT NULL DROP TABLE dbo.Conservationist; -- Drop Conservationist table in case it already exists
+IF OBJECT_ID('dbo.Employee', 'U') IS NOT NULL DROP TABLE dbo.Employee; -- Drop Employee table in case it already exists
+IF OBJECT_ID('dbo.Visitor', 'U') IS NOT NULL DROP TABLE dbo.Visitor; -- Drop Visitor table in case it already exists
+IF OBJECT_ID('dbo.Accommodation', 'U') IS NOT NULL DROP TABLE dbo.Accommodation; -- Drop Accommodation table in case it already exists
+IF OBJECT_ID('dbo.CommunityXPark', 'U') IS NOT NULL DROP TABLE dbo.CommunityXPark; -- Drop CommunityXPark table in case it already exists
+IF OBJECT_ID('dbo.Person', 'U') IS NOT NULL DROP TABLE dbo.Person; -- Drop Person table in case it already exists
+IF OBJECT_ID('dbo.Community', 'U') IS NOT NULL DROP TABLE dbo.Community; -- Drop Community table in case it already exists
 IF OBJECT_ID('dbo.Location', 'U') IS NOT NULL DROP TABLE dbo."Location"; -- Drop Location table in case it already exists
 IF OBJECT_ID('dbo.City', 'U') IS NOT NULL DROP TABLE dbo.City; -- Drop City table in case it already exists
 IF OBJECT_ID('dbo.State', 'U') IS NOT NULL DROP TABLE dbo."State"; -- Drop State table in case it already exists
 IF OBJECT_ID('dbo.Country', 'U') IS NOT NULL DROP TABLE dbo.Country; -- Drop Country table in case it already exists
-IF OBJECT_ID('dbo.Community', 'U') IS NOT NULL DROP TABLE dbo.Community; -- Drop Community table in case it already exists
-IF OBJECT_ID('dbo.Park', 'U') IS NOT NULL DROP TABLE dbo.Park; -- Drop Park table in case it already exists
-IF OBJECT_ID('dbo.CommunityXPark', 'U') IS NOT NULL DROP TABLE dbo.CommunityXPark; -- Drop CommunityXPark table in case it already exists
-IF OBJECT_ID('dbo.Area', 'U') IS NOT NULL DROP TABLE dbo.Area; -- Drop Area table in case it already exists
-IF OBJECT_ID('dbo.Species', 'U') IS NOT NULL DROP TABLE dbo.Species; -- Drop Species table in case it already exists
 IF OBJECT_ID('dbo.AreaXSpecies', 'U') IS NOT NULL DROP TABLE dbo.AreaXSpecies; -- Drop AreaXSpecies table in case it already exists
-IF OBJECT_ID('dbo.Person', 'U') IS NOT NULL DROP TABLE dbo.Person; -- Drop Person table in case it already exists
-IF OBJECT_ID('dbo.Vehicle', 'U') IS NOT NULL DROP TABLE dbo.Vehicle; -- Drop Vehicle table in case it already exists
-IF OBJECT_ID('dbo.SecurityGuard', 'U') IS NOT NULL DROP TABLE dbo.SecurityGuard; -- Drop SecurityGuard table in case it already exists
-IF OBJECT_ID('dbo.Researcher', 'U') IS NOT NULL DROP TABLE dbo.Researcher; -- Drop Researcher table in case it already exists
-IF OBJECT_ID('dbo.ResearchProject', 'U') IS NOT NULL DROP TABLE dbo.ResearchProject; -- Drop ResearchProject table in case it already exists
-IF OBJECT_ID('dbo.ResearchProjectXResearcher', 'U') IS NOT NULL DROP TABLE dbo.ResearchProjectXResearcher; -- Drop ResearchProjectXResearcher table in case it already exists
-IF OBJECT_ID('dbo.Conservationist', 'U') IS NOT NULL DROP TABLE dbo.Conservationist; -- Drop Conservationist table in case it already exists
-IF OBJECT_ID('dbo.Employee', 'U') IS NOT NULL DROP TABLE dbo.Employee; -- Drop Employee table in case it already exists
-IF OBJECT_ID('dbo.Reseptionist', 'U') IS NOT NULL DROP TABLE dbo.Reseptionist; -- Drop Reseptionist table in case it already exists
-IF OBJECT_ID('dbo.Acommodation', 'U') IS NOT NULL DROP TABLE dbo.Acommodation; -- Drop Acommodation table in case it already exists
-IF OBJECT_ID('dbo.Visitor', 'U') IS NOT NULL DROP TABLE dbo.Visitor; -- Drop Visitor table in case it already exists
-IF OBJECT_ID('dbo.Excursion', 'U') IS NOT NULL DROP TABLE dbo.Excursion; -- Drop Excursion table in case it already exists
-IF OBJECT_ID('dbo.AcommodationXExcursion', 'U') IS NOT NULL DROP TABLE dbo.AcommodationXExcursion; -- Drop AcommodationXExcursion table in case it already exists
+IF OBJECT_ID('dbo.Area', 'U') IS NOT NULL DROP TABLE dbo.Area; -- Drop Area table in case it already exists
+IF OBJECT_ID('dbo.Park', 'U') IS NOT NULL DROP TABLE dbo.Park; -- Drop Park table in case it already exists
+IF OBJECT_ID('dbo.FoodChainLink', 'U') IS NOT NULL DROP TABLE dbo.FoodChainLink; -- Drop FoodChainLink table in case it already exists
+IF OBJECT_ID('dbo.Species', 'U') IS NOT NULL DROP TABLE dbo.Species; -- Drop Species table in case it already exists
 
 
 -- Country table creation.
@@ -58,7 +56,7 @@ CREATE TABLE "Location"(-- Double quotes because location is a key word
 CREATE TABLE Community(
 	idCommunity INT IDENTITY(1,1) PRIMARY KEY, -- IDENTITY(1,1) for autoincrement of primary key
 	"Name" VARCHAR(15) NOT NULL, -- Double quotes because name is a key word
-	fk_idLocation INT FOREIGN KEY REFERENCES "Location"(idLocation) NOT NULL,
+	fk_idState INT FOREIGN KEY REFERENCES "State"(idState) NOT NULL,-- Double quotes because state is a key word
 	NumberOfParks INT NULL,	-- Null as default value, this data is included for high performance query
 	TotalProtectedArea FLOAT NULL	-- Null as default value, this data is include for high performance query
 );
@@ -66,8 +64,8 @@ CREATE TABLE Community(
 -- Natural park table creation.
 CREATE TABLE Park(
 	idPark INT IDENTITY(1,1) PRIMARY KEY, -- IDENTITY(1,1) for autoincrement of primary key
-	"Name" VARCHAR(15) NOT NULL, -- Double quotes because name is a key word
-	foundationDate DATETIME	NOT NULL
+	"Name" VARCHAR(50) NOT NULL, -- Double quotes because name is a key word
+	foundationDate VARCHAR(15)	NOT NULL
 );
 
 -- CommunityXPark table creation.
@@ -130,8 +128,8 @@ CREATE TABLE Employee(
 );
 
 -- Reseptionist table clreation
-CREATE TABLE Reseptionist(
-	idReseptionist INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
+CREATE TABLE Receptionist(
+	idReceptionist INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
 	fk_idEmployee INT FOREIGN KEY REFERENCES Employee(idEmployee) NOT NULL,
 	AssignedEntrance INT NOT NULL
 );
@@ -163,6 +161,7 @@ CREATE TABLE Researcher(
 -- InvestigationProject table creation
 CREATE TABLE ResearchProject(
 	idResearchProject INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
+	fk_idPark INT FOREIGN KEY REFERENCES Park(idPark) NOT NULL,
 	Budget INT NOT NULL,
 	StartTime DATETIME NOT NULL,
 	EndTime DATETIME NULL,
@@ -186,8 +185,8 @@ CREATE TABLE Conservationist(
 );
 
 -- Accommodation table creation
-CREATE TABLE Acommodation(
-	idAcommodation INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
+CREATE TABLE Accommodation(
+	idAccommodation INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
 	fk_idPark INT FOREIGN KEY REFERENCES Park(idPark) NOT NULL,
 	Category VARCHAR(15) NOT NULL,
 	Capacity  INT NOT NULL
@@ -197,8 +196,7 @@ CREATE TABLE Acommodation(
 CREATE TABLE Visitor(
 	idVisitor INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
 	fk_idPerson INT FOREIGN KEY REFERENCES Person(idPerson) NOT NULL,
-	Profession VARCHAR(15) NULL,
-	fk_idAcommodation INT FOREIGN KEY REFERENCES Acommodation(idAcommodation) NOT NULL
+	Profession VARCHAR(15) NULL
 );
 
 -- Excursion table creation
@@ -212,9 +210,19 @@ CREATE TABLE Excursion(
 ); 
 
 -- AcommodationXExcursion table creation
-CREATE TABLE AcommodationXExcursion(
-	fk_idAcommodation INT FOREIGN KEY REFERENCES Acommodation(idAcommodation) NOT NULL,
+CREATE TABLE AccommodationXExcursion(
+	fk_idAccommodation INT FOREIGN KEY REFERENCES Accommodation(idAccommodation) NOT NULL,
 	fk_idExcursion INT FOREIGN KEY REFERENCES Excursion(idExcursion) NOT NULL,
 	"Day" VARCHAR(15) NOT NULL, -- Double quotes because day is a key word
 	"Hour" VARCHAR(15) NOT NULL -- Double quotes because hour is a key word
+);
+
+-- Visit table creation
+CREATE TABLE Visit(
+	idVisit INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
+	fk_idVisitor INT FOREIGN KEY REFERENCES Visitor(idVisitor) NOT NULL,
+	fk_idPark INT FOREIGN KEY REFERENCES Park(idPark) NOT NULL,
+	fk_idAccommodation INT FOREIGN KEY REFERENCES Accommodation(idAccommodation) NOT NULL,
+	StartDate DATETIME NOT NULL,
+	EndDate DATETIME NOT NULL
 );
