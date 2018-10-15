@@ -1,0 +1,15 @@
+﻿fk_idPersonA,fk_idPersonB,TypeOfRelationship
+1,2,Classmates
+1,3,Classmates
+1,4,Classmates
+1,5,Classmates
+2,3,Classmates
+2,4,Classmates
+2,5,Classmates
+3,4,Classmates
+3,5,Classmates
+6,1,ProfessorStudent
+6,2,ProfessorStudent
+6,3,ProfessorStudent
+6,4,ProfessorStudent
+6,5,ProfessorStudent
