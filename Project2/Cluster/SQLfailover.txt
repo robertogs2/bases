@@ -407,16 +407,16 @@
 
 
 Para agregar un nuevo usuario es entrar SSMS 
-Security > Right Click Logins > New Login, y meterlo
-Yo agregue uno con testadm y 2486abc!
-Tambien hay que cambiar la config del server a both windows auth only y server only, yo lo hice en mi cluster
+	Security > Right Click Logins > New Login, y meterlo
+	Yo agregue uno con testadm y 2486abc!
+	Tambien hay que cambiar la config del server a both windows auth only y server only, yo lo hice en mi cluster
 
-Esto arregla los SSIS que no aparecen y los mete en un cluster
-http://www.sqlservercentral.com/articles/Integration+Services+(SSIS)/147486/ Seguir paso a paso para usar integration services 
-Esto es para agregar un usuario del dominio a SSIS, no se puede con SQL Login, mejor solamente entrar al dominio
-https://docs.microsoft.com/en-us/sql/integration-services/service/integration-services-service-ssis-service?view=sql-server-2017#connect-to-a-remote-ssis-server
+	Esto arregla los SSIS que no aparecen y los mete en un cluster
+	http://www.sqlservercentral.com/articles/Integration+Services+(SSIS)/147486/ Seguir paso a paso para usar integration services 
+	Esto es para agregar un usuario del dominio a SSIS, no se puede con SQL Login, mejor solamente entrar al dominio
+	https://docs.microsoft.com/en-us/sql/integration-services/service/integration-services-service-ssis-service?view=sql-server-2017#connect-to-a-remote-ssis-server
 
-Mejor entrar desde la compu remota al dominio poniendo el dns, y abrir el ejecutable con la cuenta del admin, si no quiere conectarse, debe ser que el modo bridged de vmware no detecta la tarjeta de red de la pc host, cambiar a fuerza bruta
+	Mejor entrar desde la compu remota al dominio poniendo el dns, y abrir el ejecutable con la cuenta del admin, si no quiere conectarse, debe ser que el modo bridged de vmware no detecta la tarjeta de red de la pc host, cambiar a fuerza bruta
 
 Para replication: 
 	Preparar la carpeta

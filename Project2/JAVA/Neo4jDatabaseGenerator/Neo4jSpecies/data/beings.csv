@@ -1,0 +1,11 @@
+IDSpecies,IDType,NonScientificName,ScientificName
+1,1,dog,perrinus
+2,1,cat,gatus
+3,1,rat,ratus
+4,1,tiger,tigrus
+5,1,lion,leonus
+6,2,tree,arbolus
+7,2,grass,pastus
+8,2,fruit,frutus
+9,1,giraffe,jirafus
+10,1,horse,caballus
