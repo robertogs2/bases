@@ -1,3 +1,5 @@
+USE BASESTEC;
+
 -- setup a variable to take the file data
 DECLARE @fileData  XML
 
@@ -73,60 +75,50 @@ FROM @fileData.nodes('/DB/Locations/Location') AS x(xData)
 
 -- insert the xml data into our Person table (IdNumber, Name, Surname, fk_idLocation, PhoneNumber)
 INSERT INTO Person
-	(IdNumber, "Name", Surname, fk_idLocation, PhoneNumber)
+	(IdNumber, "Name", LastName, fk_idLocation, PhoneNumber)
 SELECT
 	xData.value('IdNumber[1]', 'int') idNumber, -- 'xData' is our xml content alias
 	xData.value('Name[1]', 'VARCHAR(15)') "Name",
-	xData.value('Surname[1]', 'VARCHAR(15)') Surname,
+	xData.value('Surname[1]', 'VARCHAR(15)') LastName,
 	xData.value('LocationId[1]', 'int') fk_idLocation,
 	xData.value('PhoneNumber[1]', 'int') PhoneNumber
 FROM @fileData.nodes('/DB/People/Person') AS x(xData)
 
+-- insert the xml data into our Profession table ("Name")
+INSERT INTO Profession
+	("Name")
+SELECT
+	xData.value('Name[1]', 'VARCHAR(25)') "Name" -- 'xData' is our xml content alias
+FROM @fileData.nodes('/DB/Professions/Profession') AS x(xData)
+
+-- insert the xml data into our AssignedArea table ("Name")
+INSERT INTO AssignedArea
+	("Name")
+SELECT
+	xData.value('Name[1]', 'VARCHAR(25)') "Name" -- 'xData' is our xml content alias
+FROM @fileData.nodes('/DB/AssignedAreas/AssignedArea') AS x(xData)
+
+-- insert the xml data into our Speciality table ("Name")
+INSERT INTO Speciality
+	("Name")
+SELECT
+	xData.value('Name[1]', 'VARCHAR(25)') "Name" -- 'xData' is our xml content alias
+FROM @fileData.nodes('/DB/Specialities/Speciality') AS x(xData)
+
 -- insert the xml data into our Employee table (fk_idPerson, fk_idPark)
 INSERT INTO Employee
-	(fk_idPerson, fk_idPark)
+	(fk_idPerson, fk_idPark, fk_idProfession, fk_idAssignedArea, fk_idSpeciality)
 SELECT
 	xData.value('PersonId[1]', 'int') fk_idPerson, -- 'xData' is our xml content alias
-	xData.value('ParkId[1]', 'int') fk_idPark
+	xData.value('ParkId[1]', 'int') fk_idPark,
+	xData.value('ProfessionId[1]', 'int') fk_idProfession,
+	xData.value('AssignedAreaId[1][not(@xsi:nil = "true")]', 'int') fk_idAssignedArea,
+	xData.value('SpecialityId[1][not(@xsi:nil = "true")]', 'int') fk_idSpeciality
 FROM @fileData.nodes('/DB/Employees/Employee') AS x(xData)
-
--- insert the xml data into our Reseptionist table (fk_idEmployee, AssignedEntrance)
-INSERT INTO Receptionist
-	(fk_idEmployee, AssignedEntrance)
-SELECT
-	xData.value('EmployeeId[1]', 'int') fk_idEmployee, -- 'xData' is our xml content alias
-	xData.value('EntranceNumber[1]', 'int') AssignedEntrance
-FROM @fileData.nodes('/DB/Receptionists/Receptionist') AS x(xData)
-
--- insert the xml data into our SecurityGuard table (fk_idEmployee, AssignedArea, fk_idVehicle)
-INSERT INTO SecurityGuard
-	(fk_idEmployee, AssignedArea, fk_idVehicle)
-SELECT
-	xData.value('EmployeeId[1]', 'int') fk_idEmployee, -- 'xData' is our xml content alias
-	xData.value('AssignedArea[1]', 'VARCHAR(15)') AssignedArea,
-	xData.value('VehicleId[1]', 'int') fk_idVehicle
-FROM @fileData.nodes('/DB/SecurityGuards/SecurityGuard') AS x(xData)
-
--- insert the xml data into our Researcher table (fk_idEmployee, Diploma)
-INSERT INTO Researcher
-	(fk_idEmployee, Diploma)
-SELECT
-	xData.value('EmployeeId[1]', 'int') fk_idEmployee, -- 'xData' is our xml content alias
-	xData.value('Diploma[1]', 'VARCHAR(15)') Diploma
-FROM @fileData.nodes('/DB/Researchers/Researcher') AS x(xData)
-
--- insert the xml data into our Conservationist table (fk_idEmployee, Speciality, AssignedArea)
-INSERT INTO Conservationist
-	(fk_idEmployee, Speciality, AssignedArea)
-SELECT
-	xData.value('EmployeeId[1]', 'int') fk_idEmployee, -- 'xData' is our xml content alias
-	xData.value('Speciality[1]', 'VARCHAR(25)') Speciality,
-	xData.value('AssignedArea[1]', 'VARCHAR(15)') AssignedArea
-FROM @fileData.nodes('/DB/Conservationists/Conservationist') AS x(xData)
 
 -- insert the xml data into our Visitor table (fk_idPerson, Profession)
 INSERT INTO Visitor
-	(fk_idPerson, Profession)
+	(fk_idPerson, fk_idProfession)
 SELECT
 	xData.value('PersonId[1]', 'int') fk_idPerson, -- 'xData' is our xml content alias
 	xData.value('Profession[1]', 'VARCHAR(15)') Profession
@@ -153,7 +145,7 @@ SELECT
 FROM @fileData.nodes('/DB/Visits/Visit') AS x(xData)
 
 -- insert the xml data into our Excursion table ("Name", "Description", Price, Capacity, fk_idVehicle)
-INSERT INTO Excursion
+INSERT INTO Tour
 	("Name", "Description", Price, Capacity)
 SELECT
 	xData.value('Name[1]', 'VARCHAR(15)') "Name", -- 'xData' is our xml content alias
@@ -163,8 +155,8 @@ SELECT
 FROM @fileData.nodes('/DB/Excursions/Excursion') AS x(xData)
 
 -- insert the xml data into our AccommodationXExcursion table (fk_idAccommodation, fk_idExcursion, "Day", "Hour")
-INSERT INTO AccommodationXExcursion
-	(fk_idAccommodation, fk_idExcursion, "Day", "Hour")
+INSERT INTO AccommodationXTour
+	(fk_idAccommodation, fk_idTour, "Day", "Hour")
 SELECT
 	xData.value('AccommodationId[1]', 'int') fk_idAccommodation, -- 'xData' is our xml content alias
 	xData.value('ExcursionId[1]', 'int') fk_idExcursion,

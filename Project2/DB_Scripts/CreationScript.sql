@@ -26,10 +26,10 @@ IF OBJECT_ID('dbo.ResearchProjectXEmployee', 'U') IS NOT NULL DROP TABLE dbo.Res
 IF OBJECT_ID('dbo.Conservationist', 'U') IS NOT NULL DROP TABLE dbo.Conservationist; -- Drop Conservationist table in case it already exists
 IF OBJECT_ID('dbo.Employee', 'U') IS NOT NULL DROP TABLE dbo.Employee; -- Drop Employee table in case it already exists
 IF OBJECT_ID('dbo.Profession', 'U') IS NOT NULL DROP TABLE dbo.Profession; -- Drop Profession table in case it already exists
-IF OBJECT_ID('dbo.Acommodation', 'U') IS NOT NULL DROP TABLE dbo.Acommodation; -- Drop Acommodation table in case it already exists
+IF OBJECT_ID('dbo.Accommodation', 'U') IS NOT NULL DROP TABLE dbo.Accommodation; -- Drop Accommodation table in case it already exists
 IF OBJECT_ID('dbo.Visitor', 'U') IS NOT NULL DROP TABLE dbo.Visitor; -- Drop Visitor table in case it already exists
 IF OBJECT_ID('dbo.Tour', 'U') IS NOT NULL DROP TABLE dbo.Tour; -- Drop Tour table in case it already exists
-IF OBJECT_ID('dbo.AcommodationXTour', 'U') IS NOT NULL DROP TABLE dbo.AcommodationXTour; -- Drop AcommodationXTour table in case it already exists
+IF OBJECT_ID('dbo.AccommodationXTour', 'U') IS NOT NULL DROP TABLE dbo.AccommodationXTour; -- Drop AccommodationXTour table in case it already exists
 -- Country table creation.
 CREATE TABLE Country(
 	idCountry INT IDENTITY(1,1) PRIMARY KEY, -- IDENTITY(1,1) for autoincrement of primary key
@@ -61,7 +61,7 @@ CREATE TABLE "Location"(-- Double quotes because location is a key word
 CREATE TABLE Community(
 	idCommunity INT IDENTITY(1,1) PRIMARY KEY, -- IDENTITY(1,1) for autoincrement of primary key
 	"Name" VARCHAR(15) NOT NULL, -- Double quotes because name is a key word
-	fk_idLocation INT FOREIGN KEY REFERENCES "Location"(idLocation) NOT NULL,
+	fk_idState INT FOREIGN KEY REFERENCES "State"(idState) NOT NULL,
 	NumberOfParks INT NULL,	-- Null as default value, this data is included for high performance query
 	TotalProtectedArea FLOAT NULL	-- Null as default value, this data is include for high performance query
 );
@@ -69,8 +69,8 @@ CREATE TABLE Community(
 -- Natural park table creation.
 CREATE TABLE Park(
 	idPark INT IDENTITY(1,1) PRIMARY KEY, -- IDENTITY(1,1) for autoincrement of primary key
-	"Name" VARCHAR(15) NOT NULL, -- Double quotes because name is a key word
-	foundationDate DATETIME	NOT NULL
+	"Name" VARCHAR(50) NOT NULL, -- Double quotes because name is a key word
+	foundationDate VARCHAR(15)	NOT NULL
 );
 
 -- CommunityXPark table creation.
@@ -134,7 +134,7 @@ CREATE TABLE Person(
 	idPerson INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
 	IdNumber INT UNIQUE NOT NULL,
 	"Name" VARCHAR(15) NOT NULL,
-	Surname VARCHAR(15) NOT NULL,
+	LastName VARCHAR(15) NOT NULL,
 	fk_idLocation INT FOREIGN KEY REFERENCES "Location"(idLocation) NULL,
 	PhoneNumber INT NULL
 );
@@ -163,9 +163,9 @@ CREATE TABLE Employee(
 	idEmployee INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
 	fk_idPerson INT FOREIGN KEY REFERENCES Person(idPerson) NOT NULL,
 	fk_idPark INT FOREIGN KEY REFERENCES Park(idPark) NOT NULL,
-	fk_Profession INT FOREIGN KEY REFERENCES Profession(idProfession) NOT NULL,
-	fk_AssignedArea INT FOREIGN KEY REFERENCES AssignedArea(idAssignedArea) NULL,
-	fk_Speciality INT FOREIGN KEY REFERENCES Speciality(idSpeciality) NULL
+	fk_idProfession INT FOREIGN KEY REFERENCES Profession(idProfession) NOT NULL,
+	fk_idAssignedArea INT FOREIGN KEY REFERENCES AssignedArea(idAssignedArea) NULL,
+	fk_idSpeciality INT FOREIGN KEY REFERENCES Speciality(idSpeciality) NULL
 );
 
 
@@ -201,8 +201,8 @@ CREATE TABLE ResearchProjectXEmployee(
 );
 
 -- Accommodation table creation
-CREATE TABLE Acommodation(
-	idAcommodation INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
+CREATE TABLE Accommodation(
+	idAccommodation INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
 	fk_idPark INT FOREIGN KEY REFERENCES Park(idPark) NOT NULL,
 	Category VARCHAR(15) NOT NULL,
 	Capacity  INT NOT NULL
@@ -212,8 +212,7 @@ CREATE TABLE Acommodation(
 CREATE TABLE Visitor(
 	idVisitor INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
 	fk_idPerson INT FOREIGN KEY REFERENCES Person(idPerson) NOT NULL,
-	fk_idProfession INT FOREIGN KEY REFERENCES Profession(idProfession) NOT NULL,
-	fk_idAcommodation INT FOREIGN KEY REFERENCES Acommodation(idAcommodation) NOT NULL
+	fk_idProfession INT FOREIGN KEY REFERENCES Profession(idProfession) NULL
 );
 
 -- Tour table creation
@@ -226,10 +225,20 @@ CREATE TABLE Tour(
 	fk_idVehicle INT FOREIGN KEY REFERENCES Vehicle(idVehicle) 
 ); 
 
--- AcommodationXTour table creation
-CREATE TABLE AcommodationXTour(
-	fk_idAcommodation INT FOREIGN KEY REFERENCES Acommodation(idAcommodation) NOT NULL,
+-- AccommodationXTour table creation
+CREATE TABLE AccommodationXTour(
+	fk_idAccommodation INT FOREIGN KEY REFERENCES Accommodation(idAccommodation) NOT NULL,
 	fk_idTour INT FOREIGN KEY REFERENCES Tour(idTour) NOT NULL,
 	"Day" VARCHAR(15) NOT NULL, -- Double quotes because day is a key word
 	"Hour" VARCHAR(15) NOT NULL -- Double quotes because hour is a key word
+);
+
+-- Visit table creation
+CREATE TABLE Visit(
+	idVisit INT IDENTITY(1,1) PRIMARY KEY NOT NULL, -- IDENTITY(1,1) for autoincrement of primary key
+	fk_idVisitor INT FOREIGN KEY REFERENCES Visitor(idVisitor) NOT NULL,
+	fk_idPark INT FOREIGN KEY REFERENCES Park(idPark) NOT NULL,
+	fk_idAccommodation INT FOREIGN KEY REFERENCES Accommodation(idAccommodation) NOT NULL,
+	StartDate DATETIME NOT NULL,
+	EndDate DATETIME NOT NULL
 );
