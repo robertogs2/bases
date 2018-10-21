@@ -1,29 +1,53 @@
 
-INSERT INTO Species(ScientificName, NonScientificName)
-VALUES('uno', 'uno')
-INSERT INTO Species(ScientificName, NonScientificName)
-VALUES('uno', 'd')
-INSERT INTO Species(ScientificName, NonScientificName)
-VALUES('uno', 'v')
-INSERT INTO Species(ScientificName, NonScientificName)
-VALUES('uno', 'b')
-INSERT INTO Species(ScientificName, NonScientificName)
-VALUES('uno', 'c')
+INSERT INTO SpeciesType("Type")
+VALUES ('Animal')
+INSERT INTO SpeciesType("Type")
+VALUES ('Vegetal')
+INSERT INTO SpeciesType("Type")
+VALUES ('Mineral')
 
-SELECT * FROM testv
+INSERT INTO Species(ScientificName, NonScientificName, fk_idSpeciesType)
+VALUES('dog', 'perrus',1)
+INSERT INTO Species(ScientificName, NonScientificName, fk_idSpeciesType)
+VALUES('cat', 'gatus',1)
+INSERT INTO Species(ScientificName, NonScientificName, fk_idSpeciesType)
+VALUES('uno', 'v',1)
+INSERT INTO Species(ScientificName, NonScientificName, fk_idSpeciesType)
+VALUES('uno', 'b',2)
+INSERT INTO Species(ScientificName, NonScientificName, fk_idSpeciesType)
+VALUES('uno', 'c',2)
+SELECT * FROM SpeciesType
+SELECT * FROM Species
 SELECT * FROM FoodChainLink
+
+DELETE FROM FoodChainLink
+DELETE FROM Species
+DBCC CHECKIDENT ('[Species]', RESEED, 0)
+
 INSERT INTO FoodChainLink(fk_idConsumer, fk_idFood)
-VALUES(4,6)
+VALUES(1,2)
+INSERT INTO FoodChainLink(fk_idConsumer, fk_idFood)
+VALUES(1,3)
+INSERT INTO FoodChainLink(fk_idConsumer, fk_idFood)
+VALUES(1,4)
+INSERT INTO FoodChainLink(fk_idConsumer, fk_idFood)
+VALUES(1,5)
+INSERT INTO FoodChainLink(fk_idConsumer, fk_idFood)
+VALUES(2,3)
 
-CREATE VIEW testv AS
-SELECT fk_idConsumer AS id FROM FoodChainLink
-UNION
-SELECT fk_idFood AS id FROM FoodChainLink;
-
-
-
+CREATE PROCEDURE GetBeings AS
 --Missing some things...
-SELECT ScientificName, NonScientificName, SpeciesType."Type" FROM Species
-INNER JOIN testv ON testv.id = Species.idSpecies
-LEFT JOIN SpeciesType ON SpeciesType.idSpeciesType = Species.fk_idSpeciesType
-DROP VIEW testv;
+WITH IDTable 
+AS (SELECT fk_idConsumer AS id FROM FoodChainLink
+UNION
+SELECT fk_idFood AS id FROM FoodChainLink)
+SELECT IDSpecies, fk_idSpeciesType AS IDType, ScientificName, NonScientificName FROM Species
+INNER JOIN IDTable ON IDTable.id = Species.idSpecies
+GO
+
+CREATE PROCEDURE GetChain AS
+SELECT fk_idConsumer AS IDConsumer, fk_idFood AS IDFood
+FROM FoodChainLink
+GO
+EXEC GetChain
+EXEC GetBeings

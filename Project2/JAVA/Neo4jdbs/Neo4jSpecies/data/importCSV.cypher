@@ -18,7 +18,7 @@ CREATE INDEX ON :Vegetal(IDSpecies);
 // Creating chain relations
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "file:///%s" AS row
-MATCH (speciesA:Species {IDSpecies: toInt(row.IDEater)})
+MATCH (speciesA:Species {IDSpecies: toInt(row.IDConsumer)})
 MATCH (speciesB:Species {IDSpecies: toInt(row.IDFood)})
 MERGE (speciesA)-[:Eats]->(speciesB);
 
