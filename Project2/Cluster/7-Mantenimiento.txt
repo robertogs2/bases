@@ -1,0 +1,7 @@
+Para el mantenimiento
+
+Hacer backup con todo y horario, preferiblemente sacar script:
+	https://support.microsoft.com/es-cr/help/930615/how-to-schedule-a-database-backup-operation-by-using-sql-server-manage
+
+Restaurar backups:
+	https://campus.barracuda.com/product/backup/doc/15892599/how-to-restore-a-microsoft-sql-database-to-a-point-in-time/
