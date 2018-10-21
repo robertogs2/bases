@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<addCountries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Countries>
+        <Country>
+            <CountryId>1</CountryId>
+            <Name>Holanda</Name>
+        </Country>
+        <Country>
+            <CountryId>2</CountryId>
+            <Name>Brazil</Name>
+        </Country>
+        <Country>
+            <CountryId>3</CountryId>
+            <Name>Peru</Name>
+        </Country>
+    </Countries>
+</addCountries>
