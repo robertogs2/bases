@@ -2878,3 +2878,11 @@ BatchingMultipleIndexPopulator{activeTasks=2, executor=java.util.concurrent.Thre
 2018-10-21 05:39:25.930+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:StoreFiles END ---
 2018-10-21 05:39:28.548+0000 WARN [o.n.m.s.s.ServerMetrics] Server thread metrics not available (missing neo4j.server.threads.jetty.all)
 2018-10-21 05:39:28.548+0000 WARN [o.n.m.s.s.ServerMetrics] Server thread metrics not available (missing neo4j.server.threads.jetty.idle)
+2018-10-21 05:43:45.957+0000 INFO [o.n.k.i.f.GraphDatabaseFacadeFactory] Shutdown started
+2018-10-21 05:43:45.958+0000 INFO [o.n.k.i.f.GraphDatabaseFacadeFactory] Database is now unavailable
+2018-10-21 05:43:45.959+0000 INFO [o.n.b.i.BackupServer] BackupServer communication server shutting down and unbinding from  /127.0.0.1:6363
+2018-10-21 05:43:46.147+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Checkpoint triggered by database shutdown @ txId: 12 checkpoint started...
+2018-10-21 05:43:46.722+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Checkpoint triggered by database shutdown @ txId: 12 checkpoint completed in 575ms
+2018-10-21 05:43:46.723+0000 INFO [o.n.k.i.t.l.p.LogPruningImpl] No log version pruned, last checkpoint was made in version 0
+2018-10-21 05:43:47.751+0000 INFO [o.n.k.i.DiagnosticsManager] --- STOPPING diagnostics START ---
+2018-10-21 05:43:47.751+0000 INFO [o.n.k.i.DiagnosticsManager] --- STOPPING diagnostics END ---
