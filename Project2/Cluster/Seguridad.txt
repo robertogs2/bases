@@ -1,0 +1,3 @@
+Para dar permisos sobre tablas y stored procedures:
+	https://docs.microsoft.com/en-us/sql/t-sql/statements/grant-object-permissions-transact-sql?view=sql-server-2017
+Revisar contra columnas también
