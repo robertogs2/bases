@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
+import javax.management.StringValueExp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -128,13 +129,13 @@ public class Main {
             personTableMap.get(Strings.ID_NUMBER).add(rndId);
 
             locationTableMap.get(Strings.LOCATION_ID).add(String.valueOf(i));
-            int rndCity =  1 + rnd.nextInt(numOfCities-1);
+            int rndCity = 1 + rnd.nextInt(numOfCities - 1);
             locationTableMap.get(Strings.CITY_ID).add(String.valueOf(rndCity));
             locationTableMap.get(Strings.DESCRIPTION).add("");
 
             ++i;
         }
-        xmlManager.addTableToDBDoc("Locations","Location", locationTableMap);
+        xmlManager.addTableToDBDoc("Locations", "Location", locationTableMap);
         xmlManager.addTableToDBDoc("People", "Person", personTableMap);
     }
 
@@ -144,74 +145,66 @@ public class Main {
         employeeTableMap.put(Strings.EMPLOYEE_ID, new ArrayList<>());
         employeeTableMap.put(Strings.PERSON_ID, new ArrayList<>());
         employeeTableMap.put(Strings.PARK_ID, new ArrayList<>());
+        employeeTableMap.put(Strings.PROFESSION_ID, new ArrayList<>());
+        employeeTableMap.put(Strings.ASSIGNED_AREA, new ArrayList<>());
+        employeeTableMap.put(Strings.SPECIALITY_ID, new ArrayList<>());
 
-        HashMap<String, List<String>> receptionistTableMap = new HashMap<>();
-        receptionistTableMap.put(Strings.RECEPTIONIST_ID, new ArrayList<>());
-        receptionistTableMap.put(Strings.EMPLOYEE_ID, new ArrayList<>());
-        receptionistTableMap.put(Strings.ENTRANCE_NUMBER, new ArrayList<>());
+        HashMap<String, List<String>> professionTableMap = new HashMap<>();
+        professionTableMap.put(Strings.NAME, Arrays.asList("Receptionist", "Security Guard", "Researcher", "Conservationist","Cleaner", "Doctor", "Dentist", "Tailor", "Archaeologist", "Teacher", "Gamekeeper", "Economist",
+                "Paramedic", "Auditor", "Manager", "Stockbroker", "Maid", "Engineer", "Clockmaker", "Builder"));
 
-        HashMap<String, List<String>> securityGuardTableMap = new HashMap<>();
-        securityGuardTableMap.put(Strings.SECURITYGUARD_ID, new ArrayList<>());
-        securityGuardTableMap.put(Strings.EMPLOYEE_ID, new ArrayList<>());
-        securityGuardTableMap.put(Strings.ASSIGNED_AREA, new ArrayList<>());
-        securityGuardTableMap.put(Strings.VEHICLE_ID, new ArrayList<>());
+        HashMap<String, List<String>> assignedAreaTableMap = new HashMap<>();
+        assignedAreaTableMap.put(Strings.NAME, Arrays.asList("1", "2", "3", "4", "5", "Alpha", "Bravo", "Charlie", "Delta", "Echo"));
 
-        HashMap<String, List<String>> researcherTableMap = new HashMap<>();
-        researcherTableMap.put(Strings.RESEARCHER_ID, new ArrayList<>());
-        researcherTableMap.put(Strings.EMPLOYEE_ID, new ArrayList<>());
-        researcherTableMap.put(Strings.DIPLOMA, new ArrayList<>());
+        HashMap<String, List<String>> specialityTableMap = new HashMap<>();
+        specialityTableMap.put(Strings.NAME, Arrays.asList("Associate", "Bachelor", "First professional", "Master", "Intermediate graduate",
+                "Research doctorate", "Animalia Kingdom", "Plantae Kingdom", "Protista Kingdom", "Monera Kingdom", "Fungi Kingdom"));
 
-        HashMap<String, List<String>> conservationistTableMap = new HashMap<>();
-        conservationistTableMap.put(Strings.CONSERVATIONIST_ID, new ArrayList<>());
-        conservationistTableMap.put(Strings.EMPLOYEE_ID, new ArrayList<>());
-        conservationistTableMap.put(Strings.SPECIALITY, new ArrayList<>());
-        conservationistTableMap.put(Strings.ASSIGNED_AREA, new ArrayList<>());
+        HashMap<String, List<String>> vehicleTableMap = new HashMap<>();
+        vehicleTableMap.put(Strings.VEHICLE_ID, new ArrayList<>());
+        vehicleTableMap.put(Strings.EMPLOYEE_ID, new ArrayList<>());
 
-        String[] diplomas = {"Associate", "Bachelor", "First professional", "Master", "Intermediate graduate", "Research doctorate"};
-        String[] specialtis = {"Animalia Kingdom", "Plantae Kingdom", "Protista Kingdom", "Monera Kingdom", "Fungi Kingdom"};
-
-        int j = 1, k = 1, rec = 1, s = 1, res = 1, c = 1, v = 1;
+        int j = 1, k = 1, v = 1;
         for (int i = 1001; i <= 1000 + numOfParks * 4; ) {
             // Creation of receptionist
-            employeeTableMap.get(Strings.EMPLOYEE_ID).add(String.valueOf(j));
+            employeeTableMap.get(Strings.EMPLOYEE_ID).add(String.valueOf(j++));
             employeeTableMap.get(Strings.PERSON_ID).add(String.valueOf(i++));
             employeeTableMap.get(Strings.PARK_ID).add(String.valueOf(k));
-            receptionistTableMap.get(Strings.RECEPTIONIST_ID).add(String.valueOf(rec++));
-            receptionistTableMap.get(Strings.EMPLOYEE_ID).add(String.valueOf(j++));
-            receptionistTableMap.get(Strings.ENTRANCE_NUMBER).add("0");
+            employeeTableMap.get(Strings.PROFESSION_ID).add("1");
+            employeeTableMap.get(Strings.ASSIGNED_AREA).add(String.valueOf(ThreadLocalRandom.current().nextInt(1, 6)));
+            employeeTableMap.get(Strings.SPECIALITY_ID).add("");
 
             // Creation of security guard
             employeeTableMap.get(Strings.EMPLOYEE_ID).add(String.valueOf(j));
             employeeTableMap.get(Strings.PERSON_ID).add(String.valueOf(i++));
             employeeTableMap.get(Strings.PARK_ID).add(String.valueOf(k));
-            securityGuardTableMap.get(Strings.SECURITYGUARD_ID).add(String.valueOf(s++));
-            securityGuardTableMap.get(Strings.EMPLOYEE_ID).add(String.valueOf(j++));
-            securityGuardTableMap.get(Strings.ASSIGNED_AREA).add("CENTRAL AREA");
-            securityGuardTableMap.get(Strings.VEHICLE_ID).add(String.valueOf(v++));
+            employeeTableMap.get(Strings.PROFESSION_ID).add("2");
+            employeeTableMap.get(Strings.ASSIGNED_AREA).add(String.valueOf(ThreadLocalRandom.current().nextInt(6, 11)));
+            employeeTableMap.get(Strings.SPECIALITY_ID).add("");
+            vehicleTableMap.get(Strings.VEHICLE_ID).add(String.valueOf(v++));
+            vehicleTableMap.get(Strings.EMPLOYEE_ID).add(String.valueOf(j++));
 
             // Creation of researcher
-            employeeTableMap.get(Strings.EMPLOYEE_ID).add(String.valueOf(j));
+            employeeTableMap.get(Strings.EMPLOYEE_ID).add(String.valueOf(j++));
             employeeTableMap.get(Strings.PERSON_ID).add(String.valueOf(i++));
             employeeTableMap.get(Strings.PARK_ID).add(String.valueOf(k));
-            researcherTableMap.get(Strings.RESEARCHER_ID).add(String.valueOf(res++));
-            researcherTableMap.get(Strings.EMPLOYEE_ID).add(String.valueOf(j++));
-            researcherTableMap.get(Strings.DIPLOMA).add(diplomas[ThreadLocalRandom.current().nextInt(0, 6)]);
+            employeeTableMap.get(Strings.PROFESSION_ID).add("3");
+            employeeTableMap.get(Strings.ASSIGNED_AREA).add("");
+            employeeTableMap.get(Strings.SPECIALITY_ID).add(String.valueOf(ThreadLocalRandom.current().nextInt(1, 7)));
 
             // Create conservationist
-            employeeTableMap.get(Strings.EMPLOYEE_ID).add(String.valueOf(j));
+            employeeTableMap.get(Strings.EMPLOYEE_ID).add(String.valueOf(j++));
             employeeTableMap.get(Strings.PERSON_ID).add(String.valueOf(i++));
             employeeTableMap.get(Strings.PARK_ID).add(String.valueOf(k++));
-            conservationistTableMap.get(Strings.CONSERVATIONIST_ID).add(String.valueOf(c++));
-            conservationistTableMap.get(Strings.EMPLOYEE_ID).add(String.valueOf(j++));
-            conservationistTableMap.get(Strings.SPECIALITY).add(specialtis[ThreadLocalRandom.current().nextInt(0, 5)]);
-            conservationistTableMap.get(Strings.ASSIGNED_AREA).add("Complete Park");
+            employeeTableMap.get(Strings.PROFESSION_ID).add("4");
+            employeeTableMap.get(Strings.ASSIGNED_AREA).add("");
+            employeeTableMap.get(Strings.SPECIALITY_ID).add(String.valueOf(ThreadLocalRandom.current().nextInt(7, 12)));
         }
 
+        xmlManager.addTableToDBDoc("Professions", "Profession", professionTableMap);
+        xmlManager.addTableToDBDoc("AssignedAreas", "AssginedArea", assignedAreaTableMap);
+        xmlManager.addTableToDBDoc("Specialities", "Speciality", specialityTableMap);
         xmlManager.addTableToDBDoc("Employees", "Employee", employeeTableMap);
-        xmlManager.addTableToDBDoc("Receptionists", "Receptionist", receptionistTableMap);
-        xmlManager.addTableToDBDoc("SecurityGuards", "SecurityGuard", securityGuardTableMap);
-        xmlManager.addTableToDBDoc("Researchers", "Researcher", researcherTableMap);
-        xmlManager.addTableToDBDoc("Conservationists", "Conservationist", conservationistTableMap);
     }
 
     private static void genVehicleData() {
@@ -221,7 +214,7 @@ public class Main {
         vehicleTableMap.put(Strings.REGISTRATION_NUMBER, new ArrayList<>());
         vehicleTableMap.put(Strings.PARK_ID, new ArrayList<>());
 
-        int vId =1;
+        int vId = 1;
         for (int i = 1; i <= numOfParks; ++i) {
             vehicleTableMap.get(Strings.VEHICLE_ID).add(String.valueOf(vId++));
             vehicleTableMap.get(Strings.TYPE).add("4x4");
@@ -336,15 +329,12 @@ public class Main {
         HashMap<String, List<String>> visitorTableMap = new HashMap<>();
         visitorTableMap.put(Strings.VISITOR_ID, new ArrayList<>());
         visitorTableMap.put(Strings.PERSON_ID, new ArrayList<>());
-        visitorTableMap.put(Strings.PROFESSION, new ArrayList<>());
-
-        String[] professions = {"Cleaner", "Doctor", "Dentist", "Tailor", "Archaeologist", "Teacher", "Gamekeeper", "Economist",
-                "Paramedic", "Auditor", "Manager", "Stockbroker", "Maid", "Engineer", "Clockmaker", "Builder"};
+        visitorTableMap.put(Strings.PROFESSION_ID, new ArrayList<>());
 
         for (int i = 1; i <= 1000; ++i) {
             visitorTableMap.get(Strings.VISITOR_ID).add(String.valueOf(i));
             visitorTableMap.get(Strings.PERSON_ID).add(String.valueOf(i));
-            visitorTableMap.get(Strings.PROFESSION).add(professions[ThreadLocalRandom.current().nextInt(0, 15)]);
+            visitorTableMap.get(Strings.PROFESSION_ID).add(String.valueOf(ThreadLocalRandom.current().nextInt(5, 21)));
         }
 
         xmlManager.addTableToDBDoc("Visitors", "Visitor", visitorTableMap);

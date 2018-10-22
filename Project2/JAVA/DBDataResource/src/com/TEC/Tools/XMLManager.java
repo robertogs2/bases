@@ -31,6 +31,7 @@ public class XMLManager {
 
             // Creation of root element
             rootElement = doc.createElement("DB");
+            rootElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
             doc.appendChild(rootElement);
 
         } catch (Exception e) {
@@ -45,6 +46,7 @@ public class XMLManager {
             for (String k : tableData.keySet()) {
                 Element attr = doc.createElement(k);
                 attr.setTextContent(tableData.get(k).get(i));
+                if(tableData.get(k).get(i).equals(""))attr.setAttribute("xsi:nil","true");
                 tableRow.appendChild(attr);
             }
             table.appendChild(tableRow);

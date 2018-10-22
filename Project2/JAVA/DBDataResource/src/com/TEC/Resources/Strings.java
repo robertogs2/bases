@@ -21,6 +21,9 @@ public class Strings {
     public static final String PHONE_NUMBER = "PhoneNumber";
     public static final String EMPLOYEE_ID = "EmployeeId";
     public static final String PARK_ID = "ParkId";
+    public static final String PROFESSION_ID = "ProfessionId";
+    public static final String ASSIGNED_AREA_ID = "AssignedAreaId";
+    public static final String SPECIALITY_ID = "SpecialityId";
     public static final String RECEPTIONIST_ID = "ReceptionistId";
     public static final String ENTRANCE_NUMBER = "EntranceNumber";
     public static final String SECURITYGUARD_ID = "SecurityGuardId";
