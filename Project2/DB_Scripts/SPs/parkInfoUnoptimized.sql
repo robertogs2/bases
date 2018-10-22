@@ -2,6 +2,8 @@
 USE BASESTEC;
 GO
 
+DROP PROCEDURE IF EXISTS getParkTourInfo;
+
 -- Sets the behavior when null values are found
 -- if: WHERE columnName = NULL, no rows are returned.
 -- Even if de condition is true and if:

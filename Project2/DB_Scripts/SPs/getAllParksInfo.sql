@@ -2,6 +2,13 @@
 USE BASESTEC;
 GO
 
+DROP PROCEDURE IF EXISTS getAllParksInfo;
+
+DECLARE globalParkInfo CURSOR GLOBAL
+FOR
+SELECT Park.Name, Park.foundationDate
+FROM Park
+
 -- Sets the behavior when null values are found
 -- if: WHERE columnName = NULL, no rows are returned.
 -- Even if de condition is true and if:
@@ -17,25 +24,23 @@ GO
 -- =============================================
 -- Author:		CodingBrotherhood
 -- Create date: 
--- Description:	Adds a country
+-- Description:	Creates a global cursor and iterates over 
+-- all the inserted parks in the db
 -- =============================================
-CREATE PROCEDURE addCountry 
+CREATE PROCEDURE getAllParksInfo 
 	-- Parameters
-	@countryName VARCHAR(15) 
 AS
 BEGIN
 
-	IF (NOT EXISTS (SELECT dbo.Country.Name
-						FROM dbo.Country 
-						WHERE dbo.Country.Name = @countryName))
+	OPEN globalParkInfo
+
+	FETCH NEXT FROM globalParkInfo
+	WHILE @@FETCH_STATUS = 0
 	BEGIN
-		BEGIN TRANSACTION countryAdd
-			INSERT INTO Country
-				(Name)
-			VALUES
-				(@countryName);
-		COMMIT TRANSACTION countryAdd -- Commit changes to the database, used in case rollback is needed
+		FETCH NEXT FROM globalParkInfo
 	END
+	CLOSE globalParkInfo
+	DEALLOCATE globalParkInfo
 	
 END
 GO
