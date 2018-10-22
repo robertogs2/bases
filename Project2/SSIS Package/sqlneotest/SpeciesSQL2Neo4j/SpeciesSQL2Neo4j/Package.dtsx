@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="10"
-  DTS:VersionGUID="{8DF98DC3-DAF8-48AF-85E1-EAC526B4DC0B}">
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{8CAF8B9B-1E2E-4B20-A5C1-1B637EF7D3A4}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -114,61 +114,6 @@
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="Data Source=DEVSQLCLU;Initial Catalog=BASESTEC;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager Beings]"
-      DTS:CreationName="FLATFILE"
-      DTS:DTSID="{1ADB43FC-2694-4D00-A116-FA7689222F90}"
-      DTS:ObjectName="Flat File Connection Manager Beings">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:Format="Delimited"
-          DTS:LocaleID="1033"
-          DTS:HeaderRowDelimiter="_x000D__x000A_"
-          DTS:RowDelimiter=""
-          DTS:TextQualifier="_x003C_none_x003E_"
-          DTS:CodePage="1252"
-          DTS:ConnectionString="\\DEVSQLCLU\neoetl\Neo4jdbs\Neo4jSpecies\data\beings.csv">
-          <DTS:FlatFileColumns>
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:MaximumWidth="50"
-              DTS:DataType="129"
-              DTS:TextQualified="True"
-              DTS:ObjectName="Column 0"
-              DTS:DTSID="{7226AF98-3B45-43F0-B0E1-CC1E01CDFC59}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:MaximumWidth="50"
-              DTS:DataType="129"
-              DTS:TextQualified="True"
-              DTS:ObjectName="Column 1"
-              DTS:DTSID="{85529B6C-D7F6-43EC-838A-AC2E45C84C66}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:MaximumWidth="50"
-              DTS:DataType="129"
-              DTS:TextQualified="True"
-              DTS:ObjectName="Column 2"
-              DTS:DTSID="{562DFF51-0F9B-498F-8C07-CA8A14155CB8}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x000D__x000A_"
-              DTS:MaximumWidth="50"
-              DTS:DataType="129"
-              DTS:TextQualified="True"
-              DTS:ObjectName="Column 3"
-              DTS:DTSID="{74A356C6-43C0-44C6-BA5D-28FE1B69F1C4}"
-              DTS:CreationName="" />
-          </DTS:FlatFileColumns>
-        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -717,9 +662,9 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="152.8,48"
+          Size="138.4,45.6"
           Id="Package\BeingsFlow"
-          TopLeft="133.877553300329,94.3865559455845" />
+          TopLeft="133.877553300329,100.386555945585" />
         <NodeLayout
           Size="126.4,41.6"
           Id="Package\ChainFlow"
@@ -730,18 +675,18 @@
           TopLeft="113.469389687474,293.647062941818" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="207.958165315845,142.386555945584">
+          TopLeft="204.358165315845,145.986555945585">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.0378161433659"
+              EndConnector="0,56.4378161433655"
               Start="0,0"
-              End="0,52.5378161433659">
+              End="0,48.9378161433655">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5378161433659" />
+                    End="0,48.9378161433655" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
