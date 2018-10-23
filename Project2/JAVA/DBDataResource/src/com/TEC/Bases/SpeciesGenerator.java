@@ -24,20 +24,30 @@ public class SpeciesGenerator {
     private static FileWriter fw2;
 
     public static void main(String[] args) throws IOException {
-        try {
+        init();
+        /*for(int i = 0; i < 481; i++){
+            int s = (int)(Math.random()*100)%11+1;
+            int e = (int)((Math.random()*100)%(11) + s)%11;
+            String ss = "INSERT INTO \"Period\"(CharacteristicMonthStart, " +
+                    "CharacteristicMonthEnd)\nVALUES (%d, %d)";
+            ss = String.format(ss, s, e);
+            System.out.println(ss);
+        }*/
+
+        /*try {
             fw = new FileWriter("SpeciesScript.txt");
             fw2 = new FileWriter("ChainScript.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        init();
+
         for (; a < 82; a++) {
             String s = String.format("https://www.arkive.org/explore/species/all/all/%d?results=200", a);
             getSpeciesData(s);
         }
-        fw.close();
-        //getMineralsData("https://en.wikipedia.org/wiki/List_of_minerals");
-        String s = "INSERT INTO FoodChainLink(fk_idConsumer, fk_idFood)\nVALUES(%d,%d)\n";
+        fw.close();*/
+        getMineralsData("https://en.wikipedia.org/wiki/List_of_minerals");
+        /*String s = "INSERT INTO FoodChainLink(fk_idConsumer, fk_idFood)\nVALUES(%d,%d)\n";
         for (Species animal : animals) {
             int maxFood = ((int) (Math.random() * 100)) % 5 + 1;
             if (animal.characteristicid == 1) {//carnivore
@@ -63,7 +73,7 @@ public class SpeciesGenerator {
                 }
             }
         }
-        fw2.close();
+        fw2.close();*/
     }
 
     private static void init() {
@@ -186,17 +196,21 @@ public class SpeciesGenerator {
 
     private static void getMineralsData(String url) {
         webDriver.get(url);
+        String query = "INSERT INTO Species(ScientificName, NonScientificName, fk_idSpeciesType, fk_Characteristic) " +
+                "VALUES('%s', '%s', 3, %d)";
+        String s, n;
         List<WebElement> list0 = webDriver.findElements(
                 By.xpath("//*[@id=\"mw-content-text\"]/div/div"));
         for (int i = 0; i < list0.size(); i++) {
             List<WebElement> list1 = list0.get(i).findElements(By.xpath("ul/li"));
-            for (int j = 0; j < list1.size(); j += 3) {
-                String s = list1.get(j).getText();
+            for (int j = 0; j < list1.size(); j++) {
+                s = list1.get(j).getText().replace("'", "");
                 if (s.split(" ").length < 3) {
-                    System.out.println(s.split(" ")[0]);
+                    n = s.split(" ")[0];
+                    int c = (int)(Math.random()*100)%2 + 6;
+                    System.out.println(String.format(query, n, n, c));
                 }
             }
-            System.out.println();
         }
     }
 }
