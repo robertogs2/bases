@@ -4,7 +4,6 @@ DROP DATABASE BASESTEC;
 CREATE DATABASE BASESTEC;
 USE BASESTEC;
 GO
-
 IF OBJECT_ID('dbo.FoodChainLink', 'U') IS NOT NULL DROP TABLE dbo.FoodChainLink; -- Drop FoodChainLink table in case it already exists
 IF OBJECT_ID('dbo.VehicleXEmployee', 'U') IS NOT NULL DROP TABLE dbo.VehicleXEmployee; -- Drop VehicleXEmployee table in case it already exists
 IF OBJECT_ID('dbo.Location', 'U') IS NOT NULL DROP TABLE dbo."Location"; -- Drop Location table in case it already exists
@@ -103,15 +102,15 @@ CREATE TABLE Characteristic(
 -- Period table creation
 CREATE TABLE "Period"(
 	idPeriod INT IDENTITY(1,1) PRIMARY KEY, -- IDENTITY(1,1) for autoincrement of primary key
-	CharacteristicPeriodStart DATETIME NULL,  -- According to the type, this field can take the value: plant (start of blooming period), animal (start of reproductive period)
-	CharacteristicPeriodEnd DATETIME NULL  -- According to the type, this field can take the value: plant (end of blooming period), animal (end of reproductive period)
+	CharacteristicMonthStart TINYINT NULL,  -- According to the type, this field can take the value: plant (start of blooming period), animal (start of reproductive period)
+	CharacteristicMonthEnd TINYINT NULL  -- According to the type, this field can take the value: plant (end of blooming period), animal (end of reproductive period)
 );
 
 -- Species table creation.
 CREATE TABLE Species(
 	idSpecies INT IDENTITY(1,1) PRIMARY KEY, -- IDENTITY(1,1) for autoincrement of primary key
-	ScientificName VARCHAR(15) NOT NULL, -- Double quotes because name is a key word
-	NonScientificName VARCHAR(15)	NOT NULL,
+	ScientificName VARCHAR(50) NOT NULL, -- Double quotes because name is a key word
+	NonScientificName VARCHAR(50)	NOT NULL,
 	fk_idSpeciesType INT FOREIGN KEY REFERENCES SpeciesType(idSpeciesType),
 	fk_Characteristic INT FOREIGN KEY REFERENCES Characteristic(idCharacteristic),
 	fk_Period INT FOREIGN KEY REFERENCES "Period"(idPeriod)
