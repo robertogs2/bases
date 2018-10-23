@@ -8,12 +8,19 @@ GO
 SELECT *
 FROM State
 */
+
+-- EXEC getAllProfessions		-- Local cursor test
+-- EXEC getAllParksInfo			-- Global cursor test
+
+
+
+
 -- SELECT * FROM [Employee info] -- View query
 -- Add multiple countries by XML using tvp
-EXEC addCountriesXMLTVP	@path =  'D:\TEC\Bases\Grupo\bases\Project2\DB_Scripts\SPs\addCountries2.xml',
+/*EXEC addCountriesXMLTVP	@path =  'D:\TEC\Bases\Grupo\bases\Project2\DB_Scripts\SPs\addCountries2.xml',
 						@fileName = 'addCountries',
 						@subSection1 = 'Countries',
-						@subSection2 = 'Country'
+						@subSection2 = 'Country'*/
 
 -- Add multiple countries by XML the normal way
 /*EXEC addCountriesXML	@path =  'D:\TEC\Bases\Grupo\bases\Project2\DB_Scripts\SPs\addCountries.xml',

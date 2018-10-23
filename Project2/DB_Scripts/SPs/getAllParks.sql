@@ -2,10 +2,7 @@
 USE BASESTEC;
 GO
 
-EXEC sp_recompile N'Country';  
-GO  
-
-DROP PROCEDURE IF EXISTS addCountry;
+DROP PROCEDURE IF EXISTS getAllParks;
 
 -- Sets the behavior when null values are found
 -- if: WHERE columnName = NULL, no rows are returned.
@@ -22,25 +19,23 @@ GO
 -- =============================================
 -- Author:		CodingBrotherhood
 -- Create date: 
--- Description:	Adds a country
+-- Description:	Creates a global cursor and iterates over 
+-- all the inserted parks in the db
 -- =============================================
-CREATE PROCEDURE addCountry 
+CREATE PROCEDURE getAllParks
 	-- Parameters
-	@countryName VARCHAR(15) 
+
 AS
 BEGIN
 
-	IF (NOT EXISTS (SELECT dbo.Country.Name
-						FROM dbo.Country 
-						WHERE dbo.Country.Name = @countryName))
-	BEGIN
-		BEGIN TRANSACTION countryAdd
-			INSERT INTO Country
-				(Name)
-			VALUES
-				(@countryName);
-		COMMIT TRANSACTION countryAdd -- Commit changes to the database, used in case rollback is needed
-	END
+	DECLARE @parkName VARCHAR(MAX) 
+
+	-- Coalescense is used as a pivot, it takes the name of every park
+	-- concatenates it and return the result string with all the names
+	SELECT @parkName = COALESCE(@parkName,'') + Park.Name + '; '  
+	FROM Park 
+
+	SELECT @parkName AS ParkNames 
 	
 END
 GO
