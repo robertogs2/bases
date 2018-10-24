@@ -7,12 +7,12 @@
   DTS:CreatorName="TECBASES\cluadm"
   DTS:DTSID="{BADB6E93-0E71-4899-9E9E-AEAC97BC4652}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.0900.30"
+  DTS:LastModifiedProductVersion="14.0.3002.107"
   DTS:LocaleID="1033"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="13"
-  DTS:VersionGUID="{8CAF8B9B-1E2E-4B20-A5C1-1B637EF7D3A4}">
+  DTS:VersionBuild="14"
+  DTS:VersionGUID="{D5931C5B-AF22-436A-8459-B75CA25D38A4}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -183,7 +183,7 @@
                       refId="Package\BeingsFlow\BeingsCSV.Inputs[Flat File Destination Input].Columns[ScientificName]"
                       cachedCodepage="1252"
                       cachedDataType="str"
-                      cachedLength="15"
+                      cachedLength="50"
                       cachedName="ScientificName"
                       externalMetadataColumnId="Package\BeingsFlow\BeingsCSV.Inputs[Flat File Destination Input].ExternalColumns[ScientificName]"
                       lineageId="Package\BeingsFlow\GetBeingsSQL.Outputs[OLE DB Source Output].Columns[ScientificName]" />
@@ -191,7 +191,7 @@
                       refId="Package\BeingsFlow\BeingsCSV.Inputs[Flat File Destination Input].Columns[NonScientificName]"
                       cachedCodepage="1252"
                       cachedDataType="str"
-                      cachedLength="15"
+                      cachedLength="50"
                       cachedName="NonScientificName"
                       externalMetadataColumnId="Package\BeingsFlow\BeingsCSV.Inputs[Flat File Destination Input].ExternalColumns[NonScientificName]"
                       lineageId="Package\BeingsFlow\GetBeingsSQL.Outputs[OLE DB Source Output].Columns[NonScientificName]" />
@@ -247,7 +247,7 @@
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXEC GetBeings</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">EXEC GetBeings</property>
                 <property
                   dataType="System.String"
                   description="The variable that contains the SQL command to be executed."
@@ -308,7 +308,7 @@
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\BeingsFlow\GetBeingsSQL.Outputs[OLE DB Source Output].ExternalColumns[ScientificName]"
-                      length="15"
+                      length="50"
                       lineageId="Package\BeingsFlow\GetBeingsSQL.Outputs[OLE DB Source Output].Columns[ScientificName]"
                       name="ScientificName"
                       truncationRowDisposition="FailComponent" />
@@ -319,7 +319,7 @@
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\BeingsFlow\GetBeingsSQL.Outputs[OLE DB Source Output].ExternalColumns[NonScientificName]"
-                      length="15"
+                      length="50"
                       lineageId="Package\BeingsFlow\GetBeingsSQL.Outputs[OLE DB Source Output].Columns[NonScientificName]"
                       name="NonScientificName"
                       truncationRowDisposition="FailComponent" />
@@ -338,13 +338,13 @@
                       refId="Package\BeingsFlow\GetBeingsSQL.Outputs[OLE DB Source Output].ExternalColumns[ScientificName]"
                       codePage="1252"
                       dataType="str"
-                      length="15"
+                      length="50"
                       name="ScientificName" />
                     <externalMetadataColumn
                       refId="Package\BeingsFlow\GetBeingsSQL.Outputs[OLE DB Source Output].ExternalColumns[NonScientificName]"
                       codePage="1252"
                       dataType="str"
-                      length="15"
+                      length="50"
                       name="NonScientificName" />
                   </externalMetadataColumns>
                 </output>
@@ -367,14 +367,14 @@
                       refId="Package\BeingsFlow\GetBeingsSQL.Outputs[OLE DB Source Error Output].Columns[ScientificName]"
                       codePage="1252"
                       dataType="str"
-                      length="15"
+                      length="50"
                       lineageId="Package\BeingsFlow\GetBeingsSQL.Outputs[OLE DB Source Error Output].Columns[ScientificName]"
                       name="ScientificName" />
                     <outputColumn
                       refId="Package\BeingsFlow\GetBeingsSQL.Outputs[OLE DB Source Error Output].Columns[NonScientificName]"
                       codePage="1252"
                       dataType="str"
-                      length="15"
+                      length="50"
                       lineageId="Package\BeingsFlow\GetBeingsSQL.Outputs[OLE DB Source Error Output].Columns[NonScientificName]"
                       name="NonScientificName" />
                     <outputColumn
@@ -505,7 +505,7 @@
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXEC GetChain</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">EXEC GetChain</property>
                 <property
                   dataType="System.String"
                   description="The variable that contains the SQL command to be executed."
@@ -627,7 +627,7 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <ExecuteProcessData
-          Executable="\\DEVSQLCLU\neoetl\Neo4jdbs\Neo4jSpecies\update.bat" />
+          Executable="\\DEVSQLCLU\openfolder\Neo4jdbs\Neo4jSpecies\update.bat" />
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
@@ -662,15 +662,15 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="138.4,45.6"
+          Size="138,46"
           Id="Package\BeingsFlow"
           TopLeft="133.877553300329,100.386555945585" />
         <NodeLayout
-          Size="126.4,41.6"
+          Size="126,42"
           Id="Package\ChainFlow"
           TopLeft="142.43877733136,202.42437208895" />
         <NodeLayout
-          Size="131.2,41.6"
+          Size="131,42"
           Id="Package\LoadToNeo"
           TopLeft="113.469389687474,293.647062941818" />
         <EdgeLayout
@@ -738,11 +738,11 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="144.8,41.6"
+          Size="145,42"
           Id="Package\BeingsFlow\GetBeingsSQL"
           TopLeft="231.2,194.4" />
         <NodeLayout
-          Size="128,41.6"
+          Size="128,42"
           Id="Package\BeingsFlow\BeingsCSV"
           TopLeft="249.6,382.4" />
         <EdgeLayout
