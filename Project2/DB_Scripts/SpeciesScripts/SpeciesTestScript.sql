@@ -1,4 +1,4 @@
--- DBCC CHECKIDENT ('[Species]', RESEED, 0)
+
 
 CREATE PROCEDURE GetBeings AS
 	WITH IDTable 
