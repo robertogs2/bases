@@ -22,15 +22,18 @@ USE BASESTEC;
 	DECLARE @LocationTVP AS CountryTableType;
 	DECLARE @fileData  XML
 
-	SELECT @fileData = BulkColumn FROM OpenRowSet(Bulk'D:\TEC\Bases\Grupo\bases\Project2\DB_Scripts\SPs\addCountries2.xml',Single_blob) x;
+	SELECT @fileData = BulkColumn FROM OpenRowSet(Bulk'D:\TEC\Bases\Grupo\Project2\DB_Scripts\SPs\addCountries2.xml',Single_blob) x;
 
 
-	INSERT INTO  @LocationTVP
-		("Name") 
-	SELECT
-		xData.value('Name[1]', 'VARCHAR(15)') "Name"       
-	FROM @fileData.nodes('/addCountries/Countries/Country') AS x(xData);
 
-/* Pass the table variable data to a stored procedure. */  
+	MERGE @LocationTVP AS target  
+    USING (	SELECT xData.value('Name[1]', 'VARCHAR(15)') "Name"       
+			FROM @fileData.nodes('/addCountries/Countries/Country') AS x(xData)) AS source (name) 
+    ON (target.Name = source.name)  
+
+	WHEN NOT MATCHED THEN  
+    INSERT (Name)  
+    VALUES (source.Name);   
+
 EXEC insertCountryTVP @LocationTVP;  
 GO 

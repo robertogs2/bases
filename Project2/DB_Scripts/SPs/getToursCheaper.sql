@@ -2,10 +2,8 @@
 USE BASESTEC;
 GO
 
-EXEC sp_recompile N'Country';  
-GO  
+DROP PROCEDURE IF EXISTS getToursCheaper;
 
-DROP PROCEDURE IF EXISTS addCountry;
 
 -- Sets the behavior when null values are found
 -- if: WHERE columnName = NULL, no rows are returned.
@@ -22,25 +20,23 @@ GO
 -- =============================================
 -- Author:		CodingBrotherhood
 -- Create date: 
--- Description:	Adds a country
+-- Description:	Gets Tors cheaper than a limit in a park
 -- =============================================
-CREATE PROCEDURE addCountry 
-	-- Parameters
-	@countryName VARCHAR(15) 
+CREATE PROCEDURE getToursCheaper 
+	-- Procedure parameters
+	@parkName VARCHAR(50), 
+	@price INT
+
 AS
 BEGIN
-
-	IF (NOT EXISTS (SELECT dbo.Country.Name
-						FROM dbo.Country 
-						WHERE dbo.Country.Name = @countryName))
-	BEGIN
-		BEGIN TRANSACTION countryAdd
-			INSERT INTO Country
-				(Name)
-			VALUES
-				(LTRIM(@countryName));
-		COMMIT TRANSACTION countryAdd -- Commit changes to the database, used in case rollback is needed
-	END
 	
+	SELECT Tour.Name, Tour.Price
+	FROM Park					
+	INNER JOIN Accommodation		ON Accommodation.fk_idPark = Park.idPark
+	INNER JOIN AccommodationXTour	ON AccommodationXTour.fk_idAccommodation = Accommodation.idAccommodation
+	INNER JOIN Tour					ON Tour.idTour = AccommodationXTour.fk_idTour
+	WHERE Park.Name = 'Acadia' and Tour.Price <= 20
+	--@parkName
+
 END
 GO

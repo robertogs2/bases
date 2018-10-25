@@ -6,8 +6,11 @@ USE BASESTEC;
 GO
 /*
 SELECT *
-FROM State
+FROM Country
 */
+
+EXEC getPlaces @placeName = 'a'
+
 
 -- EXEC getAllProfessions		-- Local cursor test
 -- EXEC getAllParksInfo			-- Global cursor test
@@ -17,19 +20,19 @@ FROM State
 
 -- SELECT * FROM [Employee info] -- View query
 -- Add multiple countries by XML using tvp
-/*EXEC addCountriesXMLTVP	@path =  'D:\TEC\Bases\Grupo\bases\Project2\DB_Scripts\SPs\addCountries2.xml',
+/*EXEC addCountriesXMLTVP	@path =  'D:\TEC\Bases\Grupo\Project2\DB_Scripts\SPs\addCountries2.xml',
 						@fileName = 'addCountries',
 						@subSection1 = 'Countries',
 						@subSection2 = 'Country'*/
 
 -- Add multiple countries by XML the normal way
-/*EXEC addCountriesXML	@path =  'D:\TEC\Bases\Grupo\bases\Project2\DB_Scripts\SPs\addCountries.xml',
+/*EXEC addCountriesXMLOpenRowSet	@path =  'D:\TEC\Bases\Grupo\Project2\DB_Scripts\SPs\addCountries.xml',
 						@fileName = 'addCountries',
 						@subSection1 = 'Countries',
 						@subSection2 = 'Country'*/
 
 --Mega SP
---EXEC getParkInfo
+--EXEC getParkTourInfo
 
 -- SP 4 table modification and subprocedures call
 --EXEC addCountry @countryName = Indonesia									-- Adds a country

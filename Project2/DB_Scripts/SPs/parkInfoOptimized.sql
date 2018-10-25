@@ -12,6 +12,8 @@ DROP PROCEDURE IF EXISTS getParkTourInfoOpt;
 SET ANSI_NULLS ON
 GO
 
+DROP PROCEDURE IF EXISTS getParkTourInfoOpt;
+
 -- Allows the use of  double quotation marks to represent 
 -- identifiers and single quotation to represent literals
 SET QUOTED_IDENTIFIER ON
