@@ -2,6 +2,8 @@
 USE BASESTEC;
 GO
 
+DROP PROCEDURE IF EXISTS addState;
+
 -- Sets the behavior when null values are found
 -- if: WHERE columnName = NULL, no rows are returned.
 -- Even if de condition is true and if:
@@ -24,6 +26,7 @@ CREATE PROCEDURE addState
 	-- Parameters
 	@stateName VARCHAR(15),
 	@countryOfTheStateName VARCHAR(15) 
+WITH EXECUTE AS OWNER-- Gives permision for table creation and alteration
 AS
 BEGIN
 

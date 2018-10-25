@@ -2,10 +2,7 @@
 USE BASESTEC;
 GO
 
-EXEC sp_recompile N'Country';  
-GO  
-
-DROP PROCEDURE IF EXISTS addCountry;
+DROP PROCEDURE IF EXISTS getPlaces;
 
 -- Sets the behavior when null values are found
 -- if: WHERE columnName = NULL, no rows are returned.
@@ -22,25 +19,29 @@ GO
 -- =============================================
 -- Author:		CodingBrotherhood
 -- Create date: 
--- Description:	Adds a country
+-- Description:	Creates union table
 -- =============================================
-CREATE PROCEDURE addCountry 
+CREATE PROCEDURE getPlaces
 	-- Parameters
-	@countryName VARCHAR(15) 
+	@placeName VARCHAR(15) 
 AS
 BEGIN
+ 
+	SELECT City.Name, City.idCity AS IdPlace
+	FROM City
+	WHERE City.Name LIKE @placeName + '%'
+	
+	UNION
 
-	IF (NOT EXISTS (SELECT dbo.Country.Name
-						FROM dbo.Country 
-						WHERE dbo.Country.Name = @countryName))
-	BEGIN
-		BEGIN TRANSACTION countryAdd
-			INSERT INTO Country
-				(Name)
-			VALUES
-				(LTRIM(@countryName));
-		COMMIT TRANSACTION countryAdd -- Commit changes to the database, used in case rollback is needed
-	END
+	SELECT State.Name, State.idState AS IdPlace
+	FROM State
+	WHERE State.Name LIKE @placeName + '%'
+
+	UNION
+
+	SELECT Country.Name, Country.idCountry AS IdPlace
+	FROM Country
+	WHERE Country.Name LIKE @placeName + '%'
 	
 END
 GO

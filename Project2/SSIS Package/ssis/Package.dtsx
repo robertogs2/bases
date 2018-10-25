@@ -30,7 +30,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="1252"
-          DTS:ConnectionString="\\DEVSQLCLU\neoetl\Neo4jdbs\Neo4jSpecies\data\beings.csv">
+          DTS:ConnectionString="\\DEVSQLCLU\openfolder\Neo4jdbs\Neo4jSpecies\data\beings.csv">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -84,7 +84,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="1252"
-          DTS:ConnectionString="\\DEVSQLCLU\neoetl\Neo4jdbs\Neo4jSpecies\data\chain.csv">
+          DTS:ConnectionString="\\DEVSQLCLU\openfolder\Neo4jdbs\Neo4jSpecies\data\chain.csv">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"

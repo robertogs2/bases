@@ -2,10 +2,7 @@
 USE BASESTEC;
 GO
 
-EXEC sp_recompile N'Country';  
-GO  
-
-DROP PROCEDURE IF EXISTS addCountry;
+DROP PROCEDURE IF EXISTS getAvailableTours;
 
 -- Sets the behavior when null values are found
 -- if: WHERE columnName = NULL, no rows are returned.
@@ -22,25 +19,19 @@ GO
 -- =============================================
 -- Author:		CodingBrotherhood
 -- Create date: 
--- Description:	Adds a country
+-- Description:	Uses union to obtain all employees in all
+-- the parks, migth be usefull for a company to know this
 -- =============================================
-CREATE PROCEDURE addCountry 
+CREATE PROCEDURE getAvailableTours
 	-- Parameters
-	@countryName VARCHAR(15) 
+		@parkName VARCHAR(15)
 AS
 BEGIN
-
-	IF (NOT EXISTS (SELECT dbo.Country.Name
-						FROM dbo.Country 
-						WHERE dbo.Country.Name = @countryName))
-	BEGIN
-		BEGIN TRANSACTION countryAdd
-			INSERT INTO Country
-				(Name)
-			VALUES
-				(LTRIM(@countryName));
-		COMMIT TRANSACTION countryAdd -- Commit changes to the database, used in case rollback is needed
-	END
-	
+	SELECT DISTINCT Tour.Name
+    FROM Tour
+	INNER JOIN AccommodationXTour	ON Tour.idTour = AccommodationXTour.fk_idTour
+	INNER JOIN Accommodation		ON Accommodation.idAccommodation = AccommodationXTour.fk_idAccommodation
+	INNER JOIN Park					ON Park.idPark = Accommodation.fk_idPark
+	WHERE Park.Name = @parkName;
 END
 GO

@@ -2,6 +2,8 @@
 USE BASESTEC;
 GO
 
+DROP PROCEDURE IF EXISTS getParkTourInfo;
+
 -- Sets the behavior when null values are found
 -- if: WHERE columnName = NULL, no rows are returned.
 -- Even if de condition is true and if:
@@ -33,7 +35,7 @@ BEGIN
 				CASE
 					-- If there are no investigations it ill be NULL so we check if that happens
 					-- if its not NULL then we return the average 
-					WHEN ISNUMERIC(AVG(ResearchProject.Budget)) = 1 THEN AVG(ResearchProject.Budget)
+					WHEN dbo.normalizeNumber(AVG(ResearchProject.Budget)) = 1 THEN AVG(ResearchProject.Budget)
 					-- if its NULL we return 0
 					ELSE 0
 				END

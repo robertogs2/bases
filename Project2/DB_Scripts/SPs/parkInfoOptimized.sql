@@ -2,6 +2,8 @@
 USE BASESTEC;
 GO
 
+DROP PROCEDURE IF EXISTS getParkTourInfoOpt;
+
 -- Sets the behavior when null values are found
 -- if: WHERE columnName = NULL, no rows are returned.
 -- Even if de condition is true and if:
@@ -9,6 +11,8 @@ GO
 -- if the condition is true in some rows.
 SET ANSI_NULLS ON
 GO
+
+DROP PROCEDURE IF EXISTS getParkTourInfoOpt;
 
 -- Allows the use of  double quotation marks to represent 
 -- identifiers and single quotation to represent literals

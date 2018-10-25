@@ -2,10 +2,9 @@
 USE BASESTEC;
 GO
 
-EXEC sp_recompile N'Country';  
-GO  
-
-DROP PROCEDURE IF EXISTS addCountry;
+IF OBJECT_ID(N'dbo.normalizeNumber', N'FN') IS NOT NULL
+	DROP FUNCTION normalizeNumber;
+GO
 
 -- Sets the behavior when null values are found
 -- if: WHERE columnName = NULL, no rows are returned.
@@ -22,25 +21,30 @@ GO
 -- =============================================
 -- Author:		CodingBrotherhood
 -- Create date: 
--- Description:	Adds a country
+-- Description:	Check if a parameter is null and returns 0
+-- else returns the number it contains
 -- =============================================
-CREATE PROCEDURE addCountry 
+CREATE FUNCTION normalizeNumber 
+(
 	-- Parameters
-	@countryName VARCHAR(15) 
+	@data INT
+)
+RETURNS INT
 AS
 BEGIN
+	DECLARE @number INT;
 
-	IF (NOT EXISTS (SELECT dbo.Country.Name
-						FROM dbo.Country 
-						WHERE dbo.Country.Name = @countryName))
+	IF(@data IS NULL)
 	BEGIN
-		BEGIN TRANSACTION countryAdd
-			INSERT INTO Country
-				(Name)
-			VALUES
-				(LTRIM(@countryName));
-		COMMIT TRANSACTION countryAdd -- Commit changes to the database, used in case rollback is needed
+		SET @number = 0
 	END
-	
+
+	ELSE
+	BEGIN
+		SET @number = @data
+	END
+
+	RETURN @number
+
 END
 GO
