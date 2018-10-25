@@ -4,7 +4,7 @@ USE BASESTEC;
 DECLARE @fileData  XML
 
 -- import the file contents into the variable
-SELECT @fileData=BulkColumn FROm OpenRowSet(Bulk'D:\Documentos\work\SharedFolder\bases\Project2\DB_Scripts\DB.xml',Single_blob) x;
+SELECT @fileData=BulkColumn FROm OpenRowSet(Bulk'\\DEVSQLCLU\openfolder\DB.xml',Single_blob) x;
 
 
 -- insert the xml data into our Country table (Name)
