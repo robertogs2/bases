@@ -9,13 +9,35 @@
 -- Set to REPEATABLE READ prevent us from reading changes that have not been commited
 -- and from modifying data that is being read. This helps us to avoid changing data that some
 -- other transaction is reading. Allows insertion and read at the same time
-SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
+--SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
+
+-- This shoud be blocked whe updating in all levels but 
+-- the read uncommited
+/*
+SELECT Park.Name 
+FROM Park
+*/
+
+--Inserts are allowed
+/*
+INSERT INTO Park
+	(Name,foundationDate)
+VALUES
+	('Hoenh','February 26, 19')
+*/
+
+--Updates lock till the reading ends
+
+UPDATE Park
+SET Park.Name = 'Jurassic park'
+WHERE Park.idPark = 3 
 
 
-BEGIN TRANSACTION
-	SELECT Park.Name 
-	FROM Park
-	WHERE Park.idPark = 1
-	WAITFOR DELAY '00:00:10'
-	GO
-ROLLBACK
+
+
+
+-- Set to SERIALIZABLE prevent us from reading changes that have not been commited,
+-- from modifying data that is being readand from inserting data in a table that is being read. 
+-- This locks us away from modifying data that is being used
+--SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+
