@@ -6,21 +6,39 @@ https://docs.microsoft.com/en-us/sql/t-sql/statements/grant-object-permissions-t
 
 https://docs.microsoft.com/en-us/sql/relational-databases/security/permissions-database-engine?view=sql-server-2017
 
-Se crearan los siguientes usuarios con pass 2486abc!
+Se crearan los siguientes usuarios con pass 2486abc! o 2486
 
 testuser1:
 	con permisos:
 	bases:
-		BASESTECBAK
-	select:
-		AssignedArea
-		Characteristic
-		City
-		Community
-	write:
-		Country
-		Employee
-		FoodChainLink
-	stored procedures:
-		//missing
+		BASESTECBAK:
+			select:
+				AssignedArea
+				Characteristic
+				City
+				Community
+			write:
+				Country
+				Employee
+				FoodChainLink
+			stored procedures:
+				//missing
 
+testuser2:
+	con permisos:
+	bases:
+		BASESTEC
+		BASESTECBAK:
+			select:
+				Country
+				Employee
+				FoodChainLink
+			write:
+				AssignedArea
+				Characteristic
+				City
+				Community
+			stored procedures:
+				//missing
+
+			

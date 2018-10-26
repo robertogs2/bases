@@ -8,3 +8,6 @@ Restaurar backups:
 
 Para ponerlo en un horario:
 	https://itknowledgeexchange.techtarget.com/itanswers/how-to-schedule-sql-query-to-run-in-microsoft-sql-server/
+
+Para ver actualizaciones:
+	SQL Server Agent > Jobs > click derecho sobre el job dele backup (JobBackupFull) > Viwe History

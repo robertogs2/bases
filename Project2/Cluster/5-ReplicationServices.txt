@@ -5,7 +5,8 @@ Para replication:
 	Hacer las publicaciones y crear los que escuchan/replican
 	https://docs.microsoft.com/en-us/sql/relational-databases/replication/tutorial-replicating-data-with-mobile-clients?view=sql-server-2017
 
-	Por si croma el segundo server: ver parte del puerto, porque un standalone ocupa puerto, además ya se agregó un nuevo ip estático a .1.116 con el nuevo server
+Por si croma el segundo server: ver parte del puerto, porque un standalone ocupa puerto, además ya se agregó un nuevo ip estático a .1.116 con el nuevo server
 	https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/troubleshoot-connecting-to-the-sql-server-database-engine?view=sql-server-2017
 	Si cuando se le da sincronizar no quiere y tira que no puede conectarse, o tira que no ha iniciado el agente, fijarse que todos los servicios de SQL Server Management corren para el primer caso, o volver a hacer la subscripción para el segundo caso
 	El replication que hay en la base pone una columna más por usar merge, aunque no debería, sino usar transactional pero ese no hace update de un lado al otro. de igual forma solo hace merge cuando se le dice, hay que hacer que lo haga en cada insert 
+
