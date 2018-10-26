@@ -5,3 +5,6 @@ Hacer backup con todo y horario, preferiblemente sacar script:
 
 Restaurar backups:
 	https://campus.barracuda.com/product/backup/doc/15892599/how-to-restore-a-microsoft-sql-database-to-a-point-in-time/
+
+Para ponerlo en un horario:
+	https://itknowledgeexchange.techtarget.com/itanswers/how-to-schedule-sql-query-to-run-in-microsoft-sql-server/
