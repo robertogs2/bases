@@ -34,21 +34,6 @@ DROP PROCEDURE IF EXISTS GetChain;
 -- This command sets all country related sps to compile again
 EXEC sp_recompile N'Country';  
 GO
-
--- Creates the global cursor for getAllParksInfo
-IF CURSOR_STATUS('GLOBAL','globalParkInfo') >= -1
-BEGIN
-	DEALLOCATE globalParkInfo
-END
-ELSE
-BEGIN
-	DECLARE globalParkInfo CURSOR 
-	FOR
-	SELECT Park.Name, Park.foundationDate
-	FROM Park
-END
-
-
   
 --We create the type to do Table valued parameters
 DROP TYPE IF EXISTS dbo.CountryTableType;
@@ -484,14 +469,12 @@ CREATE PROCEDURE getAllParksInfo
 AS
 BEGIN
 
-	OPEN GLOBAL globalParkInfo
-
 	FETCH NEXT FROM globalParkInfo
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		FETCH NEXT FROM globalParkInfo
 	END
-	CLOSE globalParkInfo
+	--CLOSE globalParkInfo
 	--DEALLOCATE globalParkInfo
 	
 END

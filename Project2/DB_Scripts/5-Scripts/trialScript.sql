@@ -67,6 +67,21 @@ EXEC getAllProfessions
 
 
 -- GLOBAL CURSOR  
+PRINT 'Creando cursor global'	
+-- Creates the global cursor for getAllParksInfo
+IF CURSOR_STATUS('global','globalParkInfo') >= -1
+BEGIN
+	DEALLOCATE globalParkInfo
+END
+
+DECLARE globalParkInfo CURSOR 
+GLOBAL
+FOR
+SELECT Park.Name, Park.foundationDate
+FROM Park
+OPEN globalParkInfo;
+GO
+PRINT 'Cursor creado'	
 PRINT 'Obteniendo informacion de todos los parques'	
 EXEC getAllParksInfo
 
