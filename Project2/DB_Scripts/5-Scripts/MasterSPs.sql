@@ -630,7 +630,7 @@ BEGIN
 				CASE
 					-- If there are no investigations it ill be NULL so we check if that happens
 					-- if its not NULL then we return the average 
-					WHEN dbo.normalizeNumber(AVG(ResearchProject.Budget)) = 1 THEN AVG(ResearchProject.Budget)
+					WHEN (select dbo.normalizeNumber(AVG(ResearchProject.Budget))) = 1 THEN AVG(ResearchProject.Budget)
 					-- if its NULL we return 0
 					ELSE 0
 				END
@@ -645,7 +645,7 @@ BEGIN
 
 
 	FROM	Park 
-			INNER jOIN Vehicle				ON	Vehicle.fk_idPark = Park.idPark
+			INNER JOIN Vehicle				ON	Vehicle.fk_idPark = Park.idPark
 			INNER JOIN Accommodation		ON	Accommodation.fk_idPark = Park.idPark
 			INNER JOIN AccommodationXTour	ON	AccommodationXTour.fk_idAccommodation = Accommodation.fk_idPark
 			INNER JOIN Tour					ON	Tour.idTour = AccommodationXTour.fk_idTour 

@@ -41,7 +41,7 @@ BEGIN
 
 	ELSE
 	BEGIN
-		SET @number = @data
+		SET @number = 1
 	END
 
 	RETURN @number
