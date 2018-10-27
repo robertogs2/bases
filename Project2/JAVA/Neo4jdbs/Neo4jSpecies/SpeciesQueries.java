@@ -38,7 +38,19 @@ public class SpeciesQueries {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             }
             else {
-                result(input);
+		String[] split = input.split(" ");
+		if(split.length > 3){
+			result(input);
+		}
+		else if(split[0].equals("Food")){
+			result("match (n:Animal)-[:Eats]->(:Species {ScientificName : '" + input.substring(5, input.length()) + "'}) return n" );
+		}
+		else if(split[0].equals("Consumer")){
+			result("match (n:Animal {ScientificName : '" + input.substring(9, input.length()) + "'})-[:Eats]->(m:Species) return m");
+		}
+		else{
+                	result(input);
+		}	
             }
         }
 
