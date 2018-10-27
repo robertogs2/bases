@@ -1,4 +1,4 @@
-Para dar permisos sobre tablas y stored procedures:
+﻿Para dar permisos sobre tablas y stored procedures:
 
 https://docs.microsoft.com/en-us/sql/t-sql/statements/grant-object-permissions-transact-sql?view=sql-server-2017
 
@@ -38,7 +38,7 @@ testuser2:
 				No Ejecuta GetChain
 
 roletest1:
-testroleuser1 y testroleuser2 con permiso en BASESTECBAK
-	identico a testuser2 sobre BASESTECBAK
+testroleuser1 y testroleuser2 con permiso en BASESTEC
+	identico a testuser2 sobre BASESTEC
 
 			
