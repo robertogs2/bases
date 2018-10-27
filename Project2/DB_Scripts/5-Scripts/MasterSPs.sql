@@ -23,7 +23,6 @@ DROP PROCEDURE IF EXISTS getPlaces;
 DROP PROCEDURE IF EXISTS getToursCheaper;
 DROP PROCEDURE IF EXISTS getParkTourInfoUnoptimized;
 DROP PROCEDURE IF EXISTS getParkTourInfoOptimized;
-DROP PROCEDURE IF EXISTS getDifferentPersons;
 
 -- GETTERS FOR NEO4J --
 DROP PROCEDURE IF EXISTS GetBeings;
@@ -34,6 +33,17 @@ DROP PROCEDURE IF EXISTS GetChain;
 -- This command sets all country related sps to compile again
 EXEC sp_recompile N'Country';  
 GO
+
+-- Creates the global cursor for getAllParksInfo
+IF CURSOR_STATUS('global','globalParkInfo')>=-1
+BEGIN
+ DEALLOCATE globalParkInfo
+END
+
+DECLARE globalParkInfo CURSOR GLOBAL
+FOR
+SELECT Park.Name, Park.foundationDate
+FROM Park
   
 --We create the type to do Table valued parameters
 DROP TYPE IF EXISTS dbo.CountryTableType;
@@ -428,6 +438,7 @@ GO
 -- Description:	Uses COALESCE to iterate over all park names
 -- and returns them together in one line
 -- =============================================
+PRINT 'Requesting all parks in DB.'
 CREATE PROCEDURE getAllParks
 AS
 BEGIN
@@ -438,6 +449,7 @@ BEGIN
 	-- concatenates it and return the result string with all the names
 	
 	-- COALESCE function is to return the first not NULL value it gets
+	PRINT 'Appending all parks.'
 	SELECT @parkName = COALESCE(@parkName,'') + Park.Name + '; '  
 	FROM Park 
 
@@ -449,33 +461,24 @@ GO
 -- =============================================
 -- Author:		CodingBrotherhood
 -- Create date: 
--- Description:	Uses DISTINCT to select people with diferent names
--- =============================================
-CREATE PROCEDURE getDifferentPersons
-AS
-BEGIN
-	SELECT DISTINCT(Person.Name), Person.idPerson   
-	FROM Person 
-END
-GO
-
--- =============================================
--- Author:		CodingBrotherhood
--- Create date: 
 -- Description:	Creates a global cursor and iterates over 
 -- all the inserted parks in the db getting its name and fundation date
 -- =============================================
+PRINT 'Getting info from all part.'
 CREATE PROCEDURE getAllParksInfo 
 AS
 BEGIN
 
+	OPEN globalParkInfo
+
+	PRINT 'Fetching info.'
 	FETCH NEXT FROM globalParkInfo
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		FETCH NEXT FROM globalParkInfo
 	END
-	--CLOSE globalParkInfo
-	--DEALLOCATE globalParkInfo
+	CLOSE globalParkInfo
+	DEALLOCATE globalParkInfo
 	
 END
 GO
@@ -486,6 +489,7 @@ GO
 -- Description:	Creates a local cursor and iterates over 
 -- all the inserted profesions in the db getting its name
 -- =============================================
+PRINT 'Requesting all professions.'
 CREATE PROCEDURE getAllProfessions 
 AS
 BEGIN
@@ -499,6 +503,7 @@ BEGIN
 	-- Gets the data from the cursor, is like a dereference of a ptr, *x
 	OPEN profName
 	-- gets the next value and inserts it into the variable
+	PRINT 'Fetching profession data.'
 	FETCH NEXT FROM profName INTO @ProfessionName	
 	WHILE @@fetch_status = 0
 	BEGIN
@@ -519,6 +524,7 @@ GO
 -- Description:	Uses SUBSTRING to search parks by
 -- its initial letter
 -- =============================================
+PRINT 'Requesting parks by letter.'
 CREATE PROCEDURE getParksByLetter
 	-- Parameters
 	@initial CHAR
@@ -527,7 +533,7 @@ BEGIN
 
 	SELECT  Park.Name
 	FROM Park 
-	-- SUBSTRING compares (Park.Name, first letter, letters long)
+	-- SUBSTRING compares Park.Name first letter
 	-- with @initial
 	WHERE SUBSTRING(Park.Name, 1, 1) = @initial;
 	
@@ -541,12 +547,14 @@ GO
 -- Description:	Creates union table, with all places 
 -- in the db that have similar initials
 -- =============================================
+PRINT 'Requesting places.'
 CREATE PROCEDURE getPlaces
 	-- Parameters
 	@placeName VARCHAR(15) 
 AS
 BEGIN
  
+ 	PRINT 'Fetching cities.'
 	-- Search a city whose name starts with @placeName
 	SELECT City.Name, City.idCity AS IdPlace
 	FROM City
@@ -554,6 +562,7 @@ BEGIN
 	
 	UNION
 
+	PRINT 'Fetching states.'
 	-- Search a state whose name starts with @placeName
 	SELECT State.Name, State.idState AS IdPlace
 	FROM State
@@ -561,6 +570,7 @@ BEGIN
 
 	UNION
 
+	PRINT 'Fetching countries.'
 	-- Search a country whose name starts with @placeName
 	SELECT Country.Name, Country.idCountry AS IdPlace
 	FROM Country
@@ -576,6 +586,7 @@ GO
 -- Create date: 
 -- Description:	Gets Tours cheaper than a limit price
 -- =============================================
+PRINT 'Requesting tours by price.'
 CREATE PROCEDURE getToursCheaper 
 	-- Procedure parameters
 	@parkName VARCHAR(50), 
@@ -599,6 +610,7 @@ GO
 -- Description:	Gets all relevant info in the parks.
 -- Unoptimized version
 -- =============================================
+PRINT 'Requesting park info, no-optimized.'
 CREATE PROCEDURE getParkTourInfoUnoptimized
 	-- Parameters
 AS
@@ -618,7 +630,7 @@ BEGIN
 					ELSE 0
 				END
 				FROM ResearchProject) AS [Average budget for investigation],
-
+			PRINT 'Counting park tours.'
 			COUNT(Tour.idTour) AS [Number of Tours in the park],
 
 			(	SELECT COUNT(Employee.idEmployee)
@@ -645,6 +657,7 @@ GO
 -- Description:	Gets all relevant info in the parks.
 -- Optimized version
 -- =============================================
+PRINT 'Requesting parl info, Optimized.'
 CREATE PROCEDURE getParkTourInfoOptimized
 	-- Parameters
 AS
@@ -706,6 +719,7 @@ GO
 -- Create date: 
 -- Description:	Gets all the foodchain actors
 -- =============================================
+PRINT 'Get all beigns in db.'
 CREATE PROCEDURE GetBeings 
 AS
 BEGIN
@@ -725,6 +739,7 @@ GO
 -- Create date: 
 -- Description:	Gets the relations between food and depredator
 -- =============================================
+PRINT 'Request food chain.'
 CREATE PROCEDURE GetChain 
 AS
 BEGIN
