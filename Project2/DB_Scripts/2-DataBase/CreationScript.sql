@@ -65,6 +65,9 @@ CREATE TABLE Community(
 	TotalProtectedArea FLOAT NULL	-- Null as default value, this data is include for high performance query
 );
 
+CREATE INDEX community_index
+ON Community (NumberOfParks, TotalProtectedArea);
+
 -- Natural park table creation.
 CREATE TABLE Park(
 	idPark INT IDENTITY(1,1) PRIMARY KEY, -- IDENTITY(1,1) for autoincrement of primary key
