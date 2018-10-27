@@ -4,14 +4,15 @@ GO
 IF EXISTS(
   SELECT *
     FROM sys.triggers
-   WHERE name = N'triggerStateAdded'
+   WHERE name = N'triggerCountryAdded'
      AND parent_class_desc = N'BASESTEC'
 )
-	DROP TRIGGER triggerStateAdded ON DATABASE
+	DROP TRIGGER triggerCountryAdded ON DATABASE
 GO
 -- A trigger does an action when a given action occurs
-CREATE TRIGGER triggerStateAdded  
-	ON State 
+CREATE TRIGGER triggerCountryAdded  
+	ON Country 
 	AFTER INSERT -- In this case an insert  
-	AS RAISERROR ('New state added', 16, 10);   
+	AS PRINT 'New country added';   
 GO
+

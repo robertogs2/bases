@@ -25,6 +25,6 @@
     c) Abrir el archivo DB_Scripts > Replication > ReplicaTestChild desde NODE3\MSSQLREPLICA
     d) Ejecutar ambos INSERTs y esperar a que se replique
     e) Si no se replica irse a NODE3\MSSQLREPLICA > Replication > Local Subscriptions < click derecho mergepub < View Sincronization Status
-    
+
 
         
