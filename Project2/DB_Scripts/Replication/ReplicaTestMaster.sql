@@ -1,8 +1,7 @@
 USE BASESTEC
 GO
 
---delete from country
---where "Name" = 'Nuevopais' OR "Name" = 'Nuevopaisrepl'
+--delete from country where "Name" = 'Nuevopais' OR "Name" = 'Nuevopaisrepl'
 
 select * from  country
 
