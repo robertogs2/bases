@@ -30,7 +30,7 @@
     a) Ejecutar sobre el nodo de DEVSQLCLU
     b) Abrir DB_Scripts > Scripts > viewEmployeeInfo.sql y correrlo
     c) Abrir de la misma fuente normalizeNumberFunction.sql y correrlo
-    d) Abrir de la misma fuente masterSPs.sql y correrlo
+    d) Abrir de la misma fuente masterSPs.sql y correrlo, no correr los sps GetBeings y GetChain
     e) Finalmente correr el triggerCountryAdded.sql 
     f) Abrir trialScript.sql y correr cada uno 
 
@@ -62,3 +62,4 @@
 	l) Usando commmitedLock.sql y rollbackTimeout.sql, correr commited y luego rollback (rollback aguanta dos segundos y explota)
 8. Mantenimiento
     a) Para ver monitor de backups todos los dias a las 4am, se hace SQL Server Agent > Job > click derecho JobBackupFull > View History
+    b) Para restaurar un backup, darle a la base de datos > tasks > restore from files, fijarse bien el archivo, darle en options backup with replace
