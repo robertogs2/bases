@@ -11,12 +11,18 @@
 -- other transaction is reading. Allows insertion and read at the same time
 --SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
 
+-- Set to REPEATABLE READ prevent us from reading changes that have not been commited
+-- and from modifying data that is being read. This helps us to avoid changing data that some
+-- other transaction is reading. Allows insertion and read at the same time
+SET TRANSACTION ISOLATION LEVEL	SERIALIZABLE
+
 -- This shoud be blocked whe updating in all levels but 
 -- the read uncommited
-/*
+
 SELECT Park.Name 
 FROM Park
-*/
+WHERE Park.idPark = 1
+
 
 --Inserts are allowed
 /*
@@ -28,10 +34,11 @@ VALUES
 
 --Updates lock till the reading ends
 
+/*
 UPDATE Park
 SET Park.Name = 'Jurassic park'
 WHERE Park.idPark = 3 
-
+*/
 
 
 

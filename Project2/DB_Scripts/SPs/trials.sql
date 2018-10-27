@@ -9,7 +9,7 @@ SELECT *
 FROM Country
 */
 
-EXEC getPlaces @placeName = 'a'
+--EXEC getPlaces @placeName = 'a'
 
 
 -- EXEC getAllProfessions		-- Local cursor test
@@ -35,8 +35,7 @@ EXEC getPlaces @placeName = 'a'
 --EXEC getParkTourInfo
 
 -- SP 4 table modification and subprocedures call
---EXEC addCountry @countryName = Indonesia									-- Adds a country
---EXEC addState @countryOfTheStateName = Indonesia, @stateName = Bali		-- Adds a state in a pre added country
+--EXEC addCountry @countryName = 'Guatemala'								-- Adds a country
 --EXEC addState @countryOfTheStateName = Nicaragua, @stateName = Managua	-- Adds a state and its country
 /*EXEC addCity	@cityName = David,
 				@stateOfTheCityName = Chiriqui, 
