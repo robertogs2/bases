@@ -32,3 +32,18 @@
     c) Abrir de la misma fuente normalizeNumberFunction.sql y correrlo
     d) Abrir de la misma fuente masterSPs.sql y correrlo
     e) Finalmente correr el triggerCountryAdded.sql 
+    f) Abrir trialScript.sql y correr cada uno 
+
+6. Seguridad
+    a) Leer los comentarios en estos pasos
+    b) Realizar nueva conexion a DEVSLCLU con el usuario testuser1
+    c) Abrir el archivo de DB_Scripts > Security > SecurityTestUser1.sql
+    d) Correr todo el archivo utilizando los comentarios
+    e) Conectar de nuevo a DEVSQLCLU con el usuario testuser2, probar igual pero con SecurityTestUser2.sql
+    e) Conectarse con testroleuser1 o testroleuser2, probar con el mismo archivo pasado, solo que ahora se tiene permiso para basestec.
+
+7. Concurrencia
+
+8. Mantenimiento
+
+    a) Para ver monitor de backups todos los dias a las 4am, se hace SQL Server Agent > Job > click derecho JobBackupFull > View History

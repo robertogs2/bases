@@ -1,39 +1,41 @@
 
--- User2 permissions were set for BASESTECBAK data base
-USE BASESTEC; 
+-- User1 permissions were set for BASESTECBAK data base
+USE BASESTECBAK; 
 
 --				____________________________
---_____________/Allowed operations for User2\___________
+--_____________/Allowed operations for User1\___________
 
 -- Recover data queries
 SELECT * FROM Employee;
 
-SELECT * FROM Country;
+SELECT * FROM City;
+
+SELECT * FROM Community;
 
 -- Store data queries
 INSERT INTO Characteristic
 ("Name", "Value")
 VALUES
-('Test_User2_Insert', 'Test_User2_Insert');
+('TestUser1Insert', 'TestUser1Insert');
 
-INSERT INTO City
-("Name", fk_idState)
+INSERT INTO Country
+("Name")
 VALUES
-('TestUser2Insert', 1);
+('TestUser1Insert');
 
 -- Reverse changes to return DB to its original state
 
 DELETE FROM Characteristic
-WHERE Characteristic."Name" = 'Test_User2_Insert';
+WHERE Characteristic.Name = 'TestUser1Insert';
 
-DELETE FROM City
-WHERE City."Name" = 'TestUser2Insert';
+DELETE FROM Country
+WHERE Country.Name = 'TestUser1Insert';
 
 -- Store Procedures
-EXEC GetBeings;
+EXEC GetChain;
 
 --				______________________________
---_____________/Forbidden operations for User2\___________
+--_____________/Forbidden operations for User1\___________
 
 -- Recover data queries
 SELECT * FROM Park;
@@ -43,20 +45,20 @@ SELECT * FROM Person;
 INSERT INTO AssignedArea
 ("Name")
 VALUES
-('Test_User2_Insert');
+('Test_User1_Insert');
 
 INSERT INTO Speciality
 ("Name")
 VALUES
-('Test_User2_Insert');
+('Test_User1_Insert');
 
 -- Reverse changes to return DB to its original state
 
 DELETE FROM AssignedArea
-WHERE AssignedArea.Name = 'Test_User2_Insert';
+WHERE AssignedArea.Name = 'Test_User1_Insert';
 
 DELETE FROM Speciality
-WHERE Speciality.Name = 'Test_User2_Insert';
+WHERE Speciality.Name = 'Test_User1_Insert';
 
 -- Store Procedures
-EXEC GetChain;
+EXEC GetBeings;
