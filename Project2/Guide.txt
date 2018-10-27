@@ -43,7 +43,7 @@
     e) Conectarse con testroleuser1 o testroleuser2, probar con el mismo archivo pasado, solo que ahora se tiene permiso para basestec.
 
 7. Concurrencia
+	
 
 8. Mantenimiento
-
     a) Para ver monitor de backups todos los dias a las 4am, se hace SQL Server Agent > Job > click derecho JobBackupFull > View History
