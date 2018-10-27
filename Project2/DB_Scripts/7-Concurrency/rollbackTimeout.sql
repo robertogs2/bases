@@ -1,20 +1,28 @@
-EXEC sp_configure 'remote query timeout', 5 ;  
-GO  
-RECONFIGURE ;  
+SET LOCK_TIMEOUT 2000;
 GO
 
-BEGIN TRANSACTION timeoutRollbackDemonstration;
-GO
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED
 
-	BEGIN TRY  
-		SELECT  Park.Name
-		FROM Park
-		WHERE Park.idPark = 1
-		--WAITFOR DELAY '00:00:10'
-		COMMIT TRANSACTION commitedDemonstration; 
-  
-	END TRY  
+PRINT 'BEFORE TRY timeout'
+BEGIN TRY
+	BEGIN TRANSACTION 
+		PRINT 'First Statement in the TRY block'
+			PRINT 'Attempting to update Park'
+			SELECT Park.Name 
+			FROM Park
+		PRINT 'Last Statement in the TRY block'
 
-	BEGIN CATCH  
-		 ROLLBACK TRANSACTION commitedDemonstration;
-	END CATCH    
+	COMMIT TRANSACTION  -- Commit changes to the database, used in case rollback is needed
+END TRY
+BEGIN CATCH
+	PRINT 'In CATCH Block'
+		-- @@TRANCOUNT is used to realiably detect errors in nested transactions
+	IF(@@TRANCOUNT > 0)
+	BEGIN
+		PRINT 'Rollingback'
+		ROLLBACK TRANSACTION;
+	END;
+		
+	THROW; -- raise error to the client
+END CATCH
+PRINT 'After END CATCH'
