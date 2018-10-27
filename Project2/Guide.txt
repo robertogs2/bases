@@ -59,6 +59,6 @@
 
 	k) Abrir serializableLock.sql y descomentar seriablizable de isolation levels junto con el update
 
-
+	l) Usando commmitedLock.sql y rollbackTimeout.sql, correr commited y luego rollback (rollback aguanta dos segundos y explota)
 8. Mantenimiento
     a) Para ver monitor de backups todos los dias a las 4am, se hace SQL Server Agent > Job > click derecho JobBackupFull > View History
