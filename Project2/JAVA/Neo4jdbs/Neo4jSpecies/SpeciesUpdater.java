@@ -37,9 +37,9 @@ public class SpeciesUpdater {
 
     private void update() {
         System.out.println("About to run");
-        for (int i = 0; i < cmds.length-1; i++) {
+        for (int i = 0; i < cmds.length; i++) {
             try {
-                //System.out.println(cmds[i]);
+                System.out.println(cmds[i]);
                 graphDb.execute(cmds[i]);
                 System.out.println("Running command: " + i);
             } catch (Exception e) {

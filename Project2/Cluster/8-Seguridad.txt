@@ -13,32 +13,32 @@ testuser1:
 	bases:
 		BASESTECBAK:
 			select:
-				AssignedArea
-				Characteristic
+				Employee
 				City
 				Community
 			write:
+				Characteristic
 				Country
-				Employee
-				FoodChainLink
 			stored procedures:
-				//missing
+				No Ejecuta GetBeings
+				Ejecuta GetChain
 
 testuser2:
 	con permisos:
 	bases:
-		BASESTEC
-		BASESTECBAK:
+		BASESTEC:
 			select:
 				Country
 				Employee
-				FoodChainLink
 			write:
-				AssignedArea
 				Characteristic
 				City
-				Community
 			stored procedures:
-				//missing
+				Ejecuta GetBeings
+				No Ejecuta GetChain
+
+roletest1:
+testroleuser1 y testroleuser2 con permiso en BASESTECBAK
+	identico a testuser2 sobre BASESTECBAK
 
 			

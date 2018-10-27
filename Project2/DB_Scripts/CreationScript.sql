@@ -6,6 +6,8 @@ USE BASESTEC;
 GO
 IF OBJECT_ID('dbo.FoodChainLink', 'U') IS NOT NULL DROP TABLE dbo.FoodChainLink; -- Drop FoodChainLink table in case it already exists
 IF OBJECT_ID('dbo.VehicleXEmployee', 'U') IS NOT NULL DROP TABLE dbo.VehicleXEmployee; -- Drop VehicleXEmployee table in case it already exists
+IF OBJECT_ID('dbo.Employee', 'U') IS NOT NULL DROP TABLE dbo.Employee; -- Drop Employee table in case it already exists
+IF OBJECT_ID('dbo.Person', 'U') IS NOT NULL DROP TABLE dbo.Person; -- Drop Person table in case it already exists
 IF OBJECT_ID('dbo.Location', 'U') IS NOT NULL DROP TABLE dbo."Location"; -- Drop Location table in case it already exists
 IF OBJECT_ID('dbo.City', 'U') IS NOT NULL DROP TABLE dbo.City; -- Drop City table in case it already exists
 IF OBJECT_ID('dbo.State', 'U') IS NOT NULL DROP TABLE dbo."State"; -- Drop State table in case it already exists
@@ -16,14 +18,12 @@ IF OBJECT_ID('dbo.CommunityXPark', 'U') IS NOT NULL DROP TABLE dbo.CommunityXPar
 IF OBJECT_ID('dbo.Area', 'U') IS NOT NULL DROP TABLE dbo.Area; -- Drop Area table in case it already exists
 IF OBJECT_ID('dbo.Species', 'U') IS NOT NULL DROP TABLE dbo.Species; -- Drop Species table in case it already exists
 IF OBJECT_ID('dbo.AreaXSpecies', 'U') IS NOT NULL DROP TABLE dbo.AreaXSpecies; -- Drop AreaXSpecies table in case it already exists
-IF OBJECT_ID('dbo.Person', 'U') IS NOT NULL DROP TABLE dbo.Person; -- Drop Person table in case it already exists
 IF OBJECT_ID('dbo.Vehicle', 'U') IS NOT NULL DROP TABLE dbo.Vehicle; -- Drop Vehicle table in case it already exists
 IF OBJECT_ID('dbo.AssignedArea', 'U') IS NOT NULL DROP TABLE dbo.AssignedArea; -- Drop AssignedArea table in case it already exists
 IF OBJECT_ID('dbo.Speciality', 'U') IS NOT NULL DROP TABLE dbo.Speciality; -- Drop Speciality table in case it already exists
 IF OBJECT_ID('dbo.ResearchProject', 'U') IS NOT NULL DROP TABLE dbo.ResearchProject; -- Drop ResearchProject table in case it already exists
 IF OBJECT_ID('dbo.ResearchProjectXEmployee', 'U') IS NOT NULL DROP TABLE dbo.ResearchProjectXEmployee; -- Drop ResearchProjectXEmployee table in case it already exists
 IF OBJECT_ID('dbo.Conservationist', 'U') IS NOT NULL DROP TABLE dbo.Conservationist; -- Drop Conservationist table in case it already exists
-IF OBJECT_ID('dbo.Employee', 'U') IS NOT NULL DROP TABLE dbo.Employee; -- Drop Employee table in case it already exists
 IF OBJECT_ID('dbo.Profession', 'U') IS NOT NULL DROP TABLE dbo.Profession; -- Drop Profession table in case it already exists
 IF OBJECT_ID('dbo.Accommodation', 'U') IS NOT NULL DROP TABLE dbo.Accommodation; -- Drop Accommodation table in case it already exists
 IF OBJECT_ID('dbo.Visitor', 'U') IS NOT NULL DROP TABLE dbo.Visitor; -- Drop Visitor table in case it already exists
