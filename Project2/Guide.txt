@@ -43,7 +43,22 @@
     e) Conectarse con testroleuser1 o testroleuser2, probar con el mismo archivo pasado, solo que ahora se tiene permiso para basestec.
 
 7. Concurrencia
-	
+	a) Desde Concurrency abrir deadLock1.sql y deadLock2.sql
+	b) Correr el begin transaction en cada uno
+	c) Correr update de deadLock1 y luego deadLock2
+	d) Correr segundo update de deadLock1 y luego deadLock2
+
+	e) Abrir uncommitedLock.sql y isolatedLevelsDemostration.sql
+	f) Descomentar READ UNCOMITTED y correr ambos
+
+	g) Abrir commitedLock.sql y descomentar READ COMMITTED
+
+	h) Abrir repeatableReadLock.sql y descomentar REPETABLE READ
+	i) Comentar update y descomentar select, comentar el select y descomentar el insert
+	j) Comentar en isolation el insert y descomentar el update
+
+	k) Abrir serializableLock.sql y descomentar seriablizable de isolation levels junto con el update
+
 
 8. Mantenimiento
     a) Para ver monitor de backups todos los dias a las 4am, se hace SQL Server Agent > Job > click derecho JobBackupFull > View History
