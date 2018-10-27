@@ -1,4 +1,4 @@
-1. Infraestructura
+﻿1. Infraestructura
     a) Abrir Server Manager > Tools > Failover cluster manager
     b) Correr el script que está en la carpeta DB_Scripts > Infrastructure > TestCluster.sql
     c) Botar el nodo activo y corer de nuevo el script
@@ -26,5 +26,9 @@
     d) Ejecutar ambos INSERTs y esperar a que se replique
     e) Si no se replica irse a NODE3\MSSQLREPLICA > Replication > Local Subscriptions < click derecho mergepub < View Sincronization Status
 
-
-        
+5. Scripts
+    a) Ejecutar sobre el nodo de DEVSQLCLU
+    b) Abrir DB_Scripts > Scripts > viewEmployeeInfo.sql y correrlo
+    c) Abrir de la misma fuente normalizeNumberFunction.sql y correrlo
+    d) Abrir de la misma fuente masterSPs.sql y correrlo
+    e) Finalmente correr el triggerCountryAdded.sql 
