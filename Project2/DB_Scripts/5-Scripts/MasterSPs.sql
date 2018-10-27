@@ -23,6 +23,7 @@ DROP PROCEDURE IF EXISTS getPlaces;
 DROP PROCEDURE IF EXISTS getToursCheaper;
 DROP PROCEDURE IF EXISTS getParkTourInfoUnoptimized;
 DROP PROCEDURE IF EXISTS getParkTourInfoOptimized;
+DROP PROCEDURE IF EXISTS getDifferentPersons;
 
 -- GETTERS FOR NEO4J --
 DROP PROCEDURE IF EXISTS GetBeings;
@@ -35,15 +36,19 @@ EXEC sp_recompile N'Country';
 GO
 
 -- Creates the global cursor for getAllParksInfo
-IF CURSOR_STATUS('global','globalParkInfo')>=-1
+IF CURSOR_STATUS('GLOBAL','globalParkInfo') >= -1
 BEGIN
- DEALLOCATE globalParkInfo
+	DEALLOCATE globalParkInfo
+END
+ELSE
+BEGIN
+	DECLARE globalParkInfo CURSOR 
+	FOR
+	SELECT Park.Name, Park.foundationDate
+	FROM Park
 END
 
-DECLARE globalParkInfo CURSOR GLOBAL
-FOR
-SELECT Park.Name, Park.foundationDate
-FROM Park
+
   
 --We create the type to do Table valued parameters
 DROP TYPE IF EXISTS dbo.CountryTableType;
@@ -459,6 +464,19 @@ GO
 -- =============================================
 -- Author:		CodingBrotherhood
 -- Create date: 
+-- Description:	Uses DISTINCT to select people with diferent names
+-- =============================================
+CREATE PROCEDURE getDifferentPersons
+AS
+BEGIN
+	SELECT DISTINCT(Person.Name), Person.idPerson   
+	FROM Person 
+END
+GO
+
+-- =============================================
+-- Author:		CodingBrotherhood
+-- Create date: 
 -- Description:	Creates a global cursor and iterates over 
 -- all the inserted parks in the db getting its name and fundation date
 -- =============================================
@@ -466,7 +484,7 @@ CREATE PROCEDURE getAllParksInfo
 AS
 BEGIN
 
-	OPEN globalParkInfo
+	OPEN GLOBAL globalParkInfo
 
 	FETCH NEXT FROM globalParkInfo
 	WHILE @@FETCH_STATUS = 0
@@ -474,7 +492,7 @@ BEGIN
 		FETCH NEXT FROM globalParkInfo
 	END
 	CLOSE globalParkInfo
-	DEALLOCATE globalParkInfo
+	--DEALLOCATE globalParkInfo
 	
 END
 GO
@@ -526,7 +544,7 @@ BEGIN
 
 	SELECT  Park.Name
 	FROM Park 
-	-- SUBSTRING compares Park.Name first letter
+	-- SUBSTRING compares (Park.Name, first letter, letters long)
 	-- with @initial
 	WHERE SUBSTRING(Park.Name, 1, 1) = @initial;
 	
