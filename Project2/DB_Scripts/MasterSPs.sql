@@ -2,34 +2,16 @@
 USE BASESTEC;
 GO
 
-
--- This command sets all country related sps to compile again
-EXEC sp_recompile N'Country';  
-GO
-
-
-
--- Creates the global cursor for getAllParksInfo
-IF CURSOR_STATUS('global','globalParkInfo')>=-1
-BEGIN
- DEALLOCATE globalParkInfo
-END
-
-DECLARE globalParkInfo CURSOR GLOBAL
-FOR
-SELECT Park.Name, Park.foundationDate
-FROM Park
-  
-
-
--- Drop all before creating the SPs again
+-- Drop all before creating anything  again
 
 -- INSERTS --
 DROP PROCEDURE IF EXISTS addCountry;
 DROP PROCEDURE IF EXISTS addState;
 DROP PROCEDURE IF EXISTS addCity;
 DROP PROCEDURE IF EXISTS addLocation;
-DROP PROCEDURE IF EXISTS dbo.addCountriesXMLOpenRowSet;
+DROP PROCEDURE IF EXISTS addCountriesXML;
+DROP PROCEDURE IF EXISTS addCountriesXMLTVP;
+DROP PROCEDURE IF EXISTS addCountriesXMLTVPAux;
 
 -- GETTERS --
 DROP PROCEDURE IF EXISTS getAllParks;
@@ -48,6 +30,29 @@ DROP PROCEDURE IF EXISTS GetChain;
 
 
 
+-- This command sets all country related sps to compile again
+EXEC sp_recompile N'Country';  
+GO
+
+-- Creates the global cursor for getAllParksInfo
+IF CURSOR_STATUS('global','globalParkInfo')>=-1
+BEGIN
+ DEALLOCATE globalParkInfo
+END
+
+DECLARE globalParkInfo CURSOR GLOBAL
+FOR
+SELECT Park.Name, Park.foundationDate
+FROM Park
+  
+--We create the type to do Table valued parameters
+DROP TYPE IF EXISTS dbo.CountryTableType;
+CREATE TYPE CountryTableType AS TABLE   
+("Name" VARCHAR(15));
+GO  
+
+
+
 -- Sets the behavior when null values are found
 -- if: WHERE columnName = NULL, no rows are returned.
 -- Even if de condition is true and if:
@@ -62,7 +67,9 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
--- ================================================= INSERT PLACES ================================================= --
+-- /==========================================================================================================\ --
+-- |=================================================== ADDS ==================================================| --
+-- \==========================================================================================================/ --
 
 
 -- =============================================
@@ -272,12 +279,20 @@ BEGIN
 END
 GO
 
+
+
+
+
+-- /==========================================================================================================\ --
+-- |================================================= XML ADDS ===============================================| --
+-- \==========================================================================================================/ --
+
 -- =============================================
 -- Author:		CodingBrotherhood
 -- Create date: 
 -- Description:	Inserts data into a table by XML parsing
 -- =============================================
-CREATE PROCEDURE addCountriesXMLOpenRowSet
+CREATE PROCEDURE addCountriesXML
 	-- Add the parameters for the stored procedure here
 	@path VARCHAR(max),
 	@fileName VARCHAR(20),
@@ -327,11 +342,95 @@ GO
 
 
 
+-- =============================================
+-- Author:		CodingBrotherhood
+-- Create date: 
+-- Description:	Inserts from a table valued parameter
+-- into a table, in this case in Country, auxiliar procedure
+-- to insertCountriesXMLTVP
+-- =============================================
+CREATE PROCEDURE addCountriesXMLTVPAux  
+	@TVP CountryTableType READONLY  
+AS
+BEGIN   
+	--SET NOCOUNT ON  
+	INSERT INTO Country  
+			(Name)  
+		SELECT *
+		FROM  @TVP; 
+END
+GO 
+
+-- =============================================
+-- Author:		CodingBrotherhood
+-- Create date: 
+-- Description:	Generates a query to parse a XML
+-- extract the data into a table and call another procedure
+-- to insert the extracted data into the db
+-- =============================================
+CREATE PROCEDURE addCountriesXMLTVP 
+	-- Add the parameters for the stored procedure here
+	@path VARCHAR(max),
+	@fileName VARCHAR(20),
+	@subSection1 VARCHAR(15),
+	@subSection2 VARCHAR(15)
+AS
+BEGIN
+
+	-- OpenRowSet doesnt accept parameters so we create a query and concatenate
+	-- the info we need and then execute it
+	DECLARE @value varchar(22)= 'Name[1]'', ''VARCHAR(15)'
+	DECLARE @node varchar(max)= '/' + @fileName +'/' + @subSection1 +'/' + @subSection2 +''
+	DECLARE @SQLStr varchar(max)='
+	USE BASESTEC;
+
+	DECLARE @LocationTVP AS CountryTableType;
+	DECLARE @fileData  XML
+
+	SELECT @fileData = BulkColumn FROM OpenRowSet(Bulk'''+ @path +''',Single_blob) x;
+
+
+	MERGE @LocationTVP AS target
+	USING (	SELECT xData.value('''+ @value +''') "Name"       
+			FROM @fileData.nodes('''+ @node +''') AS x(xData)) AS source (name)
+	 ON (target.Name = source.name)  
+
+	WHEN NOT MATCHED THEN  
+    INSERT (Name)  
+    VALUES (source.Name);
+	
+	EXEC addCountriesXMLTVPAux @LocationTVP;'
+
+	PRINT 'XML add script generated'
+		BEGIN TRY
+			BEGIN TRANSACTION 
+				PRINT 'Executing script'
+				EXECUTE(@SQLStr);
+				PRINT 'Script executed'
+			COMMIT TRANSACTION  
+		END TRY
+		BEGIN CATCH
+			PRINT 'In CATCH Block'
+			 -- @@TRANCOUNT is used to realiably detect errors in nested transactions
+			IF(@@TRANCOUNT > 0)
+				ROLLBACK TRANSACTION;
+		
+			THROW; -- raise error to the client
+		END CATCH
+		PRINT 'After END CATCH'
+
+END
+GO 
 
 
 
 
--- ================================================= GETTERS ================================================= --
+
+
+
+-- /==========================================================================================================\ --
+-- |================================================== GETTERS ===============================================| --
+-- \==========================================================================================================/ --
 
 -- =============================================
 -- Author:		CodingBrotherhood
@@ -427,6 +526,8 @@ BEGIN
 
 	SELECT  Park.Name
 	FROM Park 
+	-- SUBSTRING compares Park.Name first letter
+	-- with @initial
 	WHERE SUBSTRING(Park.Name, 1, 1) = @initial;
 	
 END
@@ -486,12 +587,17 @@ BEGIN
 	INNER JOIN Accommodation		ON Accommodation.fk_idPark = Park.idPark
 	INNER JOIN AccommodationXTour	ON AccommodationXTour.fk_idAccommodation = Accommodation.idAccommodation
 	INNER JOIN Tour					ON Tour.idTour = AccommodationXTour.fk_idTour
-	WHERE Park.Name = @parkName and Tour.Price <= 20
+	WHERE Park.Name = @parkName AND Tour.Price <= 20
 
 END
 GO
 
-
+-- =============================================
+-- Author:		CodingBrotherhood
+-- Create date: 
+-- Description:	Gets all relevant info in the parks.
+-- Unoptimized version
+-- =============================================
 CREATE PROCEDURE getParkTourInfoUnoptimized
 	-- Parameters
 AS
@@ -589,7 +695,9 @@ GO
 
 
 
--- ================================================= GETTERS FOR NEO4J ================================================= --
+-- /==========================================================================================================\ --
+-- |============================================= GETTERS FOR NEO4J ==========================================| --
+-- \==========================================================================================================/ --
 
 
 -- =============================================

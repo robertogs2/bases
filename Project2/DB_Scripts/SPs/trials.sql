@@ -4,10 +4,12 @@
 -- Specify its usage only on BASESTEC, if removed it doesnt work
 USE BASESTEC;
 GO
-/*
+
+
+
+
 SELECT *
 FROM Country
-*/
 
 --EXEC getPlaces @placeName = 'a'
 
@@ -23,13 +25,17 @@ FROM Country
 /*EXEC addCountriesXMLTVP	@path =  'D:\TEC\Bases\Grupo\Project2\DB_Scripts\SPs\addCountries2.xml',
 						@fileName = 'addCountries',
 						@subSection1 = 'Countries',
-						@subSection2 = 'Country'*/
+						@subSection2 = 'Country'
+GO
+*/
 
 -- Add multiple countries by XML the normal way
-/*EXEC addCountriesXMLOpenRowSet	@path =  'D:\TEC\Bases\Grupo\Project2\DB_Scripts\SPs\addCountries.xml',
+/*EXEC addCountriesXML	@path =  'D:\TEC\Bases\Grupo\Project2\DB_Scripts\SPs\addCountries.xml',
 						@fileName = 'addCountries',
 						@subSection1 = 'Countries',
-						@subSection2 = 'Country'*/
+						@subSection2 = 'Country'
+GO						
+*/
 
 --Mega SP
 --EXEC getParkTourInfo

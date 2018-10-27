@@ -2,13 +2,13 @@
 <addCountries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <Countries>
         <Country>
-            <Name>Belice</Name>
+            <Name>Uruguay</Name>
         </Country>
         <Country>
-            <Name>Ecuador</Name>
+            <Name>Colombia</Name>
         </Country>
         <Country>
-            <Name>Chile</Name>
+            <Name>Bolivia</Name>
         </Country>
     </Countries>
 </addCountries>

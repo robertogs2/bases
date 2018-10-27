@@ -14,7 +14,7 @@ BEGIN TRANSACTION cursorLockDemonstration
 	OPEN tourPrice;
 	-- gets the next value and inserts it into the variable
 	FETCH FROM tourPrice;
-	WHILE @@fetch_status = 0
+	WHILE @@fetch_status = 0 --global flag
 	BEGIN
 		UPDATE Tour  
 		SET Tour.Price = 20  
