@@ -112,9 +112,10 @@ SELECT
 	xData.value('PersonId[1]', 'int') fk_idPerson, -- 'xData' is our xml content alias
 	xData.value('ParkId[1]', 'int') fk_idPark,
 	xData.value('ProfessionId[1]', 'int') fk_idProfession,
-	xData.value('AssignedAreaId[1][not(@xsi:nil = "true")]', 'int') fk_idAssignedArea,
+	xData.value('AssignedArea[1][not(@xsi:nil = "true")]', 'int') fk_idAssignedArea,
 	xData.value('SpecialityId[1][not(@xsi:nil = "true")]', 'int') fk_idSpeciality
 FROM @fileData.nodes('/DB/Employees/Employee') AS x(xData)
+
 
 -- insert the xml data into our Visitor table (fk_idPerson, Profession)
 INSERT INTO Visitor
