@@ -19,15 +19,15 @@ VALUES
 INSERT INTO City
 ("Name", fk_idState)
 VALUES
-('Test_User2_Insert', 1);
+('TestUser2Insert', 1);
 
 -- Reverse changes to return DB to its original state
 
 DELETE FROM Characteristic
-WHERE Characteristic.Name = 'Test_User2_Insert';
+WHERE Characteristic."Name" = 'Test_User2_Insert';
 
 DELETE FROM City
-WHERE City.Name = 'Test_User2_Insert';
+WHERE City."Name" = 'TestUser2Insert';
 
 -- Store Procedures
 EXEC GetBeings;
