@@ -439,6 +439,7 @@ GO
 -- and returns them together in one line
 -- =============================================
 PRINT 'Requesting all parks in DB.'
+GO
 CREATE PROCEDURE getAllParks
 AS
 BEGIN
@@ -465,6 +466,7 @@ GO
 -- all the inserted parks in the db getting its name and fundation date
 -- =============================================
 PRINT 'Getting info from all part.'
+GO
 CREATE PROCEDURE getAllParksInfo 
 AS
 BEGIN
@@ -490,6 +492,7 @@ GO
 -- all the inserted profesions in the db getting its name
 -- =============================================
 PRINT 'Requesting all professions.'
+GO
 CREATE PROCEDURE getAllProfessions 
 AS
 BEGIN
@@ -525,6 +528,7 @@ GO
 -- its initial letter
 -- =============================================
 PRINT 'Requesting parks by letter.'
+GO
 CREATE PROCEDURE getParksByLetter
 	-- Parameters
 	@initial CHAR
@@ -548,6 +552,7 @@ GO
 -- in the db that have similar initials
 -- =============================================
 PRINT 'Requesting places.'
+GO
 CREATE PROCEDURE getPlaces
 	-- Parameters
 	@placeName VARCHAR(15) 
@@ -562,7 +567,6 @@ BEGIN
 	
 	UNION
 
-	PRINT 'Fetching states.'
 	-- Search a state whose name starts with @placeName
 	SELECT State.Name, State.idState AS IdPlace
 	FROM State
@@ -570,7 +574,6 @@ BEGIN
 
 	UNION
 
-	PRINT 'Fetching countries.'
 	-- Search a country whose name starts with @placeName
 	SELECT Country.Name, Country.idCountry AS IdPlace
 	FROM Country
@@ -587,6 +590,7 @@ GO
 -- Description:	Gets Tours cheaper than a limit price
 -- =============================================
 PRINT 'Requesting tours by price.'
+GO
 CREATE PROCEDURE getToursCheaper 
 	-- Procedure parameters
 	@parkName VARCHAR(50), 
@@ -611,6 +615,7 @@ GO
 -- Unoptimized version
 -- =============================================
 PRINT 'Requesting park info, no-optimized.'
+GO
 CREATE PROCEDURE getParkTourInfoUnoptimized
 	-- Parameters
 AS
@@ -630,7 +635,6 @@ BEGIN
 					ELSE 0
 				END
 				FROM ResearchProject) AS [Average budget for investigation],
-			PRINT 'Counting park tours.'
 			COUNT(Tour.idTour) AS [Number of Tours in the park],
 
 			(	SELECT COUNT(Employee.idEmployee)
@@ -658,6 +662,7 @@ GO
 -- Optimized version
 -- =============================================
 PRINT 'Requesting parl info, Optimized.'
+GO
 CREATE PROCEDURE getParkTourInfoOptimized
 	-- Parameters
 AS
@@ -720,6 +725,7 @@ GO
 -- Description:	Gets all the foodchain actors
 -- =============================================
 PRINT 'Get all beigns in db.'
+GO
 CREATE PROCEDURE GetBeings 
 AS
 BEGIN
@@ -740,6 +746,7 @@ GO
 -- Description:	Gets the relations between food and depredator
 -- =============================================
 PRINT 'Request food chain.'
+GO
 CREATE PROCEDURE GetChain 
 AS
 BEGIN
