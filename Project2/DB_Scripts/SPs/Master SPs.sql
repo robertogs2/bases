@@ -399,7 +399,7 @@ BEGIN
     INSERT (Name)  
     VALUES (source.Name);
 	
-	EXEC addCountriesXMLTVPAux @LocationTVP;'
+	EXEC insertCountriesXMLTVPAux @LocationTVP;'
 
 	PRINT 'XML add script generated'
 		BEGIN TRY
