@@ -1,0 +1,30 @@
+1. Infraestructura
+    a) Abrir Server Manager > Tools > Failover cluster manager
+    b) Correr el script que está en la carpeta DB_Scripts > Infrastructure > TestCluster.sql
+    c) Botar el nodo activo y corer de nuevo el script
+
+2. Base de datos
+    a) Para ver el script de creación de la db abrir DB_Scripts > 2-Database > CreationScript.sql
+    b) Para ver el script de bulk copy  abrir DB_Scripts > 2-Database > BulkCopy.sql
+
+3. ETL
+    a) Entrar a la carpeta de red desde el nodo 3 \\DEVSQLCLU\openfolder. Nota: Buscar en el explorador de archivos o windows + R y esccribir la ruta en ambos casos
+    b) Mostrar que la carpeta Neo4jdbs > Neo4jSpecies > data, los archivos CVS están vacíos y si no lo están borrarlos. Dejar abierta la carpeta para observar cambios
+    c) Mostrar ahí mismo los comandos del importCSV.cypher
+    d) Abrir el nodo activo y entrar a \\DEVSQLCLU\openfolder y abrir línea de comandos para ejecutar Integration y mostrar la cli
+    f) Explicar que el ETL ejecuta el update.bat ubicado en Neo4jdbs > Neo4jSpecies
+    g) Para probar las consultas ejecutar el archivo de la Neo4jdbs > Neo4jSpecies > queries.bat desde la consola, con los siguientes comandos:
+        i)    Para ver consumidores y presas ejecutar 
+        ii)   Recordar: Ononis viscosa y Amazona auropalliata
+        iii)  Usar Food Nombre, obtiene los depredadores de la especie ingresada
+        iv)   Usar Consumer Nombre, obtiene las presas de la especie
+
+4. Replicación
+    a) Conectar ambos servidores(DEVSQLCLU y NODE3\MSSQLREPLICA) dandole connect desde SQL SMSS del nodo 3
+    b) Abrir el archivo DB_Scripts > Replication > ReplicaTestMaster desde DEVSQLCLU
+    c) Abrir el archivo DB_Scripts > Replication > ReplicaTestChild desde NODE3\MSSQLREPLICA
+    d) Ejecutar ambos INSERTs y esperar a que se replique
+    e) Si no se replica irse a NODE3\MSSQLREPLICA > Replication > Local Subscriptions < click derecho mergepub < View Sincronization Status
+    
+
+        
